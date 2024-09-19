@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom right, #1c1e4a, #74215d);
+    min-height: 100vh; /* Stellt sicher, dass es mindestens den Viewport abdeckt */
+    overflow-y: hidden; /* Verhindert horizontales Scrollen */
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: center; /* Zentriert den gesamten Header-Inhalt */
+}
+
+header h1 {
+    background-color: #2a2c6b;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 36px; /* Vergrößert die Schrift */
+    text-align: center; /* Zentriert die Überschrift */
+    display: inline-block; /* Macht den Kasten nur so breit wie der Inhalt */
+    width: 50%; /* Setzt die Breite auf 50% des Containers */
+}
+
+table {
+    width: 50%; /* Die Breite der Tabelle wurde reduziert */
+    border-collapse: collapse;
+    margin: 20px auto; /* Zentriert die Tabelle auf der Seite */
+}
+th, td {
+    border: 1px solid black;
+    padding: 6px; /* Weniger Padding für schmalere Zellen */
+    text-align: left;
+}
+th {
+    background-color: #2f2f7f;
+    color: white;
+}
+/* Individuelle Spaltenbreite */
+th:first-child, td:first-child {
+    width: 25%; /* Spieler*in Blau */
+}
+th:nth-child(2), td:nth-child(2) {
+    width: 25%; /* Spieler*in Rot */
+}
+th:nth-child(3), td:nth-child(3) {
+    width: 20%; /* Match ID */
+}
+th:last-child, td:last-child {
+    width: 20%; /* Ergebnis */
+}
+
+.arrow {
+    font-size: 30px;
+    text-align: center;
+    display: block;
+    margin-bottom: 5px;
+}

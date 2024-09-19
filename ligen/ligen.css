@@ -13,6 +13,7 @@ body {
     padding: 0;
 }
 
+/*obere zeile buttons header*/
 header {
     display: flex;
     justify-content: center; /* Zentriert den gesamten Header-Inhalt */
@@ -31,11 +32,51 @@ header h1 {
     /
 }
 
+.back-button img {
+    width: 40px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+}
+
+.back-button img:hover {
+    opacity: 0.8;
+}
+
+.league-button {
+    position: absolute;
+    top: 20px;
+    background-color: #2a2c6b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    border: 2px solid white;
+}
+
+.league-button:hover {
+    background-color: #74215d;
+}
+
+/* Linker Button (2. Liga) */
+.league-button.left {
+    left: calc(25% - 100px); /* Links von der Mitte der Überschrift */
+}
+
+/* Rechter Button (3. Liga) */
+.league-button.right {
+    right: calc(25% - 100px); /* Rechts von der Mitte der Überschrift */
+}
+
+/*tabellen*/
 .tables-container {
     display: flex;
     justify-content: space-around;
     margin-bottom: 40px;
     padding: 10px;
+    height: 600px;
 }
 
 
@@ -45,10 +86,11 @@ table {
     margin-bottom: 20px;
     background-color: white;
     border: 2px solid black;
+    height: 100%;
 }
 
 th, td {
-    padding: 10px;
+    padding: 5px;
     border: 1px solid #000;
     text-align: center;
 }
@@ -64,7 +106,7 @@ thead th {
 
 tbody td {
     background-color: white; /* Weißer Hintergrund für den Platzhalter */
-    height: 50px; /* Höhe des weißen Kastens */
+    height: 20px; /* Höhe des weißen Kastens */
     text-align: center;
     font-style: italic;
     color: #888; /* Grau für den Platzhaltertext */
@@ -78,6 +120,12 @@ tbody tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
+.last-three td{
+    background-color: hsl(0, 100%, 65%); /* Roter Hintergrund */
+}
+
+
+/*sachen außen rum*/
 .buttons-container {
     display: flex;
     justify-content: center;

@@ -5,10 +5,10 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: Verdana, sans-serif;
     background: linear-gradient(to bottom right, #1c1e4a, #74215d);
-    min-height: 100vh; /* Stellt sicher, dass es mindestens den Viewport abdeckt */
-    overflow-y: hidden; /* Verhindert horizontales Scrollen */
+    min-height: 100vh;
+    overflow-y: hidden;
     margin: 0;
     padding: 0;
 }
@@ -31,7 +31,7 @@ body {
 /* Slideshow */
 .slideshow {
     width: 65%;
-    background-color: rgba(234, 234, 234, 0.8); /* Halbtransparenter Hintergrund */
+    background-color: rgba(234, 234, 234, 0.8);
     border: 2px solid #333;
     border-radius: 10px;
     padding: 20px;
@@ -41,7 +41,7 @@ body {
 
 .slide-dots {
     position: absolute;
-    bottom: 10px; /* Abstand vom unteren Rand des Rechtecks */
+    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -72,7 +72,7 @@ body {
 
 /* Liga Buttons */
 .liga-item {
-    background-color: rgba(234, 234, 234, 0.8); /* Halbtransparenter Hintergrund */
+    background-color: rgba(234, 234, 234, 0.8);
     border: 2px solid #333;
     border-radius: 10px;
     height: 100px;
@@ -81,37 +81,50 @@ body {
     justify-content: center;
     font-size: 18px;
     margin-bottom: 10px;
-    transition: background-color 0.3s, color 0.3s; /* Übergang für weichen Farbwechsel */
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Hover-Effekt für Liga Buttons */
 .liga-item:hover {
-    background-color: #2a2c6b; /* Dunkelblau */
+    background-color: #2a2c6b;
     color: #fff;
 }
+
 /* Untere Buttons */
 .bottom-buttons {
     display: flex;
     justify-content: space-evenly;
-    margin-top: 30px;
+    margin-top: 7vh; /* Dynamischer Abstand zur Slideshow */
+    margin-bottom: 5vh; /* Gleicher dynamischer Abstand zum unteren Rand */
+    width: 90%; /* Adjust the width of the button container */
+    margin-left: auto;
+    margin-right: auto; /* Center the button container */
 }
 
-/* Untere Buttons */
+.bottom-buttons a{
+    color: black;
+    text-decoration: none;
+    width: 23%;
+    height: 120px;
+}
+
+/* Bottom Items */
 .bottom-item {
-    width: 22%;
-    background-color: rgba(234, 234, 234, 0.8); /* Halbtransparenter Hintergrund */
+    width: 100%;
+    background-color: rgba(234, 234, 234, 0.8);
     border: 2px solid #333;
     border-radius: 10px;
-    height: 80px;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
-    transition: background-color 0.3s, color 0.3s; /* Übergang für weichen Farbwechsel */
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
 }
 
 /* Hover-Effekt für untere Buttons */
 .bottom-item:hover {
-    background-color: #2a2c6b; /* Dunkelblau */
+    background-color: #2a2c6b;
     color: #fff;
 }
+

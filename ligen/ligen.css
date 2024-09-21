@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: Verdana, sans-serif;
     background: linear-gradient(to bottom right, #1c1e4a, #74215d);
     min-height: 100vh; /* Stellt sicher, dass es mindestens den Viewport abdeckt */
     overflow-y: hidden; /* Verhindert horizontales Scrollen */

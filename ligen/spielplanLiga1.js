@@ -107,3 +107,91 @@ function nextSlide() {
 
 // Initiales Laden des ersten Spieltags
 loadMatchData(currentDay);
+
+
+// Wähle das Modal und seine Elemente aus
+let modal = document.getElementById('gameModal');
+let modalTitle = document.getElementById('modalTitle');
+let modalDetails = document.getElementById('modalDetails');
+let closeBtn = document.querySelector('.close');
+
+// Schließen des Modals, wenn der Benutzer auf (X) klickt
+closeBtn.onclick = function() {
+    modal.style.display = 'none';
+}
+
+// Funktion zum Öffnen des Modals mit Spielinformationen
+function openModal(matchData) {
+    modalTitle.textContent = `Match: ${matchData.blau} vs ${matchData.rot}`;
+    modalDetails.innerHTML = `
+        <strong>Match ID:</strong> ${matchData.id}<br>
+        <strong>Ergebnis:</strong> ${matchData.ergebnis || 'Noch nicht verfügbar'}
+    `;
+    modal.style.display = 'flex'; // Zeigt das Modal an
+}
+
+// Füge die Klick-Events zu den Tabellenzeilen hinzu
+function renderMatchTable(jsonData) {
+    let rows = jsonData.table.rows;
+    let tableBody = document.querySelector('#table-body');
+    tableBody.innerHTML = ''; // Lösche vorhandene Einträge
+
+    // Erstelle die Zelle für den Spieltag über alle Zeilen hinweg
+    let spieltagCell = document.createElement('td');
+    spieltagCell.setAttribute('rowspan', rows.length); // Setzt die Zelle über alle Zeilen hinweg
+    spieltagCell.textContent = `Spieltag ${currentDay}`;
+    spieltagCell.style.textAlign = 'center'; // Zentriert den Text in der Zelle
+    spieltagCell.style.fontWeight = 'bold';
+    spieltagCell.style.verticalAlign = 'middle';
+
+    let firstRow = document.createElement('tr');
+    firstRow.appendChild(spieltagCell);
+
+    firstRow.innerHTML += `
+        <td>${rows[0].c[0]?.v || '-'}</td>
+        <td>${rows[0].c[1]?.v || '-'}</td>
+        <td>${rows[0].c[2]?.v || '-'}</td>
+        <td>${rows[0].c[3]?.v || '-'}</td>
+    `;
+    
+    // Klick-Event für die erste Zeile
+    firstRow.addEventListener('click', function() {
+        openModal({
+            blau: rows[0].c[0]?.v || 'N/A',
+            rot: rows[0].c[1]?.v || 'N/A',
+            id: rows[0].c[2]?.v || 'N/A',
+            ergebnis: rows[0].c[3]?.v || 'N/A'
+        });
+    });
+    tableBody.appendChild(firstRow);
+
+    // Füge die restlichen Spielreihen hinzu
+    for (let i = 1; i < rows.length; i++) {
+        let newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td>${rows[i].c[0]?.v || '-'}</td>
+            <td>${rows[i].c[1]?.v || '-'}</td>
+            <td>${rows[i].c[2]?.v || '-'}</td>
+            <td>${rows[i].c[3]?.v || '-'}</td>
+        `;
+
+        // Klick-Event für die weiteren Zeilen
+        newRow.addEventListener('click', function() {
+            openModal({
+                blau: rows[i].c[0]?.v || 'N/A',
+                rot: rows[i].c[1]?.v || 'N/A',
+                id: rows[i].c[2]?.v || 'N/A',
+                ergebnis: rows[i].c[3]?.v || 'N/A'
+            });
+        });
+
+        tableBody.appendChild(newRow);
+    }
+}
+
+// Optional: Schließen des Modals, wenn der Benutzer außerhalb des Modals klickt
+window.onclick = function(event) {
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+};

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Bot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select {
+            width: 200px;
+            height: 150px;
+        }
+
+        #ergebnis {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #007BFF;
+        }
+
+        .checkbox-container {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Map Bot</h1>
+    
+    <form id="auswahlForm">
+        <label for="auswahl">Wähle eine Option:</label>
+        <br>
+        <select id="auswahl" name="optionen" multiple>
+            <option value="option1">World8</option>
+            <option value="option2">Worldall</option>
+            <option value="option3">Country Dach</option>
+            <option value="option4">Country8</option>
+            <option value="option5">Country31</option>
+            <option value="option6">Countryall</option>
+            <option value="option7">Dach</option>
+            <option value="option8">Deutschland</option>
+            <option value="option9">Österreich</option>
+            <option value="option10">Schweiz</option>
+        </select>
+    </form>
+
+    <div class="checkbox-container">
+        <input type="checkbox" id="extraErgebnis" name="extraErgebnis">
+        <label for="extraErgebnis">Modus</label>
+    </div>
+
+    <button onclick="getRandomResult()">Zufälliges Ergebnis anzeigen</button>
+
+    <div id="ergebnis"></div>
+
+    <script>
+        // Array mit zufälligen Ergebnissen für jede Option
+        const ergebnisse = {
+            "option1": ["An Improved World", "AI Generated World", "An Arbitrary World", "A Community World", "An Official World", "An Arbitrary Rural World", "A Varied World", "A Pro World"],
+            "option2": ["An Improved World", "A Balanced World", "AI Generated World", "An Arbitrary World", "AI Populated World", "A Stochastic Populated World", "A Community World", "GeoTime", "A Varied World", "An Official World", "A Chatguessr World", "A Rural World", "An Arbitrary Rural World", "Dirty World", "Terminus", "A Skewed World", "A Tweaked World", "A Pinpointable World", "An Extraordinary World", "A Curated Planet", "Skyworld", "A Rainbolt World", "Less-Extreme Regionguessing", "Extreme Regionguessing", "Plonk It Extreme", "A Pro World", "World coast", "lakes and rivers", "Geoguessr Saturday", "Superflat"], 
+            "option3": ["A Balanced Germanosphere", "A Community Germany", "A Balanced Germany", "A Balanced Austria", "Intersectionguessr Austria", "Geotime Switzerland", "Intersectionguessr Switzerland"],
+            "option4": ["USA", "Russia", "Brazil", "Indonesia", "Australia", "Mexico", "Canada", "India"],
+            "option5": ["USA", "Russia", "Brazil", "Indonesia", "Australia", "Mexico", "Canada", "India", "Argentina", "South Africa", "Japan", "Turkey", "Peru", "France", "Spain", "Chile", "Colombia", "Kazakhstan", "Thailand", "New Zealand", "Philippines", "Nigeria", "Norway", "Italy", "Malaysia", "United Kingdom", "Kenya", "Germany", "Sweden", "Ukraine", "Romania"],
+            "option6": ["Iceland", "Canada", "USA", "Mexico", "Guatemala", "Panama", "Colombia", "Ecuador", "Peru", "Bolivia", "Chile", "Brazil", "Argentina", "Uruguay", "Senegal", "Ghana", "Nigeria", "Tunisia", "Kenya", "Ruanda", "Botswana", "South Africa", "Swasiland", "Lesotho", "Israel", "Jordan", "Türkiye", "Greece", "Albania", "Montenegro", "North Macedonia", "Bulgaria", "Serbia", "Romania", "Hungary", "Slovenia", "Croatia", "Italy", "Spain", "Portugal", "France", "Switzerland", "Austria", "Slovakia", "Poland", "Czechia", "Germany", "Netherlands", "Belgium", "France", "UK", "Ireland", "Denmark", "Norway", "Sweden", "Finland", "Estonia", "Latvia", "Lithuania", "Ukraine", "Russia", "Luxembourg", "Kazhakstan", "Mongolia", "Kyrgyzstan", "India", "Bangladesh", "Thailand", "Cambodia", "Malaysia", "Indonesia", "Philippines", "Australia", "New Zealand", "Taiwan", "Japan", "South Korea"],
+            "option7": ["A Balanced Germanosphere", "A Community Germany", "A Balanced Germany", "A Balanced Austria", "Intersectionguessr Austria", "Geotime Switzerland", "Intersectionguessr Switzerland", "Schleswig-Holstein", "Hamburg", "Niedersachsen", "Bremen", "Mecklenburg-Vorpommern", "Brandenburg", "Berlin", "Sachsen-Anhalt", "Sachsen", "Thüringen", "Hessen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Baden-Würtemberg", "Bayern", "Vorarlberg", "Tirol", "Salzburg", "Steiermark", "Kärnten", "Burgenland", "Oberösterreich", "Niederösterreich", "Wien", "Zürich", "Bern", "Luzern", "Uri", "Schwyz", "Obwalden", "Nidwalden", "Glarus", "Zug", "Solothurn", "Basel-Stadt", "Basel-Landschaft", "Schaffhausen", "Appenzell Ausserrhoden", "Appenzell Innerrhoden", "St. Gallen", "Graubünden", "Aargau", "Thurgau", "Südtirol", "Ostbelgien"], 
+            "option8": ["A Community Germany", "A Balanced Germany", "Schleswig-Holstein", "Hamburg", "Niedersachsen", "Bremen", "Mecklenburg-Vorpommern", "Brandenburg", "Berlin", "Sachsen-Anhalt", "Sachsen", "Thüringen", "Hessen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Baden-Würtemberg", "Bayern"],
+            "option9": ["A Balanced Austria", "Intersectionguessr Austria", "Vorarlberg", "Tirol", "Salzburg", "Steiermark", "Kärnten", "Burgenland", "Oberösterreich", "Niederösterreich", "Wien"],
+            "option10": ["Geotime Switzerland", "Intersectionguessr Switzerland", "Zürich", "Bern", "Luzern", "Uri", "Schwyz", "Obwalden", "Nidwalden", "Glarus", "Zug", "Solothurn", "Basel-Stadt", "Basel-Landschaft", "Schaffhausen", "Appenzell Ausserrhoden", "Appenzell Innerrhoden", "St. Gallen", "Graubünden", "Aargau", "Thurgau"]
+        };
+
+        // Zweites Array mit zusätzlichen Ergebnissen
+        const extraErgebnisse = {
+            "option1": ["Moving", "NM", "NMPZ"],
+            "option2": ["Moving", "NM", "NMPZ"],
+            "option3": ["Moving", "NM", "NMPZ"],
+            "option4": ["Moving", "NM", "NMPZ"],
+            "option5": ["Moving", "NM", "NMPZ"],
+            "option6": ["Moving", "NM", "NMPZ"],
+            "option7": ["Moving", "NM", "NMPZ"],
+            "option8": ["Moving", "NM", "NMPZ"],
+            "option9": ["Moving", "NM", "NMPZ"],
+            "option10": ["Moving", "NM", "NMPZ"]
+        };
+
+        function getRandomResult() {
+            // Alle ausgewählten Optionen abrufen
+            const selectElement = document.getElementById('auswahl');
+            const selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
+
+            // Überprüfen, ob mindestens eine Option ausgewählt wurde
+            if (selectedOptions.length === 0) {
+                document.getElementById('ergebnis').textContent = "Bitte wähle mindestens eine Option aus!";
+                return;
+            }
+
+            // Prüfen, ob das Checkbox für zusätzliche Ergebnisse aktiviert ist
+            const extraChecked = document.getElementById('extraErgebnis').checked;
+
+            // Ein zufälliges Ergebnis für jede ausgewählte Option ausgeben
+            let resultText = "Ausgewählte Map:\n";
+            selectedOptions.forEach(option => {
+                const randomResult = ergebnisse[option][Math.floor(Math.random() * ergebnisse[option].length)];
+                resultText += `${randomResult}\n`;
+
+                // Wenn die Checkbox aktiviert ist, ein zusätzliches Ergebnis hinzufügen
+                if (extraChecked) {
+                    const randomExtra = extraErgebnisse[option][Math.floor(Math.random() * extraErgebnisse[option].length)];
+                    resultText += `${randomExtra}\n`;
+                }
+            });
+
+            // Ergebnis auf der Seite anzeigen
+            document.getElementById('ergebnis').textContent = resultText;
+        }
+    </script>
+</body>
+</html>

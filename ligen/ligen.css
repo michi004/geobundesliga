@@ -111,19 +111,21 @@ thead th {
 }
 
 tbody td {
-    background-color: white; /* Weißer Hintergrund für den Platzhalter */
     height: 20px; /* Höhe des weißen Kastens */
     text-align: center;
     font-style: italic;
-    color: #888; /* Grau für den Platzhaltertext */
+    color: #000000; /* Grau für den Platzhaltertext */
 }
 
-tbody tr td {
+/*tbody tr td {
     background-color: white; /* Setzt weißen Hintergrund für alle Zellen */
+/*}*/
+tbody tr {
+    background-color: transparent; /* Standard auf transparent */
 }
 
-tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
+tbody tr.green-row {
+    background-color: green !important; /* Wendet die grüne Farbe an, falls die Zeile die Klasse erhält */
 }
 
 .last-three td{

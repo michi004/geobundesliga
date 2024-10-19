@@ -5,6 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geobundesliga - 3. Liga</title>
     <link rel="stylesheet" href="ligen.css">
+    <style>
+        /* Tabelle in derselben Breite wie vorher */
+        table {
+            width: 600px; /* Die ursprüngliche Breite beibehalten */
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: white;
+            border: 2px solid black;
+        }
+    
+        /* Neue Tabellenstruktur: Zwei Spalten mit Spielern */
+        .league-table tbody tr td {
+            width: 50%; /* Jede Zelle nimmt 50% der Tabellenbreite ein */
+        }
+    
+        /* Überschriftenanpassung */
+        .league-table thead th {
+            text-align: center;
+            font-size: 18px;
+            padding: 10px;
+        }
+    </style>
+    
+    
 </head>
 <body>
     <header>
@@ -20,11 +44,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Platz</th>
-                        <th>Spieler*in</th>
-                        <th>Punkte</th>
-                        <th>Health</th>
-                        <th>Spiele</th>
+                        <th colspan="2">Spieler*in</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,4 +88,6 @@
         </div>
     </section>
 </body>
+<script src="tabelleLiga3.js">
+</script>
 </html>

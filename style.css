@@ -16,71 +16,43 @@ body {
 /* Große Überschrift */
 .main-title {
     text-align: center;
-    font-size: 48px;
-    margin-top: 20px;
+    font-size: 4vw; /* Dynamische Schriftgröße basierend auf der Bildschirmbreite */
+    margin-top: 5vh; /* Dynamischer Abstand */
     font-weight: bold;
     color: #fff;
 }
 
 .container {
     display: flex;
-    justify-content: space-around;
-    margin: 20px;
-}
-
-/* Slideshow */
-.slideshow {
-    width: 65%;
-    background-color: rgba(234, 234, 234, 0.8);
-    border: 2px solid #333;
-    border-radius: 10px;
-    padding: 20px;
-    position: relative;
-    height: 400px;
-}
-
-.slide-dots {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
     justify-content: center;
-}
-
-.dot {
-    height: 15px;
-    width: 15px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-    margin: 0 5px;
-}
-
-/* Liga Buttons auf der rechten Seite */
-.liga {
-    width: 25%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.liga a{
-    color:black;
-    text-decoration: none;
+    margin: 5vh 0; /* Dynamische Abstände oben und unten */
 }
 
 /* Liga Buttons */
+.liga {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vh; /* Dynamischer Abstand zwischen den Liga-Buttons */
+    width: 30vw; /* Relative Breite für responsives Verhalten */
+}
+
+.liga a {
+    color: black;
+    text-decoration: none;
+    width: 100%;
+}
+
+/* Liga Item Styling */
 .liga-item {
     background-color: rgba(234, 234, 234, 0.8);
     border: 2px solid #333;
     border-radius: 10px;
-    height: 100px;
+    height: 14vh; /* Dynamische Höhe basierend auf der Viewport-Höhe */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
-    margin-bottom: 10px;
+    font-size: 1.5vw; /* Dynamische Schriftgröße */
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -91,23 +63,25 @@ body {
 
 /* Untere Buttons */
 .bottom-buttons {
+    position: fixed; /* Fixiert die untere Leiste am unteren Rand */
+    bottom: 2vh; /* Abstand vom unteren Rand */
     display: flex;
     justify-content: space-evenly;
-    margin-top: 7vh; /* Dynamischer Abstand zur Slideshow */
-    margin-bottom: 5vh; /* Gleicher dynamischer Abstand zum unteren Rand */
-    width: 90%; /* Adjust the width of the button container */
+    width: 100vw; /* Relative Breite für responsives Verhalten */
     margin-left: auto;
-    margin-right: auto; /* Center the button container */
+    margin-right: auto;
+    margin-bottom: 2vh;
 }
 
-.bottom-buttons a{
+/* Bottom Links Styling */
+.bottom-buttons a {
     color: black;
     text-decoration: none;
-    width: 23%;
-    height: 120px;
+    width: 22%;
+    height: 18vh; /* Dynamische Höhe */
 }
 
-/* Bottom Items */
+/* Bottom Item Styling */
 .bottom-item {
     width: 100%;
     background-color: rgba(234, 234, 234, 0.8);
@@ -117,14 +91,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size:1.5vw; /* Dynamische Schriftgröße */
     transition: background-color 0.3s, color 0.3s;
     text-align: center;
 }
 
-/* Hover-Effekt für untere Buttons */
 .bottom-item:hover {
     background-color: #2a2c6b;
     color: #fff;
 }
-

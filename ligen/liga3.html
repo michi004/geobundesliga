@@ -5,30 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geobundesliga - 3. Liga</title>
     <link rel="stylesheet" href="ligen.css">
-    <style>
-        /* Tabelle in derselben Breite wie vorher */
-        table {
-            width: 600px; /* Die ursprüngliche Breite beibehalten */
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            background-color: white;
-            border: 2px solid black;
-        }
-    
-        /* Neue Tabellenstruktur: Zwei Spalten mit Spielern */
-        .league-table tbody tr td {
-            width: 50%; /* Jede Zelle nimmt 50% der Tabellenbreite ein */
-        }
-    
-        /* Überschriftenanpassung */
-        .league-table thead th {
-            text-align: center;
-            font-size: 18px;
-            padding: 10px;
-        }
-    </style>
-    
-    
 </head>
 <body>
     <header>
@@ -44,7 +20,11 @@
             <table>
                 <thead>
                     <tr>
-                        <th colspan="2">Spieler*in</th>
+                        <th>Platz</th>
+                        <th>Spieler*in</th>
+                        <th>Punkte</th>
+                        <th>Health</th>
+                        <th>Spiele</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,6 +33,12 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        <div class="submit">
+            <a href="https://forms.gle/eW13aYbR5QwUoHWc8" target="_blank">
+                Submit
+            </a>
         </div>
 
         <div class="match-table">
@@ -78,12 +64,6 @@
         <div class="arrow">
             <a href="liga3_alle_spiele.html">
                 ⬇️
-            </a>
-        </div>
-
-        <div class="submit">
-            <a href="" target="_blank">
-                Submit
             </a>
         </div>
     </section>

@@ -1,3 +1,7 @@
+html {
+    font-size: 16px; /* Basis-Schriftgröße für rem */
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,91 +13,82 @@ body {
     background: linear-gradient(to bottom right, #1c1e4a, #74215d);
     min-height: 100vh; /* Stellt sicher, dass es mindestens den Viewport abdeckt */
     overflow-y: hidden; /* Verhindert horizontales Scrollen */
-    margin: 0;
-    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /*obere zeile buttons header*/
 header {
     display: flex;
-    justify-content: center; /* Zentriert den gesamten Header-Inhalt */
+    align-items: center;
+    justify-content: center;
+    width: 100vw; /* Relative Breite */
+    height:8vh;
+    margin: 2vh 0; /* Abstand mit relativer Höhe */
 }
 
 header h1 {
     background-color: #2a2c6b;
-    padding: 10px;
-    margin-bottom: 20px;
+    padding: 1vh 1vw; /* Innenabstand mit relativen Einheiten */
     border-radius: 8px;
     color: #fff;
-    font-size: 36px; /* Vergrößert die Schrift */
-    text-align: center; /* Zentriert die Überschrift */
-    display: inline-block; /* Macht den Kasten nur so breit wie der Inhalt */
-    width: 50%; /* Setzt die Breite auf 50% des Containers */
-    /
+    font-size: 3rem; /* Schriftgröße bleibt stabil */
+    text-align: center;
+    width: 33%;
+    height:100%; /* Relativ zur Breite des Headers */
+}
+
+.back-button, .league-button {
+    background-color: #2a2c6b;
+    color: white;
+    padding: 1vh 2vw; /* Dynamisches Padding */
+    font-size: 1.5vw; /* Dynamische Schriftgröße */
+    border-radius: 8px;
+    text-decoration: none;
+    border: 2px solid white;
 }
 
 .back-button {
-    display: inline-block;
-    background-color: #2a2c6b;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 16px;
-    border: 2px solid white;
-    position: absolute;
-    top: 20px;
-    left: 20px;
+    position: absolute; /* Fixiert den Button unabhängig vom Layout */
+    top: 2vh; /* Abstand vom oberen Rand */
+    left: 2vw; /* Abstand vom linken Rand */
 }
 
-.back-button:hover {
-    background-color: #74215d;
-}
-
-.league-button {
-    position: absolute;
-    top: 20px;
-    background-color: #2a2c6b;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 16px;
-    border: 2px solid white;
-}
-
-.league-button:hover {
+.back-button:hover,.league-button:hover {
     background-color: #74215d;
 }
 
 /* Linker Button (2. Liga) */
 .league-button.left {
-    left: calc(25% - 100px); /* Links von der Mitte der Überschrift */
+    order:-1;
 }
 
 /* Rechter Button (3. Liga) */
 .league-button.right {
-    right: calc(25% - 100px); /* Rechts von der Mitte der Überschrift */
+    order:1;
 }
 
 /*tabellen*/
 .tables-container {
     display: flex;
-    justify-content: space-around;
-    margin-bottom: 40px;
+    justify-content: center;
+    align-items: center; /* Zentriert Tabellen vertikal im Container */
+    margin: 5vh;
     padding: 10px;
+    height: 60vh; /* Container selbst ist 50% der Viewport-Höhe */
+    overflow: hidden; /* Verhindert, dass die Tabelle aus dem Container hinausläuft */
 }
-
-
 
 table {
-    width: 600px; /* Vergrößert die Tabelle */
+    width: 70%; /* Passt Breite an, um Raum für zwei Tabellen nebeneinander zu lassen */
     border-collapse: collapse;
-    margin-bottom: 20px;
     background-color: white;
-    border: 2px solid black;
-    height: 100%;
+    table-layout: fixed;
+    height: 100%; /* Übernimmt die volle Höhe des Containers */
+    overflow-y: auto; /* Ermöglicht Scrollen innerhalb der Tabelle */
 }
+
 
 th, td {
     padding: 5px;
@@ -117,19 +112,10 @@ tbody td {
     color: #000000; /* Grau für den Platzhaltertext */
 }
 
-/*tbody tr td {
-    background-color: white; /* Setzt weißen Hintergrund für alle Zellen */
-/*}*/
-tbody tr {
-    background-color: transparent; /* Standard auf transparent */
-}
-
-tbody tr.green-row {
-    background-color: green !important; /* Wendet die grüne Farbe an, falls die Zeile die Klasse erhält */
-}
-
-.last-three td{
-    background-color: hsl(0, 100%, 65%); /* Roter Hintergrund */
+.match-table {
+    height: 100%; /* Stellt sicher, dass die Tabelle den verfügbaren Platz innerhalb des Containers nutzt */
+    overflow-y: auto; /* Aktiviert das vertikale Scrollen */
+    max-height: 60vh; /* Optional: Begrenzung der maximalen Höhe auf 60% der Viewport-Höhe */
 }
 
 
@@ -168,4 +154,35 @@ tbody tr.green-row {
 
 .submit a:hover {
     background-color: #2a2c6b;
+}
+
+
+
+/*hintergrundfarben*/
+tbody tr {
+    background-color: transparent; /* Standard auf transparent */
+}
+
+tbody tr.green-row {
+    background-color: green !important; /* Wendet die grüne Farbe an, falls die Zeile die Klasse erhält */
+}
+
+.last-three td{
+    background-color: hsl(0, 100%, 65%); /* Roter Hintergrund */
+}
+
+.first-three td{
+    background-color: rgb(0, 202, 0);
+}
+
+.relegation td{
+    background-color: rgb(161, 246, 161);
+}
+
+.relegation-bottom td{
+    background-color: rgb(246, 162, 161);
+}
+
+.final-four td{
+    background-color: rgb(101, 145, 255);
 }

@@ -93,7 +93,7 @@ window.onclick = function(event) {
 };
 
 // Funktion zum Abrufen und Rendern der Liga-Daten
-function fetchAndRenderData(URL, cacheKey_liga2, renderFunction) {
+function fetchAndRenderData(URL, cacheKey, renderFunction) {
     fetch(URL)
         .then(res => res.text())
         .then(rep => {
@@ -104,7 +104,7 @@ function fetchAndRenderData(URL, cacheKey_liga2, renderFunction) {
                 data: jsonData,
                 expiry: Date.now() + cacheDuration
             };
-            localStorage.setItem(cacheKey_liga2, JSON.stringify(cacheData));
+            localStorage.setItem(cacheKey, JSON.stringify(cacheData));
 
             // Render die Tabelle mit den Daten
             renderFunction(jsonData);
@@ -115,8 +115,8 @@ function fetchAndRenderData(URL, cacheKey_liga2, renderFunction) {
 }
 
 // Funktion zum Überprüfen, ob der Cache für einen spezifischen Spieltag noch gültig ist
-function isCacheValid(cacheKey_liga2) {
-    let cached = JSON.parse(localStorage.getItem(cacheKey_liga2));
+function isCacheValid(cacheKey) {
+    let cached = JSON.parse(localStorage.getItem(cacheKey));
     if (!cached) return false; // Kein Cache vorhanden
     return Date.now() < cached.expiry; // Überprüfe Ablaufzeit
 }
@@ -127,7 +127,7 @@ function loadMatchData(day) {
     const URL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${spreadsheetName}&range=${dataRangeDay}`;
 
     // Einzigartiger Cache-Key für den aktuellen Spieltag
-    let cacheKey_liga2 = `spielplan_day_${day}`;
+    let cacheKey_liga2 = `spielplan_day_${day}l2`;
 
     if (isCacheValid(cacheKey_liga2)) {
         // Lade Daten aus dem Cache

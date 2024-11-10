@@ -1,9 +1,9 @@
-let sheetID = '1wqB2lp45cttqm-Ce0QxYGpsjRSg_lCp5-aQ3L3Dnb1I';
+let sheetID = '1rzYKg1Xz4al00i29DRlgo8MHn2mSieFK2Il8Y2VD0fU';
 let spreadsheetName = 'Spielplan Liga 1';
 
 let cacheDuration = 5 * 60 * 1000; // Cache-Dauer: 5 Minuten
 let currentDay = 1; // Der aktuelle Spieltag
-const totalDays = 15; // Insgesamt 15 Spieltage
+const totalDays = 13; // Insgesamt 15 Spieltage
 
 // Wähle das Modal und seine Elemente aus
 let modal = document.getElementById('gameModal');
@@ -123,7 +123,7 @@ function isCacheValid(cacheKey) {
 
 // Lade die Spieldaten des aktuellen Spieltags (Match-Tabelle)
 function loadMatchData(day) {
-    const dataRangeDay = `B${3 + (day - 1) * 8 + day}:I${10 + (day - 1) * 8 + day}`;
+    const dataRangeDay = `B${(day - 1) * 7 + 3}:E${(day - 1) * 7 + 6 + 3}`;
     const URL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${spreadsheetName}&range=${dataRangeDay}`;
 
     // Einzigartiger Cache-Key für den aktuellen Spieltag

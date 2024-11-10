@@ -39,16 +39,19 @@ function renderLeagueTable(jsonData) {
     tableBody.innerHTML = ''; // Platzhalter löschen
 
     rows.forEach(row => {
-        let points = row.c[2]?.v || 0; // Punktewert aus der 3. Spalte (Index 2)
+        let points = row.c[6]?.v || 0; // Punktewert aus der 3. Spalte (Index 2)
         points = parseFloat(points).toFixed(2); // Rundet die Punkte auf 2 Nachkommastellen
         
         let newRow = document.createElement('tr');
         newRow.innerHTML = `
             <td>${row.c[0].v}</td>
             <td>${row.c[1].v}</td>
-            <td>${points}</td>
             <td>${row.c[3].v}</td>
             <td>${row.c[4].v}</td>
+            <td>${row.c[5].v}</td>
+            <td>${row.c[6].v}</td>
+            <td>${row.c[7].v}</td>
+            <td>${points}</td>
         `;
         tableBody.appendChild(newRow);
     });

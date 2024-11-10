@@ -93,7 +93,7 @@ window.onclick = function(event) {
 };
 
 // Funktion zum Abrufen und Rendern der Liga-Daten
-function fetchAndRenderData(URL, cacheKey, renderFunction) {
+function fetchAndRenderData(URL, cacheKey_liga1, renderFunction) {
     fetch(URL)
         .then(res => res.text())
         .then(rep => {
@@ -104,7 +104,7 @@ function fetchAndRenderData(URL, cacheKey, renderFunction) {
                 data: jsonData,
                 expiry: Date.now() + cacheDuration
             };
-            localStorage.setItem(cacheKey, JSON.stringify(cacheData));
+            localStorage.setItem(cacheKey_liga1, JSON.stringify(cacheData));
 
             // Render die Tabelle mit den Daten
             renderFunction(jsonData);
@@ -115,8 +115,8 @@ function fetchAndRenderData(URL, cacheKey, renderFunction) {
 }
 
 // Funktion zum Überprüfen, ob der Cache für einen spezifischen Spieltag noch gültig ist
-function isCacheValid(cacheKey) {
-    let cached = JSON.parse(localStorage.getItem(cacheKey));
+function isCacheValid(cacheKey_liga1) {
+    let cached = JSON.parse(localStorage.getItem(cacheKey_liga1));
     if (!cached) return false; // Kein Cache vorhanden
     return Date.now() < cached.expiry; // Überprüfe Ablaufzeit
 }
@@ -127,15 +127,15 @@ function loadMatchData(day) {
     const URL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${spreadsheetName}&range=${dataRangeDay}`;
 
     // Einzigartiger Cache-Key für den aktuellen Spieltag
-    let cacheKey = `spielplan_day_${day}`;
+    let cacheKey_liga1 = `spielplan_day_${day}`;
 
-    if (isCacheValid(cacheKey)) {
+    if (isCacheValid(cacheKey_liga1)) {
         // Lade Daten aus dem Cache
-        let cachedData = JSON.parse(localStorage.getItem(cacheKey)).data;
+        let cachedData = JSON.parse(localStorage.getItem(cacheKey_liga1)).data;
         renderMatchTable(cachedData);
     } else {
         // Lade Daten von Google Sheets und rendere die Tabelle
-        fetchAndRenderData(URL, cacheKey, renderMatchTable);
+        fetchAndRenderData(URL, cacheKey_liga1, renderMatchTable);
     }
 }
 

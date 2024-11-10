@@ -3,7 +3,7 @@ let spreadsheetLiga3 = 'Spielplan Liga 3';
 let dataRange1 = 'P3:W17';  // Datenbereich für die 3. Liga
 let URL1 = 'https://docs.google.com/spreadsheets/d/' + sheetID + '/gviz/tq?sheet=' + spreadsheetLiga3 + '&range=' + dataRange1;
 
-let dataRange2 = 'B3:E26'; // Datenbereich für die aktuellen Spiele
+let dataRange2 = 'B3:E23'; // Datenbereich für die aktuellen Spiele
 let URL2 = 'https://docs.google.com/spreadsheets/d/' + sheetID + '/gviz/tq?sheet=' + spreadsheetLiga3 + '&range=' + dataRange2;
 
 let cacheKey_L3T = 'L3_TableData'; // Schlüssel für Liga-Tabelle Cache

@@ -1,6 +1,6 @@
 let sheetID = '1rzYKg1Xz4al00i29DRlgo8MHn2mSieFK2Il8Y2VD0fU';
 let spreadsheetLiga2 = 'Spielplan Liga 2';
-let dataRange1 = 'P3:W16';  // Datenbereich für die 2. Liga
+let dataRange1 = 'P3:X16';  // Datenbereich für die 2. Liga
 let URL1 = 'https://docs.google.com/spreadsheets/d/' + sheetID + '/gviz/tq?sheet=' + spreadsheetLiga2 + '&range=' + dataRange1;
 
 let dataRange2 = 'B3:E23'; // Datenbereich für die aktuellen Spiele
@@ -39,8 +39,8 @@ function renderLeagueTable(jsonData) {
     tableBody.innerHTML = ''; // Platzhalter löschen
 
     rows.forEach(row => {
-        let points = row.c[6]?.v || 0; // Punktewert aus der 3. Spalte (Index 2)
-        points = parseFloat(points).toFixed(2); // Rundet die Punkte auf 2 Nachkommastellen
+        //let points = row.c[8]?.v; // Punktewert aus der 3. Spalte (Index 2)
+        //points = parseFloat(points).toFixed(2); // Rundet die Punkte auf 2 Nachkommastellen
         
         let newRow = document.createElement('tr');
         newRow.innerHTML = `
@@ -51,7 +51,7 @@ function renderLeagueTable(jsonData) {
             <td>${row.c[5].v}</td>
             <td>${row.c[6].v}</td>
             <td>${row.c[7].v}</td>
-            <td>${points}</td>
+            <td>${parseFloat(row.c[8]?.v).toFixed(2)}</td>
         `;
         tableBody.appendChild(newRow);
     });

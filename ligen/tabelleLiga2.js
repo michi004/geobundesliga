@@ -82,6 +82,59 @@ function renderLeagueTable(jsonData) {
     }
 }
 
+// Funktion zur Bestimmung der aktuellen Spielwoche basierend auf festgelegten Zeiträumen
+function getSpielwoche() {
+    const today = new Date();
+
+    // Definiere die Start- und Enddaten für jede Spielwoche
+    const spielwochen = [
+        { start: new Date("2024-11-11"), end: new Date("2024-11-24"), week: 1 },
+        { start: new Date("2024-11-25"), end: new Date("2024-12-08"), week: 2 },
+        { start: new Date("2024-12-09"), end: new Date("2025-01-05"), week: 3 },
+        { start: new Date("2025-01-06"), end: new Date("2025-01-19"), week: 4 },
+        { start: new Date("2025-01-20"), end: new Date("2025-02-02"), week: 5 }
+    ];
+
+    // Finde die aktuelle Spielwoche basierend auf dem heutigen Datum
+    for (const spielwoche of spielwochen) {
+        if (today >= spielwoche.start && today <= spielwoche.end) {
+            return spielwoche;
+        }
+    }
+    return null; // Falls das Datum außerhalb der definierten Zeiträume liegt
+}
+
+// Funktion zur Formatierung des Datums im Format "DD.MM.YY"
+function formatDate(date) {
+    let day = String(date.getDate()).padStart(2, '0');
+    let month = String(date.getMonth() + 1).padStart(2, '0'); // Monate sind nullbasiert
+    let year = String(date.getFullYear()).slice(-2); // Nur die letzten zwei Ziffern des Jahres
+    return `${day}.${month}.${year}`;
+}
+
+// Funktion zur Aktualisierung der Spielwoche in der Tabelle
+function updateSpielwoche() {
+    const spielwoche = getSpielwoche();
+    if (!spielwoche) return;
+
+    const wocheNummer = spielwoche.week;
+    const wocheStart = formatDate(spielwoche.start);
+    const wocheEnde = formatDate(spielwoche.end);
+    
+    const headerElement = document.querySelector(".week");
+    const datumSubHeader = document.querySelector(".date");
+
+    if (headerElement) {
+        headerElement.textContent = `Spielwoche ${wocheNummer}`;
+    }
+    if (datumSubHeader) {
+        datumSubHeader.textContent = `${wocheStart} - ${wocheEnde}`;
+    }
+}
+
+// Initiale Aktualisierung beim Laden der Seite
+updateSpielwoche();
+
 // Funktion zum Rendern der aktuellen Spiele (Match-Tabelle)
 function renderMatchTable(jsonData) {
     let rows = jsonData.table.rows;

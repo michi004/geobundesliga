@@ -17,14 +17,79 @@ closeBtn.onclick = function() {
 }
 
 // Funktion zum Öffnen des Modals mit Spielinformationen
+// Funktion zum Öffnen des Modals mit Spielinformationen
 function openModal(matchData) {
     modalTitle.textContent = `${matchData.blau} vs ${matchData.rot}`;
     modalDetails.innerHTML = `
         <strong>Match ID:</strong> ${matchData.id}<br>
         <strong>Ergebnis:</strong> ${matchData.ergebnis || 'Noch nicht verfügbar'}
     `;
+
+    // Maps in einer separaten Sektion darstellen
+    const mapsContainer = document.createElement('div');
+    mapsContainer.id = 'maps-container';
+    mapsContainer.style.marginTop = '20px';
+
+    if (matchData.maps && matchData.maps.length > 0) {
+        const maps = matchData.maps.slice().reverse();; // gesamte Map-Info
+        const rows = [[], [], []]; // Maximal 3 Zeilen (2, 3, 3 Maps)
+
+        // Maps auf Zeilen verteilen
+        for (let i = 0; i < maps.length; i++) {
+            if (i < 2) rows[0].push(maps[i]); // 1. Zeile: Max. 2 Maps
+            else if (i < 5) rows[1].push(maps[i]); // 2. Zeile: Max. 3 Maps
+            else rows[2].push(maps[i]); // 3. Zeile: Max. 3 Maps
+        }
+
+        // HTML für die Zeilen erstellen
+        rows.forEach(row => {
+            if (row.length > 0) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'maps-row';
+                rowDiv.style.display = 'flex';
+                rowDiv.style.justifyContent = 'space-around';
+                rowDiv.style.marginBottom = '10px';
+
+                row.forEach(mapInfo => {
+                    const [mapName, winner, moveType, link] = mapInfo;
+
+                    const mapBox = document.createElement('a');
+                    mapBox.href = link;
+                    mapBox.target = '_blank';
+                    mapBox.textContent = mapName;
+                    mapBox.style.padding = '10px';
+                    mapBox.style.border = '2px solid'; // Rahmen wird durch CSS gesetzt
+                    mapBox.style.borderRadius = '5px';
+                    mapBox.style.backgroundColor = '#f9f9f9';
+                    mapBox.style.textDecoration = 'none';
+                    mapBox.style.color = '#333';
+                    mapBox.style.display = 'inline-block';
+                    mapBox.style.minWidth = '120px';
+                    mapBox.style.textAlign = 'center';
+
+                    
+                    // Rahmenfarbe je nach Gewinner
+                    if (winner == 'blue') {
+                        mapBox.style.borderColor = 'blue';
+                    } else if (winner == 'red') {
+                        mapBox.style.borderColor = 'red';
+                    }
+
+
+                    rowDiv.appendChild(mapBox);
+                });
+
+                mapsContainer.appendChild(rowDiv);
+            }
+        });
+    } else {
+        mapsContainer.innerHTML = '<em>Keine Maps verfügbar</em>';
+    }
+
+    modalDetails.appendChild(mapsContainer);
     modal.style.display = 'flex'; // Zeigt das Modal an
 }
+
 
 // Füge die Klick-Events zu den Tabellenzeilen hinzu
 function renderMatchTable(jsonData) {
@@ -49,14 +114,15 @@ function renderMatchTable(jsonData) {
         <td>${rows[0].c[2]?.v || '-'}</td>
         <td>${rows[0].c[3]?.v || '-'}</td>
     `;
-    
+
     // Klick-Event für die erste Zeile
     firstRow.addEventListener('click', function() {
         openModal({
             blau: rows[0].c[0]?.v || 'N/A',
             rot: rows[0].c[1]?.v || 'N/A',
             id: rows[0].c[2]?.v || 'N/A',
-            ergebnis: rows[0].c[3]?.v || 'N/A'
+            ergebnis: rows[0].c[3]?.v || 'N/A',
+            maps: JSON.parse(rows[0].c[11]?.v || '[]') // Spalte M als JSON parsen
         });
     });
     tableBody.appendChild(firstRow);
@@ -77,7 +143,8 @@ function renderMatchTable(jsonData) {
                 blau: rows[i].c[0]?.v || 'N/A',
                 rot: rows[i].c[1]?.v || 'N/A',
                 id: rows[i].c[2]?.v || 'N/A',
-                ergebnis: rows[i].c[3]?.v || 'N/A'
+                ergebnis: rows[i].c[3]?.v || 'N/A',
+                maps: JSON.parse(rows[i].c[11]?.v || '[]') // Spalte M als JSON parsen
             });
         });
 
@@ -123,7 +190,7 @@ function isCacheValid(cacheKey) {
 
 // Lade die Spieldaten des aktuellen Spieltags (Match-Tabelle)
 function loadMatchData(day) {
-    const dataRangeDay = `B${(day - 1) * 7 + 3}:E${(day - 1) * 7 + 6 + 3}`;
+    const dataRangeDay = `B${(day - 1) * 7 + 3}:M${(day - 1) * 7 + 6 + 3}`;
     const URL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${spreadsheetName}&range=${dataRangeDay}`;
 
     // Einzigartiger Cache-Key für den aktuellen Spieltag

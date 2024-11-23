@@ -91,16 +91,16 @@
         <label>Wähle mindestens eine Option:</label>
         <br>
         <div id="checkboxContainer">
-            <input type="checkbox" class="option-checkbox" value="option1" id="option1" onclick="updateAnzahlInputs()"> World8<br>
-            <input type="checkbox" class="option-checkbox" value="option2" id="option2" onclick="updateAnzahlInputs()"> Worldall<br>
-            <input type="checkbox" class="option-checkbox" value="option3" id="option3" onclick="updateAnzahlInputs()"> Country Dach<br>
-            <input type="checkbox" class="option-checkbox" value="option4" id="option4" onclick="updateAnzahlInputs()"> Country8<br>
-            <input type="checkbox" class="option-checkbox" value="option5" id="option5" onclick="updateAnzahlInputs()"> Country31<br>
-            <input type="checkbox" class="option-checkbox" value="option6" id="option6" onclick="updateAnzahlInputs()"> Countryall<br>
-            <input type="checkbox" class="option-checkbox" value="option7" id="option7" onclick="updateAnzahlInputs()"> Dach<br>
-            <input type="checkbox" class="option-checkbox" value="option8" id="option8" onclick="updateAnzahlInputs()"> Deutschland<br>
-            <input type="checkbox" class="option-checkbox" value="option9" id="option9" onclick="updateAnzahlInputs()"> Österreich<br>
-            <input type="checkbox" class="option-checkbox" value="option10" id="option10" onclick="updateAnzahlInputs()"> Schweiz<br>
+            <input type="checkbox" class="option-checkbox" value="option1" id="option1" onclick="updateAnzahlInputs()"> <span class="open-modal" data-target="modal1">World8</span><br>
+            <input type="checkbox" class="option-checkbox" value="option2" id="option2" onclick="updateAnzahlInputs()"> <span class="open-modal" data-target="modal2">Worldall</span><br>
+            <input type="checkbox" class="option-checkbox" value="option3" id="option3" onclick="updateAnzahlInputs()"> <span class="open-modal" data-target="modal3">Country Dach</span><br>
+            <input type="checkbox" class="option-checkbox" value="option4" id="option4" onclick="updateAnzahlInputs()"> <span class="open-modal" data-target="modal4">Country8</span><br>
+            <input type="checkbox" class="option-checkbox" value="option5" id="option5" onclick="updateAnzahlInputs()"> <span class="open-modal" data-target="modal5">Country31</span><br>
+            <input type="checkbox" class="option-checkbox" value="option6" id="option6" onclick="updateAnzahlInputs()"> <span class="open-modal" data-target="modal6">Countryall</span><br>
+            <input type="checkbox" class="option-checkbox" value="option7" id="option7" onclick="updateAnzahlInputs()"> <span class="open-modal" data-target="modal7">Dach</span><br>
+            <input type="checkbox" class="option-checkbox" value="option8" id="option8" onclick="updateAnzahlInputs()"> <span class="open-modal" data-target="modal8">Deutschland</span><br>
+            <input type="checkbox" class="option-checkbox" value="option9" id="option9" onclick="updateAnzahlInputs()"> <span class="open-modal" data-target="modal9">Österreich</span><br>
+            <input type="checkbox" class="option-checkbox" value="option10" id="option10" onclick="updateAnzahlInputs()"> <span class="open-modal" data-target="modal10">Schweiz</span><br>
         </div>
     </form>
 
@@ -114,6 +114,99 @@
     <button onclick="getRandomResult()">Maps ausgeben</button>
 
     <div id="ergebnis"></div>
+
+    <!-- Erstes Modal -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <span class="close" data-target="modal1">&times;</span>
+            <h2>World8</h2>
+            <p>An Improved World, AI Generated World, An Arbitrary World, A Community World, An Official World, An Arbitrary Rural World, A Varied World, A Pro World</p>
+        </div>
+    </div>
+    
+    <!-- Zweites Modal -->
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <span class="close" data-target="modal2">&times;</span>
+            <h2>Worldall</h2>
+            <p>An Improved World, A Balanced World, AI Generated World, An Arbitrary World, AI Populated World, A Stochastic Populated World, A Community World, GeoTime, A Varied World, An Official World, A Chatguessr World, A Rural World, An Arbitrary Rural World, Dirty World, Terminus, A Skewed World, A Tweaked World, A Pinpointable World, An Extraordinary World, A Curated Planet, Skyworld, A Rainbolt World, Less-Extreme Regionguessing, Extreme Regionguessing, Plonk It Extreme, A Pro World, World coast, lakes and rivers, Geoguessr Saturday, Superflat,
+                A Souvlaki World, Supersonic, A zi8gzag World, A Competitve World, A Pano World, An Arbitrary Urban World, An Extensive Urban World, A Wolf AI World, A Random Pan and Zoom World, A Pro-Gamer World, A Drone World</p>
+        </div>
+    </div>
+
+    <!-- Drittes Modal -->
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <span class="close" data-target="modal3">&times;</span>
+            <h2>Country Dach</h2>
+            <p>A Balanced Germanosphere, A Community Germany, A Balanced Germany, A Balanced Austria, Intersectionguessr Austria, Geotime Switzerland, Intersectionguessr Switzerland, IntersectionGuessr - Liechtenstein</p>
+        </div>
+    </div>
+
+    <!-- Viertes Modal -->
+    <div id="modal4" class="modal">
+        <div class="modal-content">
+            <span class="close" data-target="modal4">&times;</span>
+            <h2>Country8</h2>
+            <p>USA, Russia, Brazil, Indonesia, Australia, Mexico, Canada, India</p>
+        </div>
+    </div>
+
+    <!-- Fünftes Modal -->
+    <div id="modal5" class="modal">
+        <div class="modal-content">
+            <span class="close" data-target="modal5">&times;</span>
+            <h2>Country31</h2>
+            <p>USA, Russia, Brazil, Indonesia, Australia, Mexico, Canada, India, Argentina, South Africa, Japan, Turkey, Peru, France, Spain, Chile, Colombia, Kazakhstan, Thailand, New Zealand, Philippines, Nigeria, Norway, Italy, Malaysia, United Kingdom, Kenya, Germany, Sweden, Ukraine, Romania</p>
+        </div>
+    </div>
+
+    <!-- Sechstes Modal -->
+    <div id="modal6" class="modal">
+        <div class="modal-content">
+            <span class="close" data-target="modal6">&times;</span>
+            <h2>Countryall</h2>
+            <p>Iceland, Canada, USA, Mexico, Guatemala, Panama, Colombia, Ecuador, Peru, Bolivia, Chile, Brazil, Argentina, Uruguay, Senegal, Ghana, Nigeria, Tunisia, Kenya, Ruanda, Botswana, South Africa, Swasiland, Lesotho, Israel, Jordan, Oman, Türkiye, Greece, Albania, Montenegro, North Macedonia, Bulgaria, Serbia, Romania, Hungary, Slovenia, Croatia, Italy, Spain, Portugal, France, Switzerland, Austria, Liechtenstein, Slovakia, Poland, Czechia, Germany, Netherlands, Belgium, France, UK, Ireland, Denmark, Norway, Sweden, Finland, Estonia, Latvia, Lithuania, Ukraine, Russia, Luxembourg, Kazhakstan, Mongolia, Kyrgyzstan, India, Bangladesh, Thailand, 
+                Cambodia, Malaysia, Indonesia, Philippines, Australia, New Zealand, Taiwan, Japan, South Korea</p>
+        </div>
+    </div>
+    
+    <!-- Siebtes Modal -->
+    <div id="modal7" class="modal">
+        <div class="modal-content">
+            <span class="close" data-target="modal7">&times;</span>
+            <h2>Dach</h2>
+            <p>A Balanced Germanosphere, A Community Germany, A Balanced Germany, A Balanced Austria, Intersectionguessr Austria, Geotime Switzerland, Intersectionguessr Switzerland, Schleswig-Holstein, Hamburg, Niedersachsen, Bremen, Mecklenburg-Vorpommern, Brandenburg, Berlin, Sachsen-Anhalt, Sachsen, Thüringen, Hessen, Nordrhein-Westfalen, Rheinland-Pfalz, 
+                Saarland, Baden-Würtemberg, Bayern, Vorarlberg, Tirol, Salzburg, Steiermark, Kärnten, Burgenland, Oberösterreich, Niederösterreich, Wien, Zürich, Bern, Luzern, Uri, Schwyz, Obwalden, Nidwalden, Glarus, Zug, Solothurn, Basel-Stadt, Basel-Landschaft, Schaffhausen, Appenzell Ausserrhoden, Appenzell Innerrhoden, St. Gallen, Graubünden, Aargau, Thurgau, Südtirol, Ostbelgien, Liechtenstein</p>
+        </div>
+    </div>
+
+    <!-- Achtes Modal -->
+    <div id="modal8" class="modal">
+        <div class="modal-content">
+            <span class="close" data-target="modal8">&times;</span>
+            <h2>Deutschland</h2>
+            <p>A Community Germany, A Balanced Germany, Schleswig-Holstein, Hamburg, Niedersachsen, Bremen, Mecklenburg-Vorpommern, Brandenburg, Berlin, Sachsen-Anhalt, Sachsen, Thüringen, Hessen, Nordrhein-Westfalen, Rheinland-Pfalz, Saarland, Baden-Würtemberg, Bayern</p>
+        </div>
+    </div>
+
+    <!-- Neuntes Modal -->
+    <div id="modal9" class="modal">
+        <div class="modal-content">
+            <span class="close" data-target="modal9">&times;</span>
+            <h2>Österreich</h2>
+            <p>A Balanced Austria, Intersectionguessr Austria, Vorarlberg, Tirol, Salzburg, Steiermark, Kärnten, Burgenland, Oberösterreich, Niederösterreich, Wien</p>
+        </div>
+    </div>
+
+    <!-- Zehntes Modal -->
+    <div id="modal10" class="modal">
+        <div class="modal-content">
+            <span class="close" data-target="modal10">&times;</span>
+            <h2>Schweiz</h2>
+            <p>Geotime Switzerland, Intersectionguessr Switzerland, Zürich, Bern, Luzern, Uri, Schwyz, Obwalden, Nidwalden, Glarus, Zug, Solothurn, Basel-Stadt, Basel-Landschaft, Schaffhausen, Appenzell Ausserrhoden, Appenzell Innerrhoden, St. Gallen, Graubünden, Aargau, Thurgau</p>
+        </div>
+    </div>
 
     <script>
         // Benutzerfreundliche Namen für die Optionen
@@ -303,6 +396,42 @@
 
             document.getElementById('ergebnis').innerHTML = resultText;  // .innerHTML, um HTML zu rendern
         }
+
+    // Alle "öffnen"-Buttons auswählen
+    const openModals = document.querySelectorAll('.open-modal');
+
+    // Alle "schließen"-Buttons auswählen
+    const closeModals = document.querySelectorAll('.close');
+
+    // Öffnen der Modale
+    openModals.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetId = button.getAttribute('data-target');
+            const modal = document.getElementById(targetId);
+            if (modal) {
+                modal.style.display = 'block';
+            }
+        });
+    });
+
+    // Schließen der Modale
+    closeModals.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetId = button.getAttribute('data-target');
+            const modal = document.getElementById(targetId);
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+
+    // Schließen durch Klick außerhalb des Modals
+    window.addEventListener('click', (event) => {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+        }
+    });    
+
     </script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 class LeagueTable {
-    constructor(sheetID, sheetName, dataRange, matchRange, cacheKeyTable, cacheKeyMatches) {
+    constructor(sheetID, name, sheetName, dataRange, matchRange, cacheKeyTable, cacheKeyMatches) {
         this.sheetID = sheetID;
+        this.name = name;
         this.sheetName = sheetName;
         this.dataRange = dataRange;
         this.matchRange = matchRange;
@@ -8,6 +9,7 @@ class LeagueTable {
         this.cacheKeyMatches = cacheKeyMatches;
         this.cacheDuration = 60 * 5; // 5 Minuten Cache-Dauer
     }
+
 
     getURL(range) {
         return `https://docs.google.com/spreadsheets/d/${this.sheetID}/gviz/tq?sheet=${this.sheetName}&range=${range}`;
@@ -65,12 +67,28 @@ class LeagueTable {
         let lastThreeRows = [...allRows].slice(-3);
 
         let firstFourRows = [...allRows].slice(0, 4);
-        firstFourRows.forEach(row => row.classList.add('final-four'));
+        let firstThreeRows = [...allRows].slice(0, 3);
+        
+        //unterschiedliche Färbung der Tabellenplätze
 
-        lastThreeRows.forEach(row => row.classList.add('last-three'));
+        if(this.name == 'liga1'){
+            firstFourRows.forEach(row => row.classList.add('final-four'));
+        }
 
-        if (allRows[allRows.length - 4]) {
-            allRows[allRows.length - 4].classList.add('relegation-bottom');
+        if (this.name == 'liga1' || this.name == 'liga2'){
+            lastThreeRows.forEach(row => row.classList.add('last-three'));
+
+            if (allRows[allRows.length - 4]) {
+                allRows[allRows.length - 4].classList.add('relegation-bottom');
+            }
+        }
+
+        if (this.name == 'liga2' || this.name == 'liga3'){
+            firstThreeRows.forEach(row => row.classList.add('first-three'));
+
+            if (allRows[3]) {
+                allRows[3].classList.add('relegation');
+            }
         }
     }
 

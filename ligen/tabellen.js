@@ -141,7 +141,7 @@ function getSpielwoche() {
     today.setHours(0, 0, 0, 0); // Setzt die Zeit auf Mitternacht
 
     const spielwochen = [
-        { start: new Date("2024-11-11"), end: new Date("2024-11-25"), week: 1 },
+        { start: new Date("2024-11-11"), end: new Date("2024-11-24"), week: 1 },
         { start: new Date("2024-11-25"), end: new Date("2024-12-09"), week: 2 },
         { start: new Date("2024-12-09"), end: new Date("2025-01-06"), week: 3 },
         { start: new Date("2025-01-06"), end: new Date("2025-01-20"), week: 4 },
@@ -151,7 +151,7 @@ function getSpielwoche() {
     // Setzt ebenfalls die Zeit aller Start- und Enddaten auf Mitternacht
     spielwochen.forEach(sw => {
         sw.start.setHours(0, 0, 0, 0);
-        sw.end.setHours(0, 0, 0, 0);
+        sw.end.setHours(23, 59, 59, 0);
     });
 
     // Rückgabe der passenden Spielwoche
@@ -163,6 +163,6 @@ function formatDate(date) {
     let day = String(date.getDate()).padStart(2, '0');
     let month = String(date.getMonth() + 1).padStart(2, '0');
     let year = String(date.getFullYear()).slice(-2);
-    return `${day-1}.${month}.${year}`;
+    return `${day}.${month}.${year}`;
 }
 

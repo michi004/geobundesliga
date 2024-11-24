@@ -123,33 +123,46 @@ class LeagueTable {
             let cachedData = JSON.parse(localStorage.getItem(this.cacheKeyMatches)).data;
             this.renderMatchTable(cachedData);
         } else {
+            // Verwende die dynamisch berechnete Match-Range
             this.fetchAndRenderData(this.getURL(this.matchRange), this.cacheKeyMatches, this.renderMatchTable.bind(this));
         }
     }
+    
 
     updateSpielwoche() {
         const spielwoche = getSpielwoche();
         if (!spielwoche) return;
-
+    
         const wocheNummer = spielwoche.week;
         const wocheStart = formatDate(spielwoche.start);
         const wocheEnde = formatDate(spielwoche.end);
-
+    
         const headerElement = document.querySelector(".week");
         const datumSubHeader = document.querySelector(".date");
-
+    
         if (headerElement) {
             headerElement.textContent = `Spielwoche ${wocheNummer}`;
         }
         if (datumSubHeader) {
             datumSubHeader.textContent = `${wocheStart} - ${wocheEnde}`;
         }
+    
+        // Dynamische Match-Range basierend auf der Spielwoche
+        const baseRowStart = 3; // Startzeile für die erste Spielwoche
+        const baseRowEnd = 23; // Endzeile für die erste Spielwoche
+        const rowOffset = 21 * (wocheNummer - 1); // 21 Spiele pro Woche
+    
+        const startRow = baseRowStart + rowOffset;
+        const endRow = baseRowEnd + rowOffset;
+        console.log(endRow);
+        this.matchRange = `B${startRow}:E${endRow}`; // Neue Range speichern
     }
+    
 
     initialize(){
+        this.updateSpielwoche();
         this.loadMatchData();
         this.loadTableData();
-        this.updateSpielwoche();
     }
 }
 

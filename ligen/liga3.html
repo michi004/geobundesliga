@@ -36,7 +36,7 @@
                         <th>L</th>
                         <th>Map Win</th>
                         <th>Health</th>
-                        <th>Dach</th>
+                        <th>Spiele</th>
                         <th>Punkte</th>
                     </tr>
                 </thead>
@@ -61,7 +61,7 @@
                         <th colspan="4" class="week">Spielwoche</th>
                     </tr>
                     <tr>
-                        <th colspan="4" class="date">Spielwoche</th>
+                        <th colspan="4" class="date">Datum</th>
                     </tr>
                     <tr>
                         <th>Spieler*in Blau</th>
@@ -87,6 +87,21 @@
         </div>
     </section>
 </body>
-<script src="tabelleLiga3.js">
+<script src="tabellen.js">
+</script>
+<script>
+    // Instanziiere die Klassen für jede Liga
+const liga3 = new LeagueTable(
+        '1rzYKg1Xz4al00i29DRlgo8MHn2mSieFK2Il8Y2VD0fU',
+        'Spielplan Liga 3',
+        'P3:X16',
+        'B3:E23',
+        'L3_TableData',
+        'L3_MatchData'
+    );
+
+    // Lade die Daten für alle Ligen
+    liga3.loadTableData();
+    liga3.loadMatchData();
 </script>
 </html>

@@ -56,7 +56,7 @@
         mapsContainer.style.marginTop = '20px';
 
         if (matchData.maps && matchData.maps.length > 0) {
-            const maps = matchData.maps.slice().reverse();
+            const maps = matchData.maps;
             const rows = [[], [], []];
 
             for (let i = 0; i < maps.length; i++) {

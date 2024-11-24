@@ -37,7 +37,7 @@
                         <th>L</th>
                         <th>Map Win</th>
                         <th>Health</th>
-                        <th>Dach</th>
+                        <th>Spiele</th>
                         <th>Punkte</th>
                     </tr>
                 </thead>
@@ -88,6 +88,23 @@
         </div>
     </section>
 </body>
-<script type="module" src="tabelleLiga1.js">
+<script src="tabellen.js">
+</script>
+<script>
+    // Instanziiere die Klassen für jede Liga
+const liga1 = new LeagueTable(
+        '1rzYKg1Xz4al00i29DRlgo8MHn2mSieFK2Il8Y2VD0fU',
+        'Spielplan Liga 1',
+        'P3:X16',
+        'B3:E23',
+        'L1_TableData',
+        'L1_MatchData'
+    );
+
+    // Lade die Daten für alle Ligen
+    liga1.loadTableData();
+    liga1.loadMatchData();
+    liga1.updateSpielwoche();
+
 </script>
 </html>

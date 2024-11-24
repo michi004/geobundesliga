@@ -40,7 +40,7 @@
                         <th>L</th>
                         <th>Map Win</th>
                         <th>Health</th>
-                        <th>Dach</th>
+                        <th>Spiele</th>
                         <th>Punkte</th>
                     </tr>
                 </thead>
@@ -65,7 +65,7 @@
                         <th colspan="4" class="week">Spielwoche</th>
                     </tr>
                     <tr>
-                        <th colspan="4" class="date">Spielwoche</th>
+                        <th colspan="4" class="date">Datum</th>
                     </tr>
                     <tr>
                         <th>Spieler*in Blau</th>
@@ -91,6 +91,21 @@
         </div>
     </section>
 </body>
-<script src="tabelleLiga2.js">
+<script src="tabellen.js">
+</script>
+<script>
+    // Instanziiere die Klassen für jede Liga
+const liga2 = new LeagueTable(
+        '1rzYKg1Xz4al00i29DRlgo8MHn2mSieFK2Il8Y2VD0fU',
+        'Spielplan Liga 2',
+        'P3:X16',
+        'B3:E23',
+        'L2_TableData',
+        'L2_MatchData'
+    );
+
+    // Lade die Daten für alle Ligen
+    liga2.loadTableData();
+    liga2.loadMatchData();
 </script>
 </html>

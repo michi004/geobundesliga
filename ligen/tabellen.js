@@ -7,7 +7,7 @@ class LeagueTable {
         this.matchRange = matchRange;
         this.cacheKeyTable = cacheKeyTable;
         this.cacheKeyMatches = cacheKeyMatches;
-        this.cacheDuration = 60 * 5; // 5 Minuten Cache-Dauer
+        this.cacheDuration = 1000 * 60 * 5; // 5 Minuten Cache-Dauer
     }
 
 

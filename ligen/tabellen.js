@@ -127,6 +127,12 @@ class LeagueTable {
             datumSubHeader.textContent = `${wocheStart} - ${wocheEnde}`;
         }
     }
+
+    initialize(){
+        this.loadMatchData();
+        this.loadTableData();
+        this.updateSpielwoche();
+    }
 }
 
 // Hilfsfunktionen (z. B. für die Spielwochenberechnung)

@@ -51,7 +51,7 @@ header h1 {
 }
 
 table {
-    width: 50%;
+    width: auto;
     border-collapse: collapse;
     margin: 0 auto;
     border: 1px solid #ddd;
@@ -71,15 +71,6 @@ th {
 }
 
 
-/* Wenn man über ein Spiel hovert, ändert sich der Cursor in die Hand */
-td {
-    cursor: pointer;
-}
-
-tr:hover {
-    font-weight: bold;
-    cursor: pointer;
-}
 
 
 

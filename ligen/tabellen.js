@@ -57,7 +57,8 @@ class LeagueTable {
                 <td>${row.c[5].v}</td>
                 <td>${row.c[6].v}</td>
                 <td>${row.c[7].v}</td>
-                <td>${parseFloat(row.c[8]?.v).toFixed(2)}</td>
+                <td>${row.c[8].v}</td>
+                <td>${parseFloat(row.c[9]?.v).toFixed(2)}</td>
             `;
             tableBody.appendChild(newRow);
         });

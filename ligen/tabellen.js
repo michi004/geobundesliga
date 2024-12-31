@@ -7,7 +7,7 @@ class LeagueTable {
         this.matchRange = matchRange;
         this.cacheKeyTable = cacheKeyTable;
         this.cacheKeyMatches = cacheKeyMatches;
-        this.cacheDuration = 1000 * 60 * 5; // 5 Minuten Cache-Dauer
+        this.cacheDuration =  1000 * 60 * 5; // 5 Minuten Cache-Dauer
     }
 
 
@@ -137,7 +137,29 @@ class LeagueTable {
         const wocheNummer = spielwoche.week;
         const wocheStart = formatDate(spielwoche.start);
         const wocheEnde = formatDate(spielwoche.end);
+
+        //hilfsfunktion
+        function calculateOffsets(gamesPerWeek, spieleProTag = 7) {
+            let offsets = [];
+            let currentOffset = 3;
+        
+            for (let i = 0; i < gamesPerWeek.length; i++) {
+                offsets.push(currentOffset); // Offset für die aktuelle Woche speichern
+                currentOffset += gamesPerWeek[i] * spieleProTag; // Nächsten Offset berechnen
+            }
+        
+            return offsets;
+        }
+
+        //arrays mit anzahl der spiele pro spielwoche
+        const liga12Games = [3, 3, 3, 2, 2];
+        const liga3Games = [3, 3, 3, 3, 3];
+        
+        // arrays mit jeweiligen offsets für jede spielwoche
+        const liga12Offsets = calculateOffsets(liga12Games);
+        const liga3Offsets = calculateOffsets(liga3Games);
     
+        //überschrift
         const headerElement = document.querySelector(".week");
         const datumSubHeader = document.querySelector(".date");
     
@@ -148,16 +170,20 @@ class LeagueTable {
             datumSubHeader.textContent = `${wocheStart} - ${wocheEnde}`;
         }
     
-        // Dynamische Match-Range basierend auf der Spielwoche
-        const baseRowStart = 3; // Startzeile für die erste Spielwoche
-        const baseRowEnd = 23; // Endzeile für die erste Spielwoche
-        const rowOffset = 21 * (wocheNummer - 1); // 21 Spiele pro Woche
-    
-        const startRow = baseRowStart + rowOffset;
-        const endRow = baseRowEnd + rowOffset;
-        console.log(endRow);
-        this.matchRange = `B${startRow}:E${endRow}`; // Neue Range speichern
+        let startRow = 0;
+        let endRow = 0;
+        // Dynamische Match-Range basierend auf der Spielwoche und Spieleanzahl
+        if(this.name == "liga1" || this.name == "liga2"){
+            startRow = liga12Offsets[wocheNummer - 1];// Offset für die aktuelle Woche
+            endRow = liga12Games[wocheNummer - 1] * 7 + startRow - 1;
+        } else {
+            startRow = liga3Offsets[wocheNummer - 1];// Offset für die aktuelle Woche
+            endRow = liga3Games[wocheNummer - 1] * 7 + startRow - 1;
+        } 
+        this.matchRange = `B${startRow}:E${endRow}`;
     }
+    
+    
     
 
     initialize(){
@@ -171,7 +197,6 @@ class LeagueTable {
 function getSpielwoche() {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Setzt die Zeit auf Mitternacht
-
     const spielwochen = [
         { start: new Date("2024-11-11"), end: new Date("2024-11-24"), week: 1 },
         { start: new Date("2024-11-25"), end: new Date("2024-12-08"), week: 2 },

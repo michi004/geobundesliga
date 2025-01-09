@@ -8,7 +8,7 @@ class LeagueTable {
         this.cacheKeyTable = cacheKeyTable;
         this.cacheKeyMatches = cacheKeyMatches;
         this.rescheduleRanges = [];
-        this.cacheDuration =  1 * 60 * 5; // 5 Minuten Cache-Dauer
+        this.cacheDuration =  1000 * 60 * 5; // 5 Minuten Cache-Dauer
     }
 
 
@@ -102,10 +102,10 @@ class LeagueTable {
         rows.forEach(row => {
             let newRow = document.createElement('tr');
             newRow.innerHTML = `
-                <td>${row.c[0]?.v || '-'}</td>
                 <td>${row.c[1]?.v || '-'}</td>
                 <td>${row.c[2]?.v || '-'}</td>
                 <td>${row.c[3]?.v || '-'}</td>
+                <td>${row.c[4]?.v || '-'}</td>
             `;
             tableBody.appendChild(newRow);
         });

@@ -100,6 +100,8 @@ th, td {
     padding: 5px;
     border: 1px solid #000;
     text-align: center;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
 thead {
@@ -115,6 +117,9 @@ tbody td {
     height: 20px; /* Höhe des weißen Kastens */
     text-align: center;
     font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: #000000; /* Grau für den Platzhaltertext */
 }
 

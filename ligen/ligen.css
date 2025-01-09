@@ -69,15 +69,21 @@ header h1 {
     order:1;
 }
 
-/*tabellen*/
+/* Haupt-Container für die Tabellen */
 .tables-container {
     display: flex;
-    justify-content: center;
-    align-items: center; /* Zentriert Tabellen vertikal im Container */
+    justify-content: space-between; /* Platz zwischen den Bereichen */
+    align-items: flex-start;
     margin: 5vh;
     padding: 10px;
-    height: 60vh; /* Container selbst ist 50% der Viewport-Höhe */
-    overflow: hidden; /* Verhindert, dass die Tabelle aus dem Container hinausläuft */
+    height: 69vh;
+}
+
+/* Linker Bereich (Liga-Tabelle) */
+.league-table {
+    width: 50%;
+    height: 100%;
+    overflow-y: auto;
 }
 
 table {
@@ -112,12 +118,26 @@ tbody td {
     color: #000000; /* Grau für den Platzhaltertext */
 }
 
-.match-table {
-    height: 100%; /* Stellt sicher, dass die Tabelle den verfügbaren Platz innerhalb des Containers nutzt */
-    overflow-y: auto; /* Aktiviert das vertikale Scrollen */
-    max-height: 60vh; /* Optional: Begrenzung der maximalen Höhe auf 60% der Viewport-Höhe */
+/* Rechter Bereich für Match-Tabellen */
+.match-tables {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 45%;
+    height: 100%;
 }
 
+/* Obere Match-Tabelle */
+.match-table:first-of-type {
+    height: 66%; /* 2/3 der Höhe */
+    overflow-y: auto;
+}
+
+/* Untere Match-Tabelle */
+.match-table:last-of-type {
+    height: 33%; /* 1/3 der Höhe */
+    overflow-y: auto;
+}
 
 /*sachen außen rum*/
 .buttons-container {

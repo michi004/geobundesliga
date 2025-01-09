@@ -7,7 +7,8 @@ class LeagueTable {
         this.matchRange = matchRange;
         this.cacheKeyTable = cacheKeyTable;
         this.cacheKeyMatches = cacheKeyMatches;
-        this.cacheDuration =  1000 * 60 * 5; // 5 Minuten Cache-Dauer
+        this.rescheduleRanges = [];
+        this.cacheDuration =  1 * 60 * 5; // 5 Minuten Cache-Dauer
     }
 
 
@@ -95,7 +96,7 @@ class LeagueTable {
 
     renderMatchTable(jsonData) {
         let rows = jsonData.table.rows;
-        let tableBody = document.querySelector('.match-table tbody');
+        let tableBody = document.querySelector('.match-table:first-of-type tbody');
         tableBody.innerHTML = ''; // Platzhalter löschen
 
         rows.forEach(row => {
@@ -107,6 +108,39 @@ class LeagueTable {
                 <td>${row.c[3]?.v || '-'}</td>
             `;
             tableBody.appendChild(newRow);
+        });
+    }
+
+    renderRescheduleTable(jsonData) {
+        // Anzahl der Spiele pro Spielwoche
+        const liga12Games = [3, 3, 3, 2, 2];
+        const liga3Games = [3, 3, 3, 3, 3];
+    
+        // Offsets für jede Woche
+        const liga12Offsets = this.calculateOffsets(liga12Games)
+        const liga3Offsets = this.calculateOffsets(liga3Games)
+        
+        let offset
+        if (this.name === "liga1" || this.name === "liga2") {
+            offset = liga12Offsets[getSpielwoche().week-1]-3
+        } else {
+            offset = liga3Offsets[getSpielwoche().week-1]-3
+        }
+
+        let rows = jsonData.table.rows;
+        let tableBody = document.querySelector('.match-table:last-of-type tbody');
+        tableBody.innerHTML = ''; // Platzhalter löschen
+        rows.slice(0,offset).forEach(row => {
+            if (!row.c[4]?.v) { // Prüfen, ob Spalte E leer ist
+                let newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${row.c[1]?.v || '-'}</td>
+                    <td>${row.c[2]?.v || '-'}</td>
+                    <td>${row.c[3]?.v || '-'}</td>
+                    <td>${row.c[4]?.v || '-'}</td>
+                `;
+                tableBody.appendChild(newRow);
+            }
         });
     }
 
@@ -128,6 +162,16 @@ class LeagueTable {
             this.fetchAndRenderData(this.getURL(this.matchRange), this.cacheKeyMatches, this.renderMatchTable.bind(this));
         }
     }
+
+    loadRescheduleData() {
+        if (this.isCacheValid(this.cacheKeyMatches)) {
+            let cachedData = JSON.parse(localStorage.getItem(this.cacheKeyMatches)).data;
+            this.renderRescheduleTable(cachedData);
+        } else {
+            // Verwende die dynamisch berechnete Match-Range
+            this.fetchAndRenderData(this.getURL(this.rescheduleRanges), this.cacheKeyMatches, this.renderRescheduleTable.bind(this));
+        }
+    }
     
 
     updateSpielwoche() {
@@ -138,26 +182,13 @@ class LeagueTable {
         const wocheStart = formatDate(spielwoche.start);
         const wocheEnde = formatDate(spielwoche.end);
 
-        //hilfsfunktion
-        function calculateOffsets(gamesPerWeek, spieleProTag = 7) {
-            let offsets = [];
-            let currentOffset = 3;
-        
-            for (let i = 0; i < gamesPerWeek.length; i++) {
-                offsets.push(currentOffset); // Offset für die aktuelle Woche speichern
-                currentOffset += gamesPerWeek[i] * spieleProTag; // Nächsten Offset berechnen
-            }
-        
-            return offsets;
-        }
-
         //arrays mit anzahl der spiele pro spielwoche
         const liga12Games = [3, 3, 3, 2, 2];
         const liga3Games = [3, 3, 3, 3, 3];
         
         // arrays mit jeweiligen offsets für jede spielwoche
-        const liga12Offsets = calculateOffsets(liga12Games);
-        const liga3Offsets = calculateOffsets(liga3Games);
+        const liga12Offsets = this.calculateOffsets(liga12Games);
+        const liga3Offsets = this.calculateOffsets(liga3Games);
     
         //überschrift
         const headerElement = document.querySelector(".week");
@@ -172,7 +203,7 @@ class LeagueTable {
     
         let startRow = 0;
         let endRow = 0;
-        // Dynamische Match-Range basierend auf der Spielwoche und Spieleanzahl
+        // Dynamische Match-Range basierend auf der Liga
         if(this.name == "liga1" || this.name == "liga2"){
             startRow = liga12Offsets[wocheNummer - 1];// Offset für die aktuelle Woche
             endRow = liga12Games[wocheNummer - 1] * 7 + startRow - 1;
@@ -183,13 +214,26 @@ class LeagueTable {
         this.matchRange = `B${startRow}:E${endRow}`;
     }
     
+
+    //hilfsfunktion
+    calculateOffsets(gamesPerWeek, spieleProTag = 7) {
+        let offsets = [];
+        let currentOffset = 3;
     
+        for (let i = 0; i < gamesPerWeek.length; i++) {
+            offsets.push(currentOffset); // Offset für die aktuelle Woche speichern
+            currentOffset += gamesPerWeek[i] * spieleProTag; // Nächsten Offset berechnen
+        }
+    
+        return offsets;
+    }   
     
 
     initialize(){
         this.updateSpielwoche();
         this.loadMatchData();
         this.loadTableData();
+        this.loadRescheduleData();
     }
 }
 

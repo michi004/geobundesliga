@@ -1,12 +1,13 @@
 class LeagueTable {
-    constructor(sheetID, name, sheetName, dataRange, matchRange, cacheKeyTable, cacheKeyMatches) {
+    constructor(sheetID, name, sheetName, dataRange, matchRange, keyIndex) {
         this.sheetID = sheetID;
         this.name = name;
         this.sheetName = sheetName;
         this.dataRange = dataRange;
         this.matchRange = matchRange;
-        this.cacheKeyTable = cacheKeyTable;
-        this.cacheKeyMatches = cacheKeyMatches;
+        this.cacheKeyTable = keyIndex + "_table";
+        this.cacheKeyMatches = keyIndex + "_match";
+        this.cacheKeyRescheduled = keyIndex + "_rescheduled";
         this.rescheduleRanges = [];
         this.cacheDuration =  1000 * 60 * 5; // 5 Minuten Cache-Dauer
     }
@@ -156,20 +157,23 @@ class LeagueTable {
     loadMatchData() {
         if (this.isCacheValid(this.cacheKeyMatches)) {
             let cachedData = JSON.parse(localStorage.getItem(this.cacheKeyMatches)).data;
+            console.log(cachedData)
             this.renderMatchTable(cachedData);
         } else {
             // Verwende die dynamisch berechnete Match-Range
+            console.log(this.matchRange + "neuladung")
+
             this.fetchAndRenderData(this.getURL(this.matchRange), this.cacheKeyMatches, this.renderMatchTable.bind(this));
         }
     }
 
     loadRescheduleData() {
-        if (this.isCacheValid(this.cacheKeyMatches)) {
-            let cachedData = JSON.parse(localStorage.getItem(this.cacheKeyMatches)).data;
+        if (this.isCacheValid(this.cacheKeyRescheduled)) {
+            let cachedData = JSON.parse(localStorage.getItem(this.cacheKeyRescheduled)).data;
             this.renderRescheduleTable(cachedData);
         } else {
             // Verwende die dynamisch berechnete Match-Range
-            this.fetchAndRenderData(this.getURL(this.rescheduleRanges), this.cacheKeyMatches, this.renderRescheduleTable.bind(this));
+            this.fetchAndRenderData(this.getURL(this.rescheduleRanges), this.cacheKeyRescheduled, this.renderRescheduleTable.bind(this));
         }
     }
     

@@ -81,13 +81,17 @@ header h1 {
 
 /* Linker Bereich (Liga-Tabelle) */
 .league-table {
-    width: 50%;
+    width: 47%;
     height: 100%;
     overflow-y: auto;
+    display: flex;
+    justify-content: center; /* Horizontale Zentrierung */
+    align-items: center; /* Vertikale Zentrierung */
+    margin: auto; /* Falls es innerhalb eines Containers liegt */
 }
 
 table {
-    width: 70%; /* Passt Breite an, um Raum für zwei Tabellen nebeneinander zu lassen */
+    width: 80%; /* Passt Breite an, um Raum für zwei Tabellen nebeneinander zu lassen */
     border-collapse: collapse;
     background-color: white;
     table-layout: fixed;
@@ -127,22 +131,58 @@ tbody td {
 .match-tables {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center; /* Zentriert die Match-Tabellen vertikal */
+    align-items: center; /* Zentriert die Match-Tabellen horizontal */
+    margin: auto;
     width: 45%;
     height: 100%;
+    gap: 1vh;
 }
 
 /* Obere Match-Tabelle */
 .match-table:first-of-type {
     height: 66%; /* 2/3 der Höhe */
-    overflow-y: auto;
 }
 
 /* Untere Match-Tabelle */
 .match-table:last-of-type {
     height: 33%; /* 1/3 der Höhe */
-    overflow-y: auto;
 }
+
+.match-table:first-of-type,
+.match-table:last-of-type {         
+    overflow-y: auto;     /* Ermöglicht Scrollen innerhalb der Tabelle */
+    display: flex;
+    justify-content: center;  /* Horizontale Zentrierung */
+    width: 80%;
+} 
+
+.match-table {
+    overflow-y: auto; /* Aktiviert vertikales Scrollen */
+    max-height: 100%; /* Stellt sicher, dass die Tabelle nicht überläuft */
+    position: relative; /* Wichtig für die korrekte Positionierung der Scrollbar */
+}
+
+.match-table table{
+    width: 100%;
+    padding-right: 6px;
+}
+
+/* Scrollbar-Styling für Webkit-Browser (Chrome, Edge, Safari) */
+.match-table::-webkit-scrollbar {
+    width: 4px; /* Dünne Scrollbar */
+}
+
+.match-table::-webkit-scrollbar-track {
+    background: transparent; /* Keine Hintergrundfarbe für den Track */
+}
+
+/* Firefox Scrollbar */
+.match-table {
+    scrollbar-width: thin; /* Dünne Scrollbar */
+}
+
+
 
 /*sachen außen rum*/
 .buttons-container {

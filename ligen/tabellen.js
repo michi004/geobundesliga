@@ -250,7 +250,7 @@ function getSpielwoche() {
         { start: new Date("2024-11-25"), end: new Date("2024-12-08"), week: 2 },
         { start: new Date("2024-12-09"), end: new Date("2025-01-05"), week: 3 },
         { start: new Date("2025-01-06"), end: new Date("2025-01-19"), week: 4 },
-        { start: new Date("2025-01-20"), end: new Date("2025-02-16"), week: 5 }
+        { start: new Date("2025-01-20"), end: new Date("2025-02-22"), week: 5 }
     ];
 
     // Setzt ebenfalls die Zeit aller Start- und Enddaten auf Mitternacht

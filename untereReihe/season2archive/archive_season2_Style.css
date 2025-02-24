@@ -1,0 +1,121 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom right, #1c1e4a, #74215d);
+    display: flex;
+    height: 100vh;
+    min-height: 100vh; /* Stellt sicher, dass es mindestens den Viewport abdeckt */
+    flex-direction: column;
+    overflow-y: hidden; /* Verhindert horizontales Scrollen */
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    flex-direction: column; /* Ermöglicht vertikale Ausrichtung */
+    justify-content: flex-start; /* Startet den Inhalt oben im Header */
+    align-items: center; /* Zentriert die Überschrift und den Button horizontal */
+    padding-top: 20px; /* Fügt etwas Abstand von oben hinzu */
+}
+
+header h1 {
+    background-color: #2a2c6b;
+    padding: 10px;
+    margin-bottom: 40px; /* Abstand nach unten zur Überschrift */
+    border-radius: 8px;
+    color: #fff;
+    font-size: 36px; /* Vergrößert die Schrift */
+    text-align: center; /* Zentriert die Überschrift */
+    display: inline-block; /* Macht den Kasten nur so breit wie der Inhalt */
+    width: 50%; /* Setzt die Breite auf 50% des Containers */
+}
+
+.bracket {
+    display: flex;
+    gap: 50px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.round {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.match-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.match {
+    background: white;
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid #555;
+    text-align: center;
+    width: 180px;
+    font-weight: bold;
+    /*transition: all 0.3s ease; /* Animation für Hover */
+}
+.match:hover {
+    background: #ffeb3b; /* Gelber Hintergrund */
+    border-color: #fbc02d; /* Dunklerer Rand */
+    /*transform: scale(1.05); /* Leicht vergrößert */
+}
+.match-label {
+    font-weight: bold;
+    color: white;
+    width: 40px;
+    text-align: right;
+}
+h3 {
+    margin-bottom: 10px;
+    color: white; /* Alle Überschriften in Weiß */
+    text-align: center; /* Überschrift "Turnierbaum" zentral */
+}
+h2 {
+    color: white; /* Alle Überschriften in Weiß */
+    text-align: center; /* Überschrift "Turnierbaum" zentral */
+    margin-bottom: 30px;
+}
+
+
+/* Container für die Relegationsspiele */
+.extra-finals {
+    margin-top: 80px; /* Mehr Abstand zwischen der Hauptüberschrift & den Extra-Finals */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.extra-finals h2 {
+    margin-bottom: 20px; /* Mehr Abstand zwischen der Überschrift und den Spielen */
+}
+
+.extra-finals .match-container {
+    margin-bottom: 30px; /* Mehr Abstand zwischen den beiden Extra-Final-Spielen */
+}
+
+/* Back Button */
+.back-button {
+    display: inline-block;
+    background-color: #2a2c6b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    border: 2px solid white;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.back-button:hover {
+    background-color: #74215d;
+}

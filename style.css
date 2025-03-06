@@ -1,18 +1,3 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Verdana, sans-serif;
-    background: linear-gradient(to bottom right, #1c1e4a, #74215d);
-    min-height: 100vh;
-    overflow-y: hidden;
-    margin: 0;
-    padding: 0;
-}
-
 /* Große Überschrift */
 .main-title {
     text-align: center;

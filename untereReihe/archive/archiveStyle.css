@@ -1,0 +1,30 @@
+
+/* Größerer und zentrierter Button für Saison-Archiv */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Zentriert die Buttons horizontal */
+    gap: 3vh; /* Abstand zwischen den Buttons */
+    margin-top: 7vh; /* Abstand nach oben */
+}
+
+.button-container .button {
+    font-size: 1.5rem; /* Größere Schriftgröße */
+    padding: 20px 50px; /* Mehr Polsterung für größere Buttons */
+    width: 30%; /* Einheitliche Breite für größere Buttons */
+    text-align: center; 
+}
+
+.image-container {
+    display: flex;
+    flex-wrap: wrap; /* Ermöglicht das Umbrechen der Bilder auf mehrere Zeilen */
+    justify-content: center; /* Zentriert die Bilder horizontal */
+    gap: 20px; /* Abstand zwischen den Bildern */
+    padding: 20px;
+}
+
+.image-container img {
+    width: calc(50% - 20px); /* Setzt die Breite auf 50% minus den Abstand */
+    height: auto; /* Bewahrt das Seitenverhältnis */
+    border-radius: 10px; /* Abgerundete Ecken für die Bilder */
+}

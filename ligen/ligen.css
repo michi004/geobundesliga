@@ -1,253 +1,157 @@
-html {
-    font-size: 16px; /* Basis-Schriftgröße für rem */
+#league-button-right { right: 2vw; }
+
+body{
+    overflow-y: scroll;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.container {
+    height: 200vh; /* Doppelte Höhe, um den Scroll-Effekt sichtbar zu machen */
 }
 
-body {
-    font-family: Verdana, sans-serif;
-    background: linear-gradient(to bottom right, #1c1e4a, #74215d);
-    min-height: 100vh; /* Stellt sicher, dass es mindestens den Viewport abdeckt */
-    overflow-y: hidden; /* Verhindert horizontales Scrollen */
-    /*display: flex;*/
+.first-section, .second-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 1;
 }
 
-/*obere zeile buttons header*/
-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100vw; /* Relative Breite */
-    height:8vh;
-    margin: 2vh 0; /* Abstand mit relativer Höhe */
-}
-
-header h1 {
-    background-color: #2a2c6b;
-    padding: 1vh 1vw; /* Innenabstand mit relativen Einheiten */
-    border-radius: 8px;
-    color: #fff;
-    font-size: 3rem; /* Schriftgröße bleibt stabil */
-    text-align: center;
-    width: 33%;
-    height:100%; /* Relativ zur Breite des Headers */
-}
-
-.back-button, .league-button {
-    background-color: #2a2c6b;
+.second-section {
+    z-index: 2;
+    background: rgba(51, 51, 51, 0.97); /* Transparenz */
     color: white;
-    padding: 1vh 2vw; /* Dynamisches Padding */
-    font-size: 1.5vw; /* Dynamische Schriftgröße */
-    border-radius: 8px;
-    text-decoration: none;
-    border: 2px solid white;
+    transform: translateY(100%);
+    flex-direction: row;
+    align-items: center;
 }
 
-.back-button {
-    position: absolute; /* Fixiert den Button unabhängig vom Layout */
-    top: 2vh; /* Abstand vom oberen Rand */
-    left: 2vw; /* Abstand vom linken Rand */
+.container.scrolled .second-section {
+    transform: translateY(0);
 }
 
-.back-button:hover,.league-button:hover {
-    background-color: #74215d;
-}
-
-/* Linker Button (2. Liga) */
-.league-button.left {
-    order:-1;
-}
-
-/* Rechter Button (3. Liga) */
-.league-button.right {
-    order:1;
-}
-
-/* Haupt-Container für die Tabellen */
+/* Tabellen Container */
 .tables-container {
     display: flex;
-    justify-content: space-between; /* Platz zwischen den Bereichen */
+    justify-content: space-between;
     align-items: flex-start;
     margin: 5vh;
     padding: 10px;
     height: 69vh;
 }
 
-/* Linker Bereich (Liga-Tabelle) */
-.league-table {
-    width: 47%;
+/* Liga-Tabelle & Match-Tabelle */
+.league-table, .match-table {
+    width: 50%;
     height: 100%;
     overflow-y: auto;
     display: flex;
-    justify-content: center; /* Horizontale Zentrierung */
-    align-items: center; /* Vertikale Zentrierung */
-    margin: auto; /* Falls es innerhalb eines Containers liegt */
+    justify-content: center;
+    align-items: center;
+    margin: auto;
 }
 
 table {
-    width: 80%; /* Passt Breite an, um Raum für zwei Tabellen nebeneinander zu lassen */
+    width: var(--table-width);
     border-collapse: collapse;
     background-color: white;
     table-layout: fixed;
-    height: 100%; /* Übernimmt die volle Höhe des Containers */
-    overflow-y: auto; /* Ermöglicht Scrollen innerhalb der Tabelle */
+    height: 100%;
 }
 
+/* Scrollbar-Styling */
+.match-table::-webkit-scrollbar { width: 4px; }
+.match-table::-webkit-scrollbar-track { background: transparent; }
+.match-table { scrollbar-width: thin; }
 
-th, td {
-    padding: 5px;
-    border: 1px solid #000;
-    text-align: center;
-    overflow:hidden;
-    text-overflow:ellipsis;
+/* Hintergrundfarben für Tabellenzeilen */
+tbody tr { background-color: transparent; }
+.green-row { background-color: green !important; }
+.last-three td { background-color: hsl(0, 100%, 65%); }
+.first-three td { background-color: rgb(0, 202, 0); }
+.relegation td { background-color: rgb(161, 246, 161); }
+.relegation-bottom td { background-color: rgb(246, 162, 161); }
+.final-four td { background-color: rgb(101, 145, 255); }
+
+/*2te seite*/
+.left, .right {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    gap: 20vh;
 }
 
-thead {
-    background-color: #2a2c6b;
+#nachholspiele {
+    width: 80%;
+    min-height: 25vh;
 }
 
-thead th {
-    background-color: #2a2c6b;
-    color: white; /* Setzt die Schriftfarbe auf weiß */
-}
-
-tbody td {
-    height: 20px; /* Höhe des weißen Kastens */
-    text-align: center;
-    font-style: italic;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #000000; /* Grau für den Platzhaltertext */
-}
-
-/* Rechter Bereich für Match-Tabellen */
-.match-tables {
+.table-slideshow{
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Zentriert die Match-Tabellen vertikal */
-    align-items: center; /* Zentriert die Match-Tabellen horizontal */
-    margin: auto;
-    width: 45%;
-    height: 100%;
-    gap: 1vh;
-}
-
-/* Obere Match-Tabelle */
-.match-table:first-of-type {
-    height: 66%; /* 2/3 der Höhe */
-}
-
-/* Untere Match-Tabelle */
-.match-table:last-of-type {
-    height: 33%; /* 1/3 der Höhe */
-}
-
-.match-table:first-of-type,
-.match-table:last-of-type {         
-    overflow-y: auto;     /* Ermöglicht Scrollen innerhalb der Tabelle */
-    display: flex;
-    justify-content: center;  /* Horizontale Zentrierung */
-    width: 80%;
-} 
-
-.match-table {
-    overflow-y: auto; /* Aktiviert vertikales Scrollen */
-    max-height: 100%; /* Stellt sicher, dass die Tabelle nicht überläuft */
-    position: relative; /* Wichtig für die korrekte Positionierung der Scrollbar */
-}
-
-.match-table table{
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    padding-right: 6px;
+    min-height: 25vh;
 }
 
-/* Scrollbar-Styling für Webkit-Browser (Chrome, Edge, Safari) */
-.match-table::-webkit-scrollbar {
-    width: 4px; /* Dünne Scrollbar */
-}
-
-.match-table::-webkit-scrollbar-track {
-    background: transparent; /* Keine Hintergrundfarbe für den Track */
-}
-
-/* Firefox Scrollbar */
-.match-table {
-    scrollbar-width: thin; /* Dünne Scrollbar */
-}
-
-
-
-/*sachen außen rum*/
-.buttons-container {
+.slide {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    height: 100%;
 }
 
-.arrow {
+.slide table {
+    width: 80%;
+}
+
+/* Next and previous buttons */
+.prev, .next {
+    cursor: pointer;
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 30px;
-}
-
-.submit {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 20px; /* Abstand zu den Tabellen, mit mehr Abstand nach oben */
-}
-
-.submit a {
-    background-color: #2a2c6b;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
     color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 16px;
-    border: 2px solid white;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    background-color: rgba(0,0,0,0.8); /* Hintergrund immer sichtbar */
 }
 
-.submit a:hover {
-    background-color: #2a2c6b;
+/* Position the "next button" to the right */
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
 }
 
-
-
-/*hintergrundfarben*/
-tbody tr {
-    background-color: transparent; /* Standard auf transparent */
+/* Style the "prev" button */
+.prev {
+    left: 0;
+    border-radius: 3px 0 0 3px;
 }
 
-tbody tr.green-row {
-    background-color: green !important; /* Wendet die grüne Farbe an, falls die Zeile die Klasse erhält */
+/* The dots/bullets/indicators */
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
 }
 
-.last-three td{
-    background-color: hsl(0, 100%, 65%); /* Roter Hintergrund */
-}
-
-.first-three td{
-    background-color: rgb(0, 202, 0);
-}
-
-.relegation td{
-    background-color: rgb(161, 246, 161);
-}
-
-.relegation-bottom td{
-    background-color: rgb(246, 162, 161);
-}
-
-.final-four td{
-    background-color: rgb(101, 145, 255);
+.active, .dot:hover {
+    background-color: #717171;
 }

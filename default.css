@@ -1,6 +1,7 @@
 :root {
     --primary-color: #2a2c6b;
     --secondary-color: #74215d;
+    --tertiary-color: #1c1e4a;
     --border-radius: 8px;
     --text-color: white;
 }
@@ -13,7 +14,7 @@
 
 body {
     font-family: Verdana, sans-serif;
-    background: linear-gradient(to bottom right, #1c1e4a, #74215d);
+    background: linear-gradient(to bottom right, var(--tertiary-color), var(--secondary-color));
     min-height: 100vh;
     overflow-y: hidden;
     margin: 0;
@@ -60,4 +61,29 @@ header h1 {
 
 .button:hover {
     background-color: var(--secondary-color);
+}
+
+/*Tabellen*/
+th, td {
+    padding: 5px;
+    border: 1px solid #000;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+thead {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    text-overflow: ellipsis;
+}
+
+tbody td {
+    height: 20px;
+    text-align: center;
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: black;
 }

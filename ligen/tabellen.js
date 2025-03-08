@@ -312,4 +312,101 @@ function showSlides(n) {
     dots[slideIndex-1].className += " active";
 }
 
-//spieltags tabellen
+//slideshow rechts vertikal matches
+document.addEventListener("DOMContentLoaded", function () {
+    const slideshowContainer = document.querySelector(".matchday-slideshow");
+    const prevButton = document.querySelector(".prevDay");
+    const nextButton = document.querySelector(".nextDay");
+    const matchdayList = document.getElementById("matchday-list");
+
+    let totalSlides = 13;
+    let currentIndex = 1;
+
+    // Tabelle generieren
+    function createTable(index) {
+        const table = document.createElement("table");
+        table.classList.add("matchday-table");
+        if (index !== currentIndex) {
+            table.classList.add("faded");
+        }
+        table.innerHTML = `
+            <thead>
+                <tr><th>Spieltag ${index}</th></tr>
+            </thead>
+            <tbody>
+                <tr><td style="text-align:center; padding: 20px; background: #f0f0f0;">Keine Daten verfügbar</td></tr>
+            </tbody>
+        `;
+        return table;
+    }
+
+    // Index wrap-around für Slides
+    function getWrappedIndex(index) {
+        if (index < 1) return totalSlides;
+        if (index > totalSlides) return 1;
+        return index;
+    }
+
+    // Slideshow aktualisieren
+    function renderTables() {
+        slideshowContainer.innerHTML = "";
+        slideshowContainer.appendChild(prevButton);
+
+        let indices = [getWrappedIndex(currentIndex - 1), getWrappedIndex(currentIndex), getWrappedIndex(currentIndex + 1)];
+        
+        indices.forEach(i => {
+            slideshowContainer.appendChild(createTable(i));
+        });
+
+        slideshowContainer.appendChild(nextButton);
+        updateMatchdayView();
+    }
+
+    // Vorheriger Slide
+    prevButton.addEventListener("click", function () {
+        currentIndex = getWrappedIndex(currentIndex - 1);
+        renderTables();
+    });
+
+    // Nächster Slide
+    nextButton.addEventListener("click", function () {
+        currentIndex = getWrappedIndex(currentIndex + 1);
+        renderTables();
+    });
+
+    // Sidebar-Buttons generieren
+    function generateMatchdayList() {
+        for (let i = 1; i <= totalSlides; i++) {
+            const li = document.createElement("li");
+            const button = document.createElement("button");
+            
+            button.textContent = i;
+            button.classList.add("matchday-btn");
+            button.addEventListener("click", () => goToMatchday(i));
+
+            li.appendChild(button);
+            matchdayList.appendChild(li);
+        }
+    }
+
+    // Matchday direkt auswählen (via Sidebar)
+    function goToMatchday(matchday) {
+        currentIndex = matchday;
+        renderTables();
+    }
+
+    // Sidebar aktiv aktualisieren
+    function updateMatchdayView() {
+        document.querySelectorAll(".matchday-btn").forEach(btn => {
+            btn.classList.remove("active");
+            if (parseInt(btn.textContent) === currentIndex) {
+                btn.classList.add("active");
+            }
+        });
+    }
+
+    // Initialisierung
+    generateMatchdayList();
+    renderTables();
+});
+

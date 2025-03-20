@@ -53,10 +53,11 @@
                 <th>A Community Germany 2'30 Move</th>
                 <th>An Official World 3' Move</th>
                 <th>A Balanced Germanosphere 1'30 NM</th>
-                <th> AI Generated World 1' NM</th>
+                <th>AI Generated World 1' NM</th>
                 <th>A Pro World '40 NM</th>
                 <th>A Skewed Rural World 1' NMPZ</th>
                 <th>An Arbitrary World '40 NMPZ</th>
+                <th></th>
                 <th></th>
             </tr>
             <tr>
@@ -69,6 +70,7 @@
                 <th><a href="https://www.geoguessr.com/challenge/qQ5IU5PvnmoJSEd7" class="link" target="_blank">Link</a></th>
                 <th><a href="https://www.geoguessr.com/challenge/wQhrlSOyA6qIhHV5" class="link" target="_blank">Link</a></th>
                 <th><a href="https://www.geoguessr.com/challenge/CQdH8Cxsv9hgLAy2" class="link" target="_blank">Link</a></th>
+                <th>Average Score</th>
                 <th>Gesamtpunkte</th>
             </tr>
         </thead>
@@ -79,4 +81,40 @@
             </tr>
         </tbody>
     </table>
+
+    <script type="text/javascript">
+        // 📝 Definiere die relevanten Parameter
+        const sheetID = "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw"; // Ersetze mit deiner tatsächlichen Spreadsheet-ID
+        const spreadsheetGID = "966824596"; // Ersetze mit der GID des Tabellenblatts
+        const range = "A2:K30"; // Zellbereich, den du abrufen möchtest
+
+        const queryURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?gid=${spreadsheetGID}&range=${range}`;
+
+    
+        document.addEventListener("DOMContentLoaded", loadData); // Ruft loadData() auf, wenn die Seite geladen ist
+    
+        function loadData() {
+            fetch(queryURL)
+                .then(response => response.text()) // Google gibt Text statt JSON zurück
+                .then(data => {
+                    const jsonData = JSON.parse(data.substring(47, data.length - 2)); // Google Sheets umschließt JSON mit unnötigem Text → Entfernen
+                    const rows = jsonData.table.rows; // Datenreihen aus dem JSON extrahieren
+    
+                    const tbody = document.querySelector("#preseason-table tbody");
+                    tbody.innerHTML = ""; // Alte Daten löschen
+    
+                    rows.forEach(row => {
+                        let tr = document.createElement("tr");
+                        row.c.forEach(cell => {
+                            let td = document.createElement("td");
+                            td.textContent = cell?.v || ""; // Falls die Zelle leer ist, setze ""
+                            tr.appendChild(td);
+                        });
+                        tbody.appendChild(tr);
+                    });
+                })
+                .catch(error => console.error("Fehler beim Laden der Daten:", error));
+        }
+    </script>
+    
 </body>

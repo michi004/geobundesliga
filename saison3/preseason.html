@@ -84,9 +84,9 @@
 
     <script type="text/javascript">
         // 📝 Definiere die relevanten Parameter
-        const sheetID = "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw"; // Ersetze mit deiner tatsächlichen Spreadsheet-ID
-        const spreadsheetGID = "966824596"; // Ersetze mit der GID des Tabellenblatts
-        const range = "A2:K30"; // Zellbereich, den du abrufen möchtest
+        const sheetID = "1m-ptdit6OAI5ZY_iqM-SkyS4uLNS7hmrPxj8vMI0CV4"; // Ersetze mit deiner tatsächlichen Spreadsheet-ID
+        const spreadsheetGID = "0"; // Ersetze mit der GID des Tabellenblatts
+        const range = "B12:L19"; // Zellbereich, den du abrufen möchtest
 
         const queryURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?gid=${spreadsheetGID}&range=${range}`;
 
@@ -95,26 +95,42 @@
     
         function loadData() {
             fetch(queryURL)
-                .then(response => response.text()) // Google gibt Text statt JSON zurück
+                .then(response => response.text())
                 .then(data => {
-                    const jsonData = JSON.parse(data.substring(47, data.length - 2)); // Google Sheets umschließt JSON mit unnötigem Text → Entfernen
-                    const rows = jsonData.table.rows; // Datenreihen aus dem JSON extrahieren
-    
+                    const jsonData = JSON.parse(data.substring(47, data.length - 2)); // Entfernt Google-Kopfzeile
+                    const rows = jsonData.table.rows;
+
                     const tbody = document.querySelector("#preseason-table tbody");
-                    tbody.innerHTML = ""; // Alte Daten löschen
-    
+                    tbody.innerHTML = ""; // Alte Daten entfernen
+
                     rows.forEach(row => {
                         let tr = document.createElement("tr");
-                        row.c.forEach(cell => {
-                            let td = document.createElement("td");
-                            td.textContent = cell?.v || ""; // Falls die Zelle leer ist, setze ""
-                            tr.appendChild(td);
+
+                        // Anpassen der Reihenfolge der Spalten
+                        let newOrder = [0, 1, 4, 5, 6, 7, 8, 9, 10, 2, 3];
+
+                        newOrder.forEach(colIndex => {
+                            let cell = document.createElement("td");
+
+                            // Rundung 
+                            if (!isNaN(row.c[colIndex]?.v)) {
+                                cell.textContent = Math.round(row.c[colIndex].v);
+                            } else {
+                                cell.textContent = row.c[colIndex]?.v || ""; // Falls kein Wert, lasse leer
+                            }
+
+                            tr.appendChild(cell);
                         });
+
                         tbody.appendChild(tr);
                     });
                 })
-                .catch(error => console.error("Fehler beim Laden der Daten:", error));
+                .catch(error => {
+                    console.error("Fehler beim Laden der Daten:", error);
+                    document.querySelector("#preseason-table tbody").innerHTML = "<tr><td colspan='5'>Fehler beim Laden der Daten</td></tr>";
+                });
         }
+
     </script>
     
 </body>

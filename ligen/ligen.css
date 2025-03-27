@@ -44,14 +44,16 @@ body{
 }
 
 /* Liga-Tabelle & Match-Tabelle */
-.league-table, .match-table {
+.league-table {
     width: 37%;
     height: 100%;
     overflow-y: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
+}
+
+.match-table {
+    width: 37%;
+    height: 100%;
+    overflow-y: auto;
 }
 
 table {
@@ -75,6 +77,16 @@ tbody tr { background-color: transparent; }
 .relegation td { background-color: rgb(161, 246, 161); }
 .relegation-bottom td { background-color: rgb(246, 162, 161); }
 .final-four td { background-color: rgb(101, 145, 255); }
+
+/*  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  */
+/*   ~ ~ ~ ~ ~ ~ ~ ~ ~   */
+/*  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  */
+/*   ~ ~ ~ ~ ~ ~ ~ ~ ~   */
+/*  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  */
+/*   ~ ~ ~ ~ ~ ~ ~ ~ ~   */
+/*  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  */
+/*   ~ ~ ~ ~ ~ ~ ~ ~ ~   */
+/*  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  */
 
 /*2te seite*/
 .left, .right {

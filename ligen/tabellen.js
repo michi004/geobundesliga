@@ -9,7 +9,7 @@ class LeagueTable {
         this.cacheKeyMatches = keyIndex + "_match";
         this.cacheKeyRescheduled = keyIndex + "_rescheduled";
         this.rescheduleRanges = [];
-        this.cacheDuration =  1000 * 60 * 5; // 5 Minuten Cache-Dauer
+        this.cacheDuration =  1 * 60 * 5; // 5 Minuten Cache-Dauer
     }
 
 
@@ -54,13 +54,13 @@ class LeagueTable {
             newRow.innerHTML = `
                 <td>${row.c[0].v}</td>
                 <td>${row.c[1].v}</td>
-                <td>${row.c[7].v}</td>
+                <td>${row.c[2].v}</td>
                 <td>${row.c[3].v}</td>
                 <td>${row.c[4].v}</td>
                 <td>${row.c[5].v}</td>
                 <td>${row.c[6].v}</td>
-                <td>${row.c[8].v}</td>
-                <td>${parseFloat(row.c[9]?.v).toFixed(2)}</td>
+                <td>${row.c[7].v}</td>
+                <td>${parseFloat(row.c[8]?.v).toFixed(2)}</td>
             `;
             tableBody.appendChild(newRow);
         });
@@ -97,7 +97,7 @@ class LeagueTable {
 
     renderMatchTable(jsonData) {
         let rows = jsonData.table.rows;
-        let tableBody = document.querySelector('.match-table:first-of-type tbody');
+        let tableBody = document.querySelector('.match-table tbody');
         tableBody.innerHTML = ''; // Platzhalter löschen
 
         rows.forEach(row => {
@@ -111,7 +111,7 @@ class LeagueTable {
             tableBody.appendChild(newRow);
         });
     }
-
+/*
     renderRescheduleTable(jsonData) {
         // Anzahl der Spiele pro Spielwoche
         const liga12Games = [3, 3, 3, 2, 2];
@@ -143,7 +143,7 @@ class LeagueTable {
                 tableBody.appendChild(newRow);
             }
         });
-    }
+    }*/
 
     loadTableData() {
         if (this.isCacheValid(this.cacheKeyTable)) {
@@ -166,7 +166,7 @@ class LeagueTable {
             this.fetchAndRenderData(this.getURL(this.matchRange), this.cacheKeyMatches, this.renderMatchTable.bind(this));
         }
     }
-
+/*
     loadRescheduleData() {
         if (this.isCacheValid(this.cacheKeyRescheduled)) {
             let cachedData = JSON.parse(localStorage.getItem(this.cacheKeyRescheduled)).data;
@@ -175,7 +175,7 @@ class LeagueTable {
             // Verwende die dynamisch berechnete Match-Range
             this.fetchAndRenderData(this.getURL(this.rescheduleRanges), this.cacheKeyRescheduled, this.renderRescheduleTable.bind(this));
         }
-    }
+    }*/
     
 
     updateSpielwoche() {
@@ -237,7 +237,7 @@ class LeagueTable {
         this.updateSpielwoche();
         this.loadMatchData();
         this.loadTableData();
-        this.loadRescheduleData();
+        //this.loadRescheduleData();
     }
 }
 
@@ -246,11 +246,13 @@ function getSpielwoche() {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Setzt die Zeit auf Mitternacht
     const spielwochen = [
-        { start: new Date("2024-11-11"), end: new Date("2024-11-24"), week: 1 },
-        { start: new Date("2024-11-25"), end: new Date("2024-12-08"), week: 2 },
-        { start: new Date("2024-12-09"), end: new Date("2025-01-05"), week: 3 },
-        { start: new Date("2025-01-06"), end: new Date("2025-01-19"), week: 4 },
-        { start: new Date("2025-01-20"), end: new Date("2025-02-22"), week: 5 }
+        { start: new Date("2025-03-21"), end: new Date("2025-04-20"), week: 1 },
+        { start: new Date("2025-04-21"), end: new Date("2025-05-04"), week: 2 },
+        { start: new Date("2025-05-05"), end: new Date("2025-05-18"), week: 3 },
+        { start: new Date("2025-05-19"), end: new Date("2025-06-01"), week: 4 },
+        { start: new Date("2025-06-02"), end: new Date("2025-06-15"), week: 5 },
+        { start: new Date("2025-06-16"), end: new Date("2025-06-29"), week: 6 },
+        { start: new Date("2025-06-30"), end: new Date("2025-07-13"), week: 7 }
     ];
 
     // Setzt ebenfalls die Zeit aller Start- und Enddaten auf Mitternacht
@@ -282,6 +284,13 @@ window.addEventListener('scroll', () => {
     secondSection.style.transform = `translateY(${100 - scrollAmount}%)`;
 });
 
+//
+//
+//
+//
+//
+//
+//
 //tabellen 2te seite
 
 //extra info tabellen slideshow

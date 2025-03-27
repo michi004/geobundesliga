@@ -7,6 +7,10 @@
 
     <link rel="stylesheet" href="../default.css">
     <style>
+        body{
+            overflow: auto;
+        }
+
         .container {
             display: flex;
             justify-content: center;
@@ -86,7 +90,7 @@
         // 📝 Definiere die relevanten Parameter
         const sheetID = "1m-ptdit6OAI5ZY_iqM-SkyS4uLNS7hmrPxj8vMI0CV4"; // Ersetze mit deiner tatsächlichen Spreadsheet-ID
         const spreadsheetGID = "0"; // Ersetze mit der GID des Tabellenblatts
-        const range = "B12:L35"; // Zellbereich, den du abrufen möchtest
+        const range = "B12:L44"; // Zellbereich, den du abrufen möchtest
 
         const queryURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?gid=${spreadsheetGID}&range=${range}`;
 

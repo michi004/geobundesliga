@@ -45,7 +45,7 @@ body{
 
 /* Liga-Tabelle & Match-Tabelle */
 .league-table, .match-table {
-    width: 50%;
+    width: 37%;
     height: 100%;
     overflow-y: auto;
     display: flex;
@@ -55,7 +55,7 @@ body{
 }
 
 table {
-    width: var(--table-width);
+    width: 100%;
     border-collapse: collapse;
     background-color: white;
     table-layout: fixed;

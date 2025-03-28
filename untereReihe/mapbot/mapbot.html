@@ -66,6 +66,11 @@
             transform: scale(1.5); /* Vergrößert die Checkbox um 1.5x */
         }
 
+        .extra-checkbox {
+            margin-right: 10px;
+            transform: scale(1.5); /* Vergrößert die Checkbox um 1.5x */
+        }
+
         a {
             color: #f7e014; /* Standardfarbe für Links (Blau) */
             text-decoration: none; /* Entfernt Unterstreichung */
@@ -218,6 +223,19 @@
             <p>Geotime Switzerland, Intersectionguessr Switzerland, Zürich, Bern, Luzern, Uri, Schwyz, Obwalden, Nidwalden, Glarus, Zug, Solothurn, Basel-Stadt, Basel-Landschaft, Schaffhausen, Appenzell Ausserrhoden, Appenzell Innerrhoden, St. Gallen, Graubünden, Aargau, Thurgau</p>
         </div>
     </div>
+
+    <br><br>
+
+    <label style="margin-bottom: 2px;">Zufälliger Spielmodus ohne Map:</label>
+    <div id = "checkbox-container">
+        <input type="checkbox" class="extra-checkbox" value="Moving">Moving<br>
+        <input type="checkbox" class="extra-checkbox" value="NM">NM<br>
+        <input type="checkbox" class="extra-checkbox" value="NMPZ">NMPZ<br>
+    </div>
+    <br>
+    <button onclick="generateAdditionalResult()">Spielmodus ausgeben</button>
+    <div id="additionalResult"></div>
+
 
     <script>
         // Benutzerfreundliche Namen für die Optionen
@@ -403,7 +421,9 @@
             let resultText = "";//Zufällige Ergebnisse in zufälliger Reihenfolge:\n
             finalResults.forEach((result, index) => {
                 // Hyperlinks für option1, option2 und option3 anzeigen
-                if (result.url && (selectedOptions.includes("option1") || selectedOptions.includes("option2") || selectedOptions.includes("option3")|| selectedOptions.includes("option4")|| selectedOptions.includes("option5")||selectedOptions.includes("option6")||selectedOptions.includes("option7")|| selectedOptions.includes("option8")|| selectedOptions.includes("option9")|| selectedOptions.includes("option10"))) {
+                if (result.url && (selectedOptions.includes("option1") || selectedOptions.includes("option2") || selectedOptions.includes("option3")|| selectedOptions.includes("option4")|| 
+                selectedOptions.includes("option5")||selectedOptions.includes("option6")||selectedOptions.includes("option7")|| selectedOptions.includes("option8")|| 
+                selectedOptions.includes("option9")|| selectedOptions.includes("option10")|| selectedOptions.includes("option11"))) {
                     resultText += `Map ${index + 1}: <a href="${result.url}" target="_blank">${result.text}</a>`;
                 } else {
                     resultText += `Map ${index + 1}: ${result.text}`;
@@ -454,6 +474,21 @@
             event.target.style.display = 'none';
         }
     });    
+
+    function generateAdditionalResult() {
+        const checkboxes = document.querySelectorAll('.extra-checkbox:checked');
+        const selectedOptions = Array.from(checkboxes).map(cb => cb.value);
+        
+        if (selectedOptions.length > 0) {
+            const randomChoice = selectedOptions[Math.floor(Math.random() * selectedOptions.length)];
+            document.getElementById('additionalResult').innerHTML = `Spielmodus: <span style="color: #f7e014; text-decoration: underline;">${randomChoice}</span>`;
+            document.getElementById('additionalResult').style.marginTop = "10px";
+        } else {
+            document.getElementById('additionalResult').innerHTML = 'Keine Auswahl getroffen';
+            document.getElementById('additionalResult').style.marginTop = "10px";
+        }
+    }
+
 
     </script>
 </body>

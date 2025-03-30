@@ -187,8 +187,8 @@ class LeagueTable {
         const wocheEnde = formatDate(spielwoche.end);
 
         //arrays mit anzahl der spiele pro spielwoche
-        const liga12Games = [3, 3, 3, 2, 2];
-        const liga3Games = [3, 3, 3, 3, 3];
+        const liga12Games = [3, 2, 2, 2, 2, 2];
+        const liga3Games = [3, 3, 3, 2, 2, 2];
         
         // arrays mit jeweiligen offsets für jede spielwoche
         const liga12Offsets = this.calculateOffsets(liga12Games);

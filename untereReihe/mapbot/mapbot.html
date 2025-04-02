@@ -115,12 +115,12 @@
             background-color: #0056b3;
         }
 
-        .dropdown-container {
+        /*.dropdown-container {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
             font-size: 1.2em;
-        }
+        }*/
 
         select {
             font-size: 16px; /* Schriftgröße */
@@ -132,6 +132,44 @@
             cursor: pointer;
             border: none;
             background-color: white;
+        }
+
+        #dropdowns {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Alles in der Mitte zentrieren */
+            gap: 10px; /* Abstand zwischen den Dropdown-Leisten */
+        }
+
+        .dropdown-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Zentriert den Inhalt */
+            gap: 10px; /* Abstand zwischen den Dropdowns */
+            font-size: 1.2em;
+        }
+
+        .remove-btn {
+            position: absolute;
+            right: -40px; /* Abstand zum zweiten Dropdown */
+            top: 45%; /* Leicht höher setzen */
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 20px; /* Größer machen */
+            color: white; /* Weiße Farbe für bessere Sichtbarkeit */
+            cursor: pointer;
+            transition: color 0.2s ease-in-out;
+        }
+        
+        #add-button {
+            margin-top: 15px; /* Abstand nach unten */
+            margin-bottom: 20px; /* Mehr Platz zwischen den Buttons */
+        }
+
+        #generate-button {
+            margin-top: 20px; /* Mehr Platz zwischen den Buttons */
         }
 
 
@@ -166,11 +204,13 @@
 
     <label style="font-size: 1.2em; font-weight: bold; display: block; text-align: left;  margin-bottom: 2px;">Mapbot Ausgabe</label>
     <div id="dropdowns"></div>
-    <button onclick="addDropdown()">+ Add weitere</button>
-    <br><br>
-    <button onclick="getRandomResults2()">Maps generieren</button>
+    <button onclick="addDropdown()" id="add-button">+ Add weitere</button>
+    <br>
+    <!--<button onclick="removeDropdown()">- Dropdown</button> -->
+    <br>
+    <button onclick="getRandomResults2()" >Maps generieren</button>
     <div id="ergebnis2"></div>
-
+    
     <br>
 
     <!-- Erstes Modal -->
@@ -278,14 +318,14 @@
 
     <br><br>
 
-    <label style="font-size: 1.2em; font-weight: bold; display: block; text-align: left;  margin-bottom: 2px;">Zufälliger Spielmodus</label>
+    <label style="font-size: 1.2em; font-weight: bold; display: block; text-align: left;  margin-bottom: 2px; margin-top: 20px;">Zufälliger Spielmodus</label>
     <div id="checkbox-container">
         <input type="checkbox" class="extra-checkbox" value="Moving"> Moving<br>
         <input type="checkbox" class="extra-checkbox" value="NM"> NM<br>
         <input type="checkbox" class="extra-checkbox" value="NMPZ"> NMPZ<br>
     </div>
     <br>
-    <button onclick="generateAdditionalResult()">Spielmodus ausgeben</button>
+    <button id="generate-button" onclick="generateAdditionalResult()">Spielmodus ausgeben</button>
     <div id="additionalResult"></div>
 
     
@@ -426,7 +466,8 @@
         div2.classList.add('dropdown-container');
             
         const label2 = document.createElement('span');
-        label2.textContent = `Map ${mapCount}: `;
+        //label2.textContent = `Map ${mapCount}: `;
+        label2.classList.add('map-label'); // Klasse für spätere Neunummerierung
         label2.style.marginRight = "10px";
             
         const select2 = document.createElement('select');
@@ -441,12 +482,57 @@
         div2.appendChild(select2);
         div2.appendChild(extraSelect2);
         container2.appendChild(div2);
-            
-        mapCount++;
+        updateLabels(); // Aktualisiert die Nummerierung    
+        updateRemoveButtons()
+        //mapCount++;
     }
         
     // Standardmäßig eine Dropdown-Leiste hinzufügen
     addDropdown();
+
+    function updateRemoveButtons() {
+        const dropdowns = document.getElementsByClassName('dropdown-container');
+
+        // Entferne alle bestehenden "Entfernen"-Buttons
+        Array.from(dropdowns).forEach(div => {
+            const removeBtn = div.querySelector('.remove-btn');
+            if (removeBtn) div.removeChild(removeBtn);
+        });
+
+        // Füge den Button nur zur letzten Dropdown-Leiste hinzu, falls es mehr als eine gibt
+        if (dropdowns.length > 1) {
+            const lastDropdown = dropdowns[dropdowns.length - 1];
+            const removeBtn = document.createElement('button');
+            removeBtn.textContent = "✖";
+            removeBtn.classList.add("remove-btn");
+
+            removeBtn.onclick = function () {
+                lastDropdown.remove();
+                updateLabels(); // Nummerierung neu berechnen
+                updateRemoveButtons(); // Neuen Entfernen-Button setzen
+            };
+
+            lastDropdown.appendChild(removeBtn);
+        }
+    }
+
+
+    function removeDropdown() {
+        const container = document.getElementById('dropdowns');
+        const dropdowns = container.getElementsByClassName('dropdown-container');
+
+        if (dropdowns.length > 1) { // Mindestens eine Dropdown-Leiste muss bleiben
+            container.removeChild(dropdowns[dropdowns.length - 1]);
+            updateLabels(); // Nummerierung neu berechnen
+        }
+    }
+
+    function updateLabels() {
+        const labels = document.getElementsByClassName('map-label');
+        for (let i = 0; i < labels.length; i++) {
+            labels[i].textContent = `Map ${i + 1}: `;
+        }       
+    }
 
     function getRandomResults2() {
         const dropdowns = document.querySelectorAll('.dropdown-container select:nth-child(2)');

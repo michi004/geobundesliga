@@ -75,17 +75,14 @@ header h1 {
   text-decoration: none;
 }
   
-/* Standardstil für den Link-Text */
 .open-modal {
-  text-decoration: none; /* Keine Unterstreichung */
-  cursor: pointer; /* Zeigt an, dass der Text klickbar ist */
+  text-decoration: none; 
+  cursor: pointer; 
 }
 
-/* Hover-Effekt für den Link-Text */
 .open-modal:hover {
-  color: yellow; /* Standardfarbe */
+  color: yellow;
   text-decoration: underline;
-  font-weight: bold;
   cursor: pointer;
 }
 

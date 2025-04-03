@@ -1,5 +1,5 @@
 class LeagueTable {
-    constructor(sheetID, name, sheetName, dataRange, matchRange, keyIndex) {
+    constructor(sheetID, name, sheetName, dataRange, matchRange, keyIndex, leagueSize) {
         this.sheetID = sheetID;
         this.name = name;
         this.sheetName = sheetName;
@@ -8,8 +8,10 @@ class LeagueTable {
         this.cacheKeyTable = keyIndex + "_table";
         this.cacheKeyMatches = keyIndex + "_match";
         this.cacheKeyRescheduled = keyIndex + "_rescheduled";
+        this.spielplanName = keyIndex + "_spielplan";
         this.rescheduleRanges = [];
         this.cacheDuration =  1 * 60 * 5; // 5 Minuten Cache-Dauer
+        this.leagueSize = leagueSize;
     }
 
 
@@ -238,6 +240,20 @@ class LeagueTable {
         this.loadMatchData();
         this.loadTableData();
         //this.loadRescheduleData();
+
+        //seite 2
+        //variable tabellengröße bei unterschiedlicher ligagröße
+        let dataRange1 = "S24:V" + (this.leagueSize + 23);
+        let dataRange2 = "S46:V" + (this.leagueSize + 45);
+        let dataRange3 = "T67:W" + (this.leagueSize + 66);
+
+        // horizontale slideshow mit extra daten 
+        fetchAndRenderTable("1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw", this.spielplanName, dataRange1, "pinpointTable");
+        fetchAndRenderTable("1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw", this.spielplanName, dataRange2, "yellowCards");
+        fetchAndRenderTable("1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw", this.spielplanName, dataRange3, "extensions");
+
+        // Liga Spieltage rendern 
+        fetchAndRenderMatchdayTables("1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw", this.spielplanName, this.leagueSize);
     }
 }
 
@@ -321,71 +337,103 @@ function showSlides(n) {
     dots[slideIndex-1].className += " active";
 }
 
-//slideshow rechts vertikal matches
-document.addEventListener("DOMContentLoaded", function () {
+function fetchAndRenderTable(sheetID, sheetName, dataRange, tableID) {
+    const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&range=${dataRange}`;
+    
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            let jsonData = JSON.parse(data.substr(47).slice(0, -2));
+            let rows = jsonData.table.rows;
+            let tableBody = document.querySelector(`#${tableID} tbody`);
+            
+            if (!tableBody) {
+                console.error(`Tabelle mit ID '${tableID}' nicht gefunden.`);
+                return;
+            }
+            
+            tableBody.innerHTML = '';
+            rows.forEach(row => {
+                let newRow = document.createElement('tr');
+                newRow.innerHTML = row.c.map(cell => {
+                    let value = cell?.v || '-';
+
+                    // Prüfen, ob der Wert ein Datum-Objekt ist
+                    if (cell?.f && /^\d{1,2}\.\d{1,2}\.\d{4}$/.test(cell.f)) {
+                        value = cell.f; // Der formatierte Wert ist bereits im gewünschten Format
+                    }
+
+                    return `<td>${value}</td>`;
+                }).join('');
+                tableBody.appendChild(newRow);
+            });
+        })
+        .catch(error => console.error('Fehler beim Abrufen der Tabelle:', error));
+}
+
+// Vertikale Slideshow für Spieltage
+function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
+    const matchdaySize = leagueSize / 2; // Anzahl der Spiele pro Spieltag
+    const totalMatchdays = leagueSize - 1; // Anzahl der Spieltage (keine Rückrunde)
+    
     const slideshowContainer = document.querySelector(".matchday-slideshow");
     const prevButton = document.querySelector(".prevDay");
     const nextButton = document.querySelector(".nextDay");
     const matchdayList = document.getElementById("matchday-list");
-
-    let totalSlides = 13;
+    
     let currentIndex = 1;
-
-    // Tabelle generieren
-    function createTable(index) {
+    
+    function createMatchdayTable(index) {
+        const startRow = 3 + (index - 1) * matchdaySize;
+        const endRow = startRow + matchdaySize - 1;
+        const dataRange = `B${startRow}:E${endRow}`;
+        const tableID = `matchday-${index}`;
+        
         const table = document.createElement("table");
+        table.id = tableID;
         table.classList.add("matchday-table");
         if (index !== currentIndex) {
             table.classList.add("faded");
         }
-        table.innerHTML = `
-            <thead>
-                <tr><th>Spieltag ${index}</th></tr>
-            </thead>
-            <tbody>
-                <tr><td style="text-align:center; padding: 20px; background: #f0f0f0;">Keine Daten verfügbar</td></tr>
-            </tbody>
-        `;
+        table.innerHTML = `<thead><tr><th colspan='4'>Spieltag ${index}</th></tr></thead><tbody></tbody>`;
+        
+        fetchAndRenderTable(sheetID, sheetName, dataRange, tableID);
+        
         return table;
     }
 
-    // Index wrap-around für Slides
     function getWrappedIndex(index) {
-        if (index < 1) return totalSlides;
-        if (index > totalSlides) return 1;
+        if (index < 1) return totalMatchdays;
+        if (index > totalMatchdays) return 1;
         return index;
     }
 
-    // Slideshow aktualisieren
-    function renderTables() {
+    function renderMatchdayTables() {
         slideshowContainer.innerHTML = "";
         slideshowContainer.appendChild(prevButton);
 
         let indices = [getWrappedIndex(currentIndex - 1), getWrappedIndex(currentIndex), getWrappedIndex(currentIndex + 1)];
         
         indices.forEach(i => {
-            slideshowContainer.appendChild(createTable(i));
+            slideshowContainer.appendChild(createMatchdayTable(i));
         });
-
+        
         slideshowContainer.appendChild(nextButton);
         updateMatchdayView();
     }
 
-    // Vorheriger Slide
     prevButton.addEventListener("click", function () {
         currentIndex = getWrappedIndex(currentIndex - 1);
-        renderTables();
+        renderMatchdayTables();
     });
 
-    // Nächster Slide
     nextButton.addEventListener("click", function () {
         currentIndex = getWrappedIndex(currentIndex + 1);
-        renderTables();
+        renderMatchdayTables();
     });
 
-    // Sidebar-Buttons generieren
     function generateMatchdayList() {
-        for (let i = 1; i <= totalSlides; i++) {
+        for (let i = 1; i <= totalMatchdays; i++) {
             const li = document.createElement("li");
             const button = document.createElement("button");
             
@@ -398,13 +446,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Matchday direkt auswählen (via Sidebar)
     function goToMatchday(matchday) {
         currentIndex = matchday;
-        renderTables();
+        renderMatchdayTables();
     }
 
-    // Sidebar aktiv aktualisieren
     function updateMatchdayView() {
         document.querySelectorAll(".matchday-btn").forEach(btn => {
             btn.classList.remove("active");
@@ -414,8 +460,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Initialisierung
     generateMatchdayList();
-    renderTables();
-});
-
+    renderMatchdayTables();
+}

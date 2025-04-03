@@ -123,13 +123,15 @@ tbody tr { background-color: transparent; }
 
 .slide {
     display: flex;
+    width:80%;
     justify-content: center;
-    align-items: center;
-    height: 100%;
+    align-items: start;
+    height: 30vh;
+    overflow-y: auto;
 }
 
 .slide table {
-    width: 80%;
+    width: 100%;
 }
 
 /* Next and previous buttons */

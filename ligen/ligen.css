@@ -35,6 +35,7 @@ body{
 
 /* Tabellen Container */
 .tables-container {
+    width:95%;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;

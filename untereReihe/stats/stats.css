@@ -62,9 +62,10 @@ table {
 th, td {
     border: 1px solid black;
     padding: 6px; /* Weniger Padding für schmalere Zellen */
-    text-align: left;
+    text-align: center;
     overflow: hidden;
 }
+
 th {
     background-color: #2f2f7f;
     color: white;

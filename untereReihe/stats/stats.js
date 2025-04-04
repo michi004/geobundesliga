@@ -10,6 +10,32 @@ class StatsTable {
     this.spielplanName = keyIndex + "_spielplan";
     this.rescheduleRanges = [];
     this.cacheDuration = 1 * 60 * 5; // 5 Minuten Cache-Dauer
+    this.statsSheetColLigaNumber = 0; // Spalte A
+    this.statsSheetColDiscordName = 1; // Spalte B
+    this.statsSheetColGGName = 2;
+    this.statsSheetColSubdivision = 3; // usw.
+    this.statsSheetColLeagueParticipations = 4;
+    this.statsSheetColPB = 5;
+    this.statsSheetColWordsOfWisdom = 6;
+    this.statsSheetColPlacement = 7;
+    this.statsSheetColPoints = 8;
+    this.statsSheetCol5ks = 9;
+    this.statsSheetCol4800 = 10;
+    this.statsSheetColExt = 11;
+    this.statsSheetColYellowCards = 12;
+    this.statsSheetColMPlayed = 13;
+    this.statsSheetColMWon = 14;
+    this.statsSheetColMHealth = 15;
+    this.statsSheetColNMPlayed = 16;
+    this.statsSheetColNMWon = 17;
+    this.statsSheetColNMHealth = 18;
+    this.statsSheetColNMPZPlayed = 19;
+    this.statsSheetColNMPZWon = 20;
+    this.statsSheetColNMPZHealth = 21;
+    this.statsSheetColDACHPlayed = 22;
+    this.statsSheetColDACHWon = 23;
+    this.statsSheetColDACHHealth = 24;
+    this.statsSheetColFavMode = 25;
   }
 
   getURL(range) {
@@ -29,7 +55,7 @@ class StatsTable {
         };
         localStorage.setItem(cacheKey, JSON.stringify(cacheData));*/
 
-        // Render die Tabelle mit den Daten
+        // Rendere die Tabelle mit den Daten
         renderFunction(jsonData);
       })
       .catch((error) => {
@@ -51,7 +77,7 @@ class StatsTable {
     let ligaRows = [];
 
     rows.forEach((row) => {
-      if (row.c[0]) {
+      if (this.statsSheetColLigaNumber) {
         // Spalte A enthält "Liga X" in der ersten Zeile jeder Liga
         // sortiere die für diese Liga gesammelten Zeilen
         ligaRows.sort(
@@ -71,12 +97,16 @@ class StatsTable {
         ligaRows = [];
       }
       let newRow = document.createElement("tr");
+      let playerSubdivision = row.c[this.statsSheetColSubdivision]?.v;
       newRow.innerHTML = `
-              <td>${row.c[7]?.v}</td>
-              <td>${row.c[1].v}</td>
-              <td>${row.c[2].v}</td>
-              <td>${row.c[3]?.v}</td>
-              <td>${row.c[8]?.v}</td>
+              <td>${row.c[this.statsSheetColPlacement]?.v}</td>
+              <td style="text-align: right">${
+                row.c[this.statsSheetColDiscordName].v
+              }</td>
+              <td style="text-align: left"><img src="./../../img/herzen/${playerSubdivision}.png" alt="${playerSubdivision}" style="height: 1em; vertical-align: middle;" /> ${
+        row.c[this.statsSheetColGGName].v
+      }</td>
+              <td>${row.c[this.statsSheetColPoints]?.v}</td>
           `;
       ligaRows.push(newRow);
     });

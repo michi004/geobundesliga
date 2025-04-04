@@ -101,8 +101,7 @@ class StatsTable {
         ligaRows = [];
       }
       let newRow = document.createElement("tr");
-      let playerSubdivision =
-        row.c[this.statsSheetColSubdivision]?.v || "_base";
+      let playerSubdivision = row.c[this.statsSheetColSubdivision]?.v || "base";
       let playerSubdivisionIcon = getPlayerSubdivisionIcon(playerSubdivision);
       newRow.innerHTML = `
               <td>${row.c[this.statsSheetColPlacement]?.v || " "}</td>
@@ -168,7 +167,7 @@ class StatsTable {
     const modalDetails = document.getElementById("modalDetails");
 
     modalTitle.innerHTML = `Statistiken für ${getPlayerSubdivisionIcon(
-      sheetRow.c[this.statsSheetColSubdivision]?.v || "_base"
+      sheetRow.c[this.statsSheetColSubdivision]?.v || "base"
     )} ${sheetRow.c[this.statsSheetColGGName].v}`;
 
     modalDetails.innerHTML = `

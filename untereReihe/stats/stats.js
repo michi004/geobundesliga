@@ -77,7 +77,7 @@ class StatsTable {
     let ligaRows = [];
 
     rows.forEach((row) => {
-      if (this.statsSheetColLigaNumber) {
+      if (row.c[this.statsSheetColLigaNumber]) {
         // Spalte A enthält "Liga X" in der ersten Zeile jeder Liga
         // sortiere die für diese Liga gesammelten Zeilen
         ligaRows.sort(

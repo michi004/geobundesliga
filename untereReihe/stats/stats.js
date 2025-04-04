@@ -36,6 +36,7 @@ class StatsTable {
     this.statsSheetColDACHWon = 23;
     this.statsSheetColDACHHealth = 24;
     this.statsSheetColFavMode = 25;
+    this.sheetData;
   }
 
   getURL(range) {
@@ -71,6 +72,7 @@ class StatsTable {
 
   renderStatsTable(jsonData) {
     let rows = jsonData.table.rows;
+    this.sheetData = rows;
     let tableBody;
     let tableId = "#table-body-";
     let ligaCounter = "0";
@@ -98,16 +100,21 @@ class StatsTable {
       }
       let newRow = document.createElement("tr");
       let playerSubdivision = row.c[this.statsSheetColSubdivision]?.v;
+      let playerSubdivisionIcon = getPlayerSubdivisionIcon(playerSubdivision);
       newRow.innerHTML = `
               <td>${row.c[this.statsSheetColPlacement]?.v}</td>
               <td style="text-align: right">${
                 row.c[this.statsSheetColDiscordName].v
               }</td>
-              <td style="text-align: left"><img src="./../../img/herzen/${playerSubdivision}.png" alt="${playerSubdivision}" style="height: 1em; vertical-align: middle;" /> ${
+              <td style="text-align: left">${playerSubdivisionIcon} ${
         row.c[this.statsSheetColGGName].v
       }</td>
               <td>${row.c[this.statsSheetColPoints]?.v}</td>
           `;
+
+      newRow.addEventListener("click", () => {
+        this.openModal(row);
+      });
       ligaRows.push(newRow);
     });
     // sortiere die für diese Liga gesammelten Zeilen
@@ -151,6 +158,81 @@ class StatsTable {
     }*/
   }
 
+  openModal(sheetRow) {
+    const modal = document.getElementById("statsModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDetails = document.getElementById("modalDetails");
+
+    modalTitle.innerHTML = `Statistiken für ${getPlayerSubdivisionIcon(
+      sheetRow.c[this.statsSheetColSubdivision]?.v
+    )} ${sheetRow.c[this.statsSheetColGGName].v}`;
+
+    /*modalDetails.innerHTML = `
+        <strong>Match ID:</strong> ${matchData.id}<br>
+        <strong>Ergebnis:</strong> ${
+          matchData.ergebnis || "Noch nicht verfügbar"
+        }
+    `;
+
+    const mapsContainer = document.createElement("div");
+    mapsContainer.id = "maps-container";
+    mapsContainer.style.marginTop = "20px";
+
+    if (matchData.maps && matchData.maps.length > 0) {
+      const maps = matchData.maps;
+      const rows = [[], [], []];
+
+      for (let i = 0; i < maps.length; i++) {
+        if (i < 2) rows[0].push(maps[i]);
+        else if (i < 5) rows[1].push(maps[i]);
+        else rows[2].push(maps[i]);
+      }
+
+      rows.forEach((row) => {
+        if (row.length > 0) {
+          const rowDiv = document.createElement("div");
+          rowDiv.className = "maps-row";
+          rowDiv.style.display = "flex";
+          rowDiv.style.justifyContent = "space-around";
+          rowDiv.style.marginBottom = "10px";
+
+          row.forEach((mapInfo) => {
+            const [mapName, winner, moveType, link] = mapInfo;
+
+            const mapBox = document.createElement("a");
+            mapBox.href = link;
+            mapBox.target = "_blank";
+            mapBox.textContent = mapName;
+            mapBox.style.padding = "10px";
+            mapBox.style.border = "2px solid";
+            mapBox.style.borderRadius = "5px";
+            mapBox.style.backgroundColor = "#f9f9f9";
+            mapBox.style.textDecoration = "none";
+            mapBox.style.color = "#333";
+            mapBox.style.display = "inline-block";
+            mapBox.style.minWidth = "120px";
+            mapBox.style.textAlign = "center";
+
+            if (winner === "blue") {
+              mapBox.style.borderColor = "blue";
+            } else if (winner === "red") {
+              mapBox.style.borderColor = "red";
+            }
+
+            rowDiv.appendChild(mapBox);
+          });
+
+          mapsContainer.appendChild(rowDiv);
+        }
+      });
+    } else {
+      mapsContainer.innerHTML = "<em>Keine Maps verfügbar</em>";
+    }
+
+    modalDetails.appendChild(mapsContainer);*/
+    modal.style.display = "flex";
+  }
+
   loadTableData() {
     if (this.isCacheValid(this.cacheKeyTable)) {
       let cachedData = JSON.parse(
@@ -177,6 +259,10 @@ class StatsTable {
       this.leagueSize
     );*/
   }
+}
+
+function getPlayerSubdivisionIcon(playerSubdivision) {
+  return `<img src="./../../img/herzen/${playerSubdivision}.png" alt="${playerSubdivision}" style="height: 1em; vertical-align: middle;" />`;
 }
 
 function fetchAndRenderTable(sheetID, sheetName, dataRange, tableID) {
@@ -214,3 +300,19 @@ function fetchAndRenderTable(sheetID, sheetName, dataRange, tableID) {
     })
     .catch((error) => console.error("Fehler beim Abrufen der Tabelle:", error));
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Event-Listener für das Schließen des Modals
+  const modal = document.getElementById("statsModal");
+  const closeModalButton = modal.querySelector(".close");
+  closeModalButton.addEventListener("click", function () {
+    modal.style.display = "none"; // Modal ausblenden
+  });
+
+  // Optional: Modal schließen, wenn außerhalb des Inhalts geklickt wird
+  modal.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none"; // Modal ausblenden
+    }
+  });
+});

@@ -5,11 +5,9 @@ class StatsTable {
     this.dataRange = dataRange;
     this.matchRange = matchRange;
     this.cacheKeyTable = keyIndex + "_table";
-    this.cacheKeyMatches = keyIndex + "_match";
-    this.cacheKeyRescheduled = keyIndex + "_rescheduled";
-    this.spielplanName = keyIndex + "_spielplan";
-    this.rescheduleRanges = [];
-    this.cacheDuration = 1 * 60 * 5; // 5 Minuten Cache-Dauer
+    this.cacheDuration = 1 * 60 * 5 * 1000; // 5 Minuten Cache-Dauer
+
+    // Spalten im Google Sheet
     this.statsSheetColLigaNumber = 0; // Spalte A
     this.statsSheetColDiscordName = 1; // Spalte B
     this.statsSheetColGGName = 2;
@@ -50,11 +48,11 @@ class StatsTable {
         let jsonData = JSON.parse(rep.substr(47).slice(0, -2));
 
         // Speichere die Daten im Cache (localStorage)
-        /*let cacheData = {
+        let cacheData = {
           data: jsonData,
           expiry: Date.now() + this.cacheDuration,
         };
-        localStorage.setItem(cacheKey, JSON.stringify(cacheData));*/
+        localStorage.setItem(cacheKey, JSON.stringify(cacheData));
 
         // Rendere die Tabelle mit den Daten
         renderFunction(jsonData);
@@ -276,11 +274,13 @@ class StatsTable {
 
   loadTableData() {
     if (this.isCacheValid(this.cacheKeyTable)) {
+      // lade die Daten aus localStorage (Cache)
       let cachedData = JSON.parse(
         localStorage.getItem(this.cacheKeyTable)
       ).data;
       this.renderStatsTable(cachedData);
     } else {
+      // Lade die Daten aus dem Google Sheet
       this.fetchAndRenderData(
         this.getURL(this.dataRange),
         this.cacheKeyTable,

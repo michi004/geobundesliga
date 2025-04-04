@@ -55,7 +55,7 @@ table {
     border-collapse: collapse;
     margin: 0 auto;
     border: 1px solid #ddd;
-    background-color: white; /* Setzt den Hintergrund der Tabelle auf weiß */
+    background-color: rgb(212, 212, 212); /* Setzt den Hintergrund der Tabelle auf hellgrau */
     table-layout: fixed;
 }
 
@@ -71,14 +71,14 @@ th {
     color: white;
 }
 
-tr:hover {
+.hoverable:hover {
     font-weight: bold;
     cursor: pointer;
 }
 
 
 
-
+/* ab hier Modal-Gedöns */
 /* Der Modal-Hintergrund (leicht transparent und über dem Inhalt) */
 .modal {
     display: none; /* Standardmäßig versteckt */
@@ -95,7 +95,7 @@ tr:hover {
 
 /* Modal-Inhalt */
 .modal-content {
-    background-color: white;
+    background-color: rgb(212, 212, 212); /* Setzt den Hintergrund des Modals auf hellgrau */
     padding: 20px;
     border-radius: 10px;
     width: 50%;
@@ -104,6 +104,7 @@ tr:hover {
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
+    line-height: 1.6;
 }
 
 /* Schließen-Knopf (X) */
@@ -116,3 +117,22 @@ tr:hover {
     color: #000;
 }
 
+.player-info {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border-collapse: collapse;
+    border: none;
+  }
+  
+  .player-info td {
+    padding: 0.2em 0.5em;
+    vertical-align: center;
+    border: none;
+    text-align: left;
+  }
+  
+  .player-info .label {
+    font-weight: bold;
+    text-align: right;
+    white-space: nowrap;
+  }

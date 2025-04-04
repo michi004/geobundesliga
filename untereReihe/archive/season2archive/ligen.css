@@ -93,7 +93,7 @@ header h1 {
 table {
     width: 80%; /* Passt Breite an, um Raum für zwei Tabellen nebeneinander zu lassen */
     border-collapse: collapse;
-    background-color: white;
+    background-color: rgb(212, 212, 212);
     table-layout: fixed;
     height: 100%; /* Übernimmt die volle Höhe des Containers */
     overflow-y: auto; /* Ermöglicht Scrollen innerhalb der Tabelle */

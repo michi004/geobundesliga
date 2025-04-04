@@ -89,17 +89,20 @@ class StatsTable {
         );
         // füge die für diese Liga gesammelten Zeilen ein
         ligaRows.forEach((ligaRow) => {
-          tableBody.appendChild(ligaRow);
+          tableBody?.appendChild(ligaRow);
         });
 
         ligaCounter++;
         tableBody = document.querySelector(tableId + ligaCounter.toString());
-        tableBody.innerHTML = ""; // Platzhalter löschen
+        if (tableBody) {
+          tableBody.innerHTML = ""; // Platzhalter löschen
+        }
 
         ligaRows = [];
       }
       let newRow = document.createElement("tr");
-      let playerSubdivision = row.c[this.statsSheetColSubdivision]?.v || "-";
+      let playerSubdivision =
+        row.c[this.statsSheetColSubdivision]?.v || "_base";
       let playerSubdivisionIcon = getPlayerSubdivisionIcon(playerSubdivision);
       newRow.innerHTML = `
               <td>${row.c[this.statsSheetColPlacement]?.v || " "}</td>
@@ -126,7 +129,7 @@ class StatsTable {
     );
     // füge die für diese Liga gesammelten Zeilen ein
     ligaRows.forEach((ligaRow) => {
-      tableBody.appendChild(ligaRow);
+      tableBody?.appendChild(ligaRow);
     });
 
     // Füge der Tabelle den roten Hintergrund für die letzten drei hinzu
@@ -165,7 +168,7 @@ class StatsTable {
     const modalDetails = document.getElementById("modalDetails");
 
     modalTitle.innerHTML = `Statistiken für ${getPlayerSubdivisionIcon(
-      sheetRow.c[this.statsSheetColSubdivision]?.v || "-"
+      sheetRow.c[this.statsSheetColSubdivision]?.v || "_base"
     )} ${sheetRow.c[this.statsSheetColGGName].v}`;
 
     modalDetails.innerHTML = `
@@ -265,7 +268,7 @@ class StatsTable {
         </tr>
         <tr>
           <td class="label">Lieblingsmodus</td>
-          <td>${sheetRow.c[this.statsSheetColFavMode]?.v || "0"}</td>
+          <td>${sheetRow.c[this.statsSheetColFavMode]?.v || "-"}</td>
         </tr>
       </table>
     `;

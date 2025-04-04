@@ -55,7 +55,7 @@
 <header>
   <h1>Statistiken</h1>
   
-  <!-- Flex-Container für die Tabellen -->
+  <!-- Flex-Container für die Tabellen 1 und 2 -->
   <div class="table-container">
     <!-- Tabelle 1 -->
     <div>
@@ -78,10 +78,13 @@
         <tbody id="table-body-2"></tbody>
       </table>
     </div>
+  </div>
 
+  <!-- Flex-Container für die Tabellen 3 und 4 -->
+  <div class="table-container">
     <!-- Tabelle 3 -->
     <div>
-      <h2 class="table-title">Liga 3</h2>
+      <h2 class="table-title">Liga 3a</h2>
       <table id="data-table-3">
         <thead>
           <tr id="table-header-3"><th></th><th>Discord-Name</th><th>GeoGuessr-Name</th><th>Punkte</th></tr>
@@ -89,7 +92,45 @@
         <tbody id="table-body-3"></tbody>
       </table>
     </div>
+
+    <!-- Tabelle 4 -->
+    <div>
+      <h2 class="table-title">Liga 3b</h2>
+      <table id="data-table-4">
+        <thead>
+          <tr id="table-header-4"><th></th><th>Discord-Name</th><th>GeoGuessr-Name</th><th>Punkte</th></tr>
+        </thead>
+        <tbody id="table-body-4"></tbody>
+      </table>
+    </div>
   </div>
+  
+  <!-- Flex-Container für die Tabellen 5 und 6 -->
+  <div class="table-container">
+    <!-- Tabelle 5 -->
+    <div>
+      <h2 class="table-title">Liga 4a</h2>
+      <table id="data-table-5">
+        <thead>
+          <tr id="table-header-5"><th></th><th>Discord-Name</th><th>GeoGuessr-Name</th><th>Punkte</th></tr>
+        </thead>
+        <tbody id="table-body-5"></tbody>
+      </table>
+    </div>
+
+    <!-- Tabelle 6 -->
+    <div>
+      <h2 class="table-title">Liga 4b</h2>
+      <table id="data-table-6">
+        <thead>
+          <tr id="table-header-6"><th></th><th>Discord-Name</th><th>GeoGuessr-Name</th><th>Punkte</th></tr>
+        </thead>
+        <tbody id="table-body-6"></tbody>
+      </table>
+    </div>
+  </div>
+
+  
 
   <!-- Modal-Container -->
   <div id="statsModal" class="modal">
@@ -108,7 +149,7 @@
       const liga1Stats = new StatsTable(
           '1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw',
           'Player_stats',
-          'A3:Z44',
+          'A3:Z120',
           '',
           'PlayerStats'
       );

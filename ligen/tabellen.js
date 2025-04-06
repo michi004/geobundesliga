@@ -10,7 +10,7 @@ class LeagueTable {
         this.cacheKeyRescheduled = keyIndex + "_rescheduled";
         this.spielplanName = keyIndex + "_spielplan";
         this.rescheduleRanges = [];
-        this.cacheDuration =  1 * 60 * 5; // 5 Minuten Cache-Dauer
+        this.cacheDuration =  1000 * 60 * 5; // 5 Minuten Cache-Dauer
         this.leagueSize = leagueSize;
     }
 
@@ -69,18 +69,16 @@ class LeagueTable {
 
         // Füge der Tabelle den roten Hintergrund für die letzten drei hinzu
         let allRows = tableBody.querySelectorAll('tr');
-        let lastThreeRows = [...allRows].slice(-3);
-
-        let firstFourRows = [...allRows].slice(0, 4);
-        let firstThreeRows = [...allRows].slice(0, 3);
         
         //unterschiedliche Färbung der Tabellenplätze
 
         if(this.name == 'liga1'){
+            let firstFourRows = [...allRows].slice(0, 4);
             firstFourRows.forEach(row => row.classList.add('final-four'));
         }
 
-        if (this.name == 'liga1' || this.name == 'liga2'){
+        if (this.name == 'liga1' || this.name == 'liga3a' || this.name == 'liga3b'){
+            let lastThreeRows = [...allRows].slice(-3);
             lastThreeRows.forEach(row => row.classList.add('last-three'));
 
             if (allRows[allRows.length - 4]) {
@@ -88,11 +86,30 @@ class LeagueTable {
             }
         }
 
-        if (this.name == 'liga2' || this.name == 'liga3'){
+        if(this.name == 'liga2'){
+            let lastFourRows = [...allRows].slice(-4);
+            lastFourRows.forEach(row => row.classList.add('last-three'));
+
+            if (allRows[3]) {
+                allRows[allRows.length - 5].classList.add('relegation-bottom');
+            }
+        }
+
+        if (this.name == 'liga2' || this.name == 'liga4a' || this.name == 'liga4b'){
+            let firstThreeRows = [...allRows].slice(0, 3);
             firstThreeRows.forEach(row => row.classList.add('first-three'));
 
             if (allRows[3]) {
                 allRows[3].classList.add('relegation');
+            }
+        }
+
+        if(this.name == 'liga3a' || this.name == 'liga3b'){
+            let firstTwoRows = [...allRows].slice(0, 2);
+            firstTwoRows.forEach(row => row.classList.add('first-three'));
+
+            if (allRows[2]) {
+                allRows[2].classList.add('relegation');
             }
         }
     }
@@ -365,7 +382,7 @@ function getSpielwoche() {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Setzt die Zeit auf Mitternacht
     const spielwochen = [
-        { start: new Date("2025-03-21"), end: new Date("2025-04-20"), week: 1 },
+        { start: new Date("2025-04-06"), end: new Date("2025-04-20"), week: 1 },
         { start: new Date("2025-04-21"), end: new Date("2025-05-04"), week: 2 },
         { start: new Date("2025-05-05"), end: new Date("2025-05-18"), week: 3 },
         { start: new Date("2025-05-19"), end: new Date("2025-06-01"), week: 4 },

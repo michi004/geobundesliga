@@ -200,13 +200,21 @@
             </div>
         </section>
     </div>
-
+    <!-- Modal-Container -->
+    <div id="gameModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Spielinformationen</h2>
+            <p id="modalDetails">Details zum Spiel werden hier angezeigt.</p>
+        </div>
+    </div>
+    
+    
 </body>
 <script src="tabellen.js">
 </script>
 <script>
-
-    // Instanziiere die Klassen für jede Liga
+        // Instanziiere die Klassen für jede Liga
     const liga1 = new LeagueTable(
         '1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw',
         'liga1',
@@ -219,6 +227,6 @@
 
     // Lade die Daten für alle Ligen
     liga1.initialize();
-
+    
 </script>
 </html>

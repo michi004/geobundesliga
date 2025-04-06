@@ -97,22 +97,111 @@ class LeagueTable {
         }
     }
 
+    openModal(matchData) {
+        const modal = document.getElementById('gameModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDetails = document.getElementById('modalDetails');
+
+        modalTitle.textContent = `${matchData.blau} vs ${matchData.rot}`;
+        modalDetails.innerHTML = `
+            <strong>Match ID:</strong> ${matchData.id}<br>
+            <strong>Ergebnis:</strong> ${matchData.ergebnis || 'Noch nicht verfügbar'}
+        `;
+
+        const mapsContainer = document.createElement('div');
+        mapsContainer.id = 'maps-container';
+        mapsContainer.style.marginTop = '20px';
+
+        if (matchData.maps && matchData.maps.length > 0) {
+            const maps = matchData.maps;
+            const rows = [[], [], []];
+
+            for (let i = 0; i < maps.length; i++) {
+                if (i < 2) rows[0].push(maps[i]);
+                else if (i < 5) rows[1].push(maps[i]);
+                else rows[2].push(maps[i]);
+            }
+
+            rows.forEach(row => {
+                if (row.length > 0) {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'maps-row';
+                    rowDiv.style.display = 'flex';
+                    rowDiv.style.justifyContent = 'space-around';
+                    rowDiv.style.marginBottom = '10px';
+
+                    row.forEach(mapInfo => {
+                        const [mapName, winner, matchtype, health, link] = mapInfo;
+
+                        const mapBox = document.createElement('a');
+                        mapBox.href = link;
+                        mapBox.target = '_blank';
+                        mapBox.textContent = mapName;
+                        mapBox.style.padding = '10px';
+                        mapBox.style.border = '2px solid';
+                        mapBox.style.borderRadius = '5px';
+                        mapBox.style.backgroundColor = '#f9f9f9';
+                        mapBox.style.textDecoration = 'none';
+                        mapBox.style.color = '#333';
+                        mapBox.style.display = 'inline-block';
+                        mapBox.style.minWidth = '120px';
+                        mapBox.style.textAlign = 'center';
+
+                        if (winner === 'blue') {
+                            mapBox.style.borderColor = 'blue';
+                        } else if (winner === 'red') {
+                            mapBox.style.borderColor = 'red';
+                        }
+
+                        rowDiv.appendChild(mapBox);
+                    });
+
+                    mapsContainer.appendChild(rowDiv);
+                }
+            });
+        } else {
+            mapsContainer.innerHTML = '<em>Keine Maps verfügbar</em>';
+        }
+
+        modalDetails.appendChild(mapsContainer);
+        modal.style.display = 'flex';
+    };
+    
+
+
     renderMatchTable(jsonData) {
         let rows = jsonData.table.rows;
         let tableBody = document.querySelector('.match-table tbody');
-        tableBody.innerHTML = ''; // Platzhalter löschen
-
+        tableBody.innerHTML = ''; 
+    
         rows.forEach(row => {
             let newRow = document.createElement('tr');
+            newRow.classList.add('match-row');
+            
+
             newRow.innerHTML = `
                 <td>${row.c[0]?.v || '-'}</td>
                 <td>${row.c[1]?.v || '-'}</td>
                 <td>${row.c[2]?.v || '-'}</td>
                 <td>${row.c[3]?.v || '-'}</td>
             `;
+
+            newRow.addEventListener('click', () => {
+                this.openModal({
+                    blau: row.c[0]?.v || 'N/A',
+                    rot: row.c[1]?.v || 'N/A',
+                    id: row.c[2]?.v || 'N/A',
+                    ergebnis: row.c[3]?.v || 'N/A',
+                    maps: JSON.parse(row.c[10]?.v || '[]'),
+                });
+            });
+    
             tableBody.appendChild(newRow);
         });
     }
+    
+
+    
 /*
     renderRescheduleTable(jsonData) {
         // Anzahl der Spiele pro Spielwoche
@@ -217,7 +306,7 @@ class LeagueTable {
             startRow = liga3Offsets[wocheNummer - 1];// Offset für die aktuelle Woche
             endRow = liga3Games[wocheNummer - 1] * 7 + startRow - 1;
         } 
-        this.matchRange = `B${startRow}:E${endRow}`;
+        this.matchRange = `B${startRow}:L${endRow}`;
     }
     
 
@@ -246,6 +335,20 @@ class LeagueTable {
         let dataRange1 = "S24:V" + (this.leagueSize + 23);
         let dataRange2 = "S46:V" + (this.leagueSize + 45);
         let dataRange3 = "T67:W" + (this.leagueSize + 66);
+
+        // Event-Listener für das Schließen des Modals
+        let modal = document.getElementById('gameModal');
+        let closeModalButton = modal.querySelector('.close');
+        closeModalButton.addEventListener('click', function () {
+            modal.style.display = 'none'; // Modal ausblenden
+        });
+    
+        // Optional: Modal schließen, wenn außerhalb des Inhalts geklickt wird
+        modal.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none'; // Modal ausblenden
+            }
+        });
 
         // horizontale slideshow mit extra daten 
         fetchAndRenderTable("1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw", this.spielplanName, dataRange1, "pinpointTable");
@@ -337,7 +440,7 @@ function showSlides(n) {
     dots[slideIndex-1].className += " active";
 }
 
-function fetchAndRenderTable(sheetID, sheetName, dataRange, tableID) {
+function fetchAndRenderTable(sheetID, sheetName, dataRange, tableID,onRowClick) {
     const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&range=${dataRange}`;
     
     fetch(url)
@@ -355,7 +458,7 @@ function fetchAndRenderTable(sheetID, sheetName, dataRange, tableID) {
             tableBody.innerHTML = '';
             rows.forEach(row => {
                 let newRow = document.createElement('tr');
-                newRow.innerHTML = row.c.map(cell => {
+                newRow.innerHTML = row.c.slice(0, 4).map(cell => {
                     let value = cell?.v || '-';
 
                     // Prüfen, ob der Wert ein Datum-Objekt ist
@@ -365,6 +468,12 @@ function fetchAndRenderTable(sheetID, sheetName, dataRange, tableID) {
 
                     return `<td>${value}</td>`;
                 }).join('');
+
+                if (typeof onRowClick === 'function') {
+                    newRow.addEventListener('click', () => onRowClick(row));
+                    newRow.classList.add('clickable'); // CSS-Stil hinzufügen
+                }
+
                 tableBody.appendChild(newRow);
             });
         })
@@ -386,7 +495,7 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
     function createMatchdayTable(index) {
         const startRow = 3 + (index - 1) * matchdaySize;
         const endRow = startRow + matchdaySize - 1;
-        const dataRange = `B${startRow}:E${endRow}`;
+        const dataRange = `B${startRow}:L${endRow}`;
         const tableID = `matchday-${index}`;
         
         const table = document.createElement("table");
@@ -397,10 +506,20 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
         }
         table.innerHTML = `<thead><tr><th colspan='4'>Spieltag ${index}</th></tr></thead><tbody></tbody>`;
         
-        fetchAndRenderTable(sheetID, sheetName, dataRange, tableID);
-        
+        // ✨ Hier der wichtige Teil:
+        fetchAndRenderTable(sheetID, sheetName, dataRange, tableID, (row) => {
+            const blau = row.c[0]?.v || 'N/A';
+            const rot = row.c[1]?.v || 'N/A';
+            const id = row.c[2]?.v || 'N/A';
+            const ergebnis = row.c[3]?.v || 'N/A';
+            const maps = JSON.parse(row.c[10]?.v || '[]');
+
+            openModal({ blau, rot, id, ergebnis, maps });
+        });
+
         return table;
     }
+    
 
     function getWrappedIndex(index) {
         if (index < 1) return totalMatchdays;
@@ -459,6 +578,76 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
             }
         });
     }
+
+    function openModal(matchData) {
+        const modal = document.getElementById('gameModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDetails = document.getElementById('modalDetails');
+
+        modalTitle.textContent = `${matchData.blau} vs ${matchData.rot}`;
+        modalDetails.innerHTML = `
+            <strong>Match ID:</strong> ${matchData.id}<br>
+            <strong>Ergebnis:</strong> ${matchData.ergebnis || 'Noch nicht verfügbar'}
+        `;
+
+        const mapsContainer = document.createElement('div');
+        mapsContainer.id = 'maps-container';
+        mapsContainer.style.marginTop = '20px';
+
+        if (matchData.maps && matchData.maps.length > 0) {
+            const maps = matchData.maps;
+            const rows = [[], [], []];
+
+            for (let i = 0; i < maps.length; i++) {
+                if (i < 2) rows[0].push(maps[i]);
+                else if (i < 5) rows[1].push(maps[i]);
+                else rows[2].push(maps[i]);
+            }
+
+            rows.forEach(row => {
+                if (row.length > 0) {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'maps-row';
+                    rowDiv.style.display = 'flex';
+                    rowDiv.style.justifyContent = 'space-around';
+                    rowDiv.style.marginBottom = '10px';
+
+                    row.forEach(mapInfo => {
+                        const [mapName, winner, matchtype, health, link] = mapInfo;
+
+                        const mapBox = document.createElement('a');
+                        mapBox.href = link;
+                        mapBox.target = '_blank';
+                        mapBox.textContent = mapName;
+                        mapBox.style.padding = '10px';
+                        mapBox.style.border = '2px solid';
+                        mapBox.style.borderRadius = '5px';
+                        mapBox.style.backgroundColor = '#f9f9f9';
+                        mapBox.style.textDecoration = 'none';
+                        mapBox.style.color = '#333';
+                        mapBox.style.display = 'inline-block';
+                        mapBox.style.minWidth = '120px';
+                        mapBox.style.textAlign = 'center';
+
+                        if (winner === 'blue') {
+                            mapBox.style.borderColor = 'blue';
+                        } else if (winner === 'red') {
+                            mapBox.style.borderColor = 'red';
+                        }
+
+                        rowDiv.appendChild(mapBox);
+                    });
+
+                    mapsContainer.appendChild(rowDiv);
+                }
+            });
+        } else {
+            mapsContainer.innerHTML = '<em>Keine Maps verfügbar</em>';
+        }
+
+        modalDetails.appendChild(mapsContainer);
+        modal.style.display = 'flex';
+    };
 
     generateMatchdayList();
     renderMatchdayTables();

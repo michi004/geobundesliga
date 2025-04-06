@@ -109,7 +109,9 @@ class StatsTable {
               <td style="text-align: left">${playerSubdivisionIcon} ${
         row.c[this.statsSheetColGGName].v
       }</td>
-              <td>${row.c[this.statsSheetColPoints]?.v}</td>
+              <td>${
+                Math.round(row.c[this.statsSheetColPoints]?.v * 100) / 100
+              }</td>
           `;
 
       newRow.classList.add("hoverable");
@@ -205,7 +207,9 @@ class StatsTable {
         </tr>
         <tr>
           <td class="label">Punkte</td>
-          <td>${sheetRow.c[this.statsSheetColPoints]?.v}</td>
+          <td>${
+            Math.round(sheetRow.c[this.statsSheetColPoints]?.v * 100) / 100
+          }</td>
         </tr>
         <tr>
           <td class="label">Anzahl 5k</td>
@@ -228,9 +232,8 @@ class StatsTable {
             sheetRow.c[this.statsSheetColMPlayed]?.v || "0"
           })</td>
           <td>${sheetRow.c[this.statsSheetColMWon]?.v || "0"}-${
-      sheetRow.c[this.statsSheetColMPlayed]?.v ||
-      "0" - sheetRow.c[this.statsSheetColMWon]?.v ||
-      "0"
+      sheetRow.c[this.statsSheetColMPlayed]?.v -
+      sheetRow.c[this.statsSheetColMWon]?.v
     } / ${sheetRow.c[this.statsSheetColMHealth]?.v || "0"}</td>
         </tr>
         <tr>
@@ -238,9 +241,8 @@ class StatsTable {
             sheetRow.c[this.statsSheetColNMPlayed]?.v || "0"
           })</td>
           <td>${sheetRow.c[this.statsSheetColNMWon]?.v || "0"}-${
-      sheetRow.c[this.statsSheetColNMPlayed]?.v ||
-      "0" - sheetRow.c[this.statsSheetColNMWon]?.v ||
-      "0"
+      sheetRow.c[this.statsSheetColNMPlayed]?.v -
+      sheetRow.c[this.statsSheetColNMWon]?.v
     } / ${sheetRow.c[this.statsSheetColNMHealth]?.v || "0"}</td>
         </tr>
         <tr>
@@ -248,9 +250,8 @@ class StatsTable {
             sheetRow.c[this.statsSheetColNMPZPlayed]?.v || "0"
           })</td>
           <td>${sheetRow.c[this.statsSheetColNMPZWon]?.v || "0"}-${
-      sheetRow.c[this.statsSheetColNMPZPlayed]?.v ||
-      "0" - sheetRow.c[this.statsSheetColNMPZWon]?.v ||
-      "0"
+      sheetRow.c[this.statsSheetColNMPZPlayed]?.v -
+      sheetRow.c[this.statsSheetColNMPZWon]?.v
     } / ${sheetRow.c[this.statsSheetColNMPZHealth]?.v || "0"}</td>
         </tr>
         <tr>
@@ -258,9 +259,8 @@ class StatsTable {
             sheetRow.c[this.statsSheetColDACHPlayed]?.v || "0"
           })</td>
           <td>${sheetRow.c[this.statsSheetColDACHWon]?.v || "0"}-${
-      sheetRow.c[this.statsSheetColDACHPlayed]?.v ||
-      "0" - sheetRow.c[this.statsSheetColDACHWon]?.v ||
-      "0"
+      sheetRow.c[this.statsSheetColDACHPlayed]?.v -
+      sheetRow.c[this.statsSheetColDACHWon]?.v
     } / ${sheetRow.c[this.statsSheetColDACHHealth]?.v || "0"}</td>
         </tr>
         <tr>

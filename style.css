@@ -88,3 +88,9 @@
     background-color: #2a2c6b;
     color: #fff;
 }
+
+.container-wrapper {
+    display: flex;
+    justify-content: center; /* optional, zentriert beide Container */
+    gap: 20px; /* Abstand zwischen den Containern */
+}

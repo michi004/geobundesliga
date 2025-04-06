@@ -482,8 +482,13 @@ function fetchAndRenderTable(sheetID, sheetName, dataRange, tableID,onRowClick) 
 
 // Vertikale Slideshow für Spieltage
 function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
-    const matchdaySize = leagueSize / 2; // Anzahl der Spiele pro Spieltag
-    const totalMatchdays = leagueSize - 1; // Anzahl der Spieltage (keine Rückrunde)
+    if (leagueSize % 2 === 0) {
+        matchdaySize = leagueSize / 2;  // Anzahl der Spiele pro Spieltag
+        totalMatchdays = leagueSize - 1;    // Anzahl der Spieltage (keine Rückrunde)
+    } else {
+        matchdaySize = leagueSize / 2 - 0.5;    // Anzahl der Spiele pro Spieltag
+        totalMatchdays = leagueSize;    // Anzahl der Spieltage (keine Rückrunde)
+    }
     
     const slideshowContainer = document.querySelector(".matchday-slideshow");
     const prevButton = document.querySelector(".prevDay");

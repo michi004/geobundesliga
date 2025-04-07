@@ -195,10 +195,6 @@ class StatsTable {
           <td class="label">Beste Platzierung <br> reguläre Seasons</td>
           <td>${sheetRow.c[this.statsSheetColPB]?.v || "-"}</td>
         </tr>
-        <tr>
-          <td class="label">Lebensweisheit</td>
-          <td>${sheetRow.c[this.statsSheetColWordsOfWisdom]?.v || "-"}</td>
-        </tr>
         <tr><td></td><td></td></tr>
         <tr><td></td><td></td></tr>
         <tr><td></td><td></td></tr>

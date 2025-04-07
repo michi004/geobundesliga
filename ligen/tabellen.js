@@ -193,26 +193,30 @@ class LeagueTable {
     const modalTitle = document.getElementById("modalTitle");
     const modalDetails = document.getElementById("modalDetails");
 
-    modalTitle.textContent = `${matchData.blau} vs ${matchData.rot}`;
+    modalTitle.innerHTML = `${
+      matchData.ergebnis != "N/A" ? '<span style="color:blue;">|</span>' : ""
+    } ${matchData.blau} vs ${matchData.rot} ${
+      matchData.ergebnis != "N/A" ? '<span style="color:red;">|</span>' : ""
+    }`;
     modalDetails.innerHTML = `
       <strong>Match ID:</strong> ${matchData.id}<br>
       <strong>Ergebnis:</strong> ${matchData.ergebnis || "Noch nicht verfügbar"}
     `;
-  
+
     const mapsContainer = document.createElement("div");
     mapsContainer.id = "maps-container";
     mapsContainer.style.marginTop = "20px";
-  
+
     if (matchData.maps && matchData.maps.length > 0) {
       const maps = matchData.maps;
       const rows = [[], [], []];
-  
+
       for (let i = 0; i < maps.length; i++) {
         if (i < 2) rows[0].push(maps[i]);
         else if (i < 5) rows[1].push(maps[i]);
         else rows[2].push(maps[i]);
       }
-  
+
       rows.forEach((row) => {
         if (row.length > 0) {
           const rowDiv = document.createElement("div");
@@ -220,10 +224,10 @@ class LeagueTable {
           rowDiv.style.display = "flex";
           rowDiv.style.justifyContent = "space-around";
           rowDiv.style.marginBottom = "10px";
-  
+
           row.forEach((mapInfo) => {
             const [mapName, winner, matchtype, health, link] = mapInfo;
-  
+
             const mapBox = document.createElement("a");
             mapBox.href = link;
             mapBox.target = "_blank";
@@ -237,30 +241,35 @@ class LeagueTable {
             mapBox.style.backgroundColor = "#f9f9f9";
             mapBox.style.textAlign = "left";
 
-  
             // Gewinnerfarbe setzen
             if (winner === "blue") {
               mapBox.style.borderLeft = "5px solid blue";
             } else if (winner === "red") {
               mapBox.style.borderRight = "5px solid red";
             }
-  
+
             // Inhalt mit Mapname & Matchtyp
             mapBox.innerHTML = `
               <div>${mapName}</div>
-              <div style="font-size: 0.8em; color: #777;">${matchtype}</div>
+              <div style="font-size: 0.8em; color: #777;">${
+                matchtype == "move"
+                  ? "Moving"
+                  : matchtype == "no move"
+                  ? "NM"
+                  : "NMPZ"
+              }</div>
             `;
-  
+
             rowDiv.appendChild(mapBox);
           });
-  
+
           mapsContainer.appendChild(rowDiv);
         }
       });
     } else {
       mapsContainer.innerHTML = "<em>Keine Maps verfügbar</em>";
     }
-  
+
     modalDetails.appendChild(mapsContainer);
     modal.style.display = "flex";
   }
@@ -892,26 +901,30 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
     const modalTitle = document.getElementById("modalTitle");
     const modalDetails = document.getElementById("modalDetails");
 
-    modalTitle.textContent = `${matchData.blau} vs ${matchData.rot}`;
+    modalTitle.innerHTML = `${
+      matchData.ergebnis != "N/A" ? '<span style="color:blue;">|</span>' : ""
+    } ${matchData.blau} vs ${matchData.rot} ${
+      matchData.ergebnis != "N/A" ? '<span style="color:red;">|</span>' : ""
+    }`;
     modalDetails.innerHTML = `
       <strong>Match ID:</strong> ${matchData.id}<br>
       <strong>Ergebnis:</strong> ${matchData.ergebnis || "Noch nicht verfügbar"}
     `;
-  
+
     const mapsContainer = document.createElement("div");
     mapsContainer.id = "maps-container";
     mapsContainer.style.marginTop = "20px";
-  
+
     if (matchData.maps && matchData.maps.length > 0) {
       const maps = matchData.maps;
       const rows = [[], [], []];
-  
+
       for (let i = 0; i < maps.length; i++) {
         if (i < 2) rows[0].push(maps[i]);
         else if (i < 5) rows[1].push(maps[i]);
         else rows[2].push(maps[i]);
       }
-  
+
       rows.forEach((row) => {
         if (row.length > 0) {
           const rowDiv = document.createElement("div");
@@ -919,10 +932,10 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
           rowDiv.style.display = "flex";
           rowDiv.style.justifyContent = "space-around";
           rowDiv.style.marginBottom = "10px";
-  
+
           row.forEach((mapInfo) => {
             const [mapName, winner, matchtype, health, link] = mapInfo;
-  
+
             const mapBox = document.createElement("a");
             mapBox.href = link;
             mapBox.target = "_blank";
@@ -936,30 +949,35 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
             mapBox.style.backgroundColor = "#f9f9f9";
             mapBox.style.textAlign = "left";
 
-  
             // Gewinnerfarbe setzen
             if (winner === "blue") {
               mapBox.style.borderLeft = "5px solid blue";
             } else if (winner === "red") {
               mapBox.style.borderRight = "5px solid red";
             }
-  
+
             // Inhalt mit Mapname & Matchtyp
             mapBox.innerHTML = `
               <div>${mapName}</div>
-              <div style="font-size: 0.8em; color: #777;">${matchtype}</div>
+              <div style="font-size: 0.8em; color: #777;">${
+                matchtype == "move"
+                  ? "Moving"
+                  : matchtype == "no move"
+                  ? "NM"
+                  : "NMPZ"
+              }</div>
             `;
-  
+
             rowDiv.appendChild(mapBox);
           });
-  
+
           mapsContainer.appendChild(rowDiv);
         }
       });
     } else {
       mapsContainer.innerHTML = "<em>Keine Maps verfügbar</em>";
     }
-  
+
     modalDetails.appendChild(mapsContainer);
     modal.style.display = "flex";
   }

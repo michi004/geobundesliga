@@ -21,33 +21,34 @@ class LeagueTable {
     this.cacheDuration = 1000 * 60 * 5; // 5 Minuten Cache-Dauer
     this.leagueSize = leagueSize;
 
-    // Spalten im Stats Google Sheet
+    // Spalten im Google Sheet
     this.statsSheetColLigaNumber = 0; // Spalte A
     this.statsSheetColDiscordName = 1; // Spalte B
     this.statsSheetColGGName = 2;
-    this.statsSheetColSubdivision = 3; // usw.
-    this.statsSheetColLeagueParticipations = 4;
-    this.statsSheetColPB = 5;
-    this.statsSheetColWordsOfWisdom = 6;
-    this.statsSheetColPlacement = 7;
-    this.statsSheetColPoints = 8;
-    this.statsSheetCol5ks = 9;
-    this.statsSheetCol4800 = 10;
-    this.statsSheetColExt = 11;
-    this.statsSheetColYellowCards = 12;
-    this.statsSheetColMPlayed = 13;
-    this.statsSheetColMWon = 14;
-    this.statsSheetColMHealth = 15;
-    this.statsSheetColNMPlayed = 16;
-    this.statsSheetColNMWon = 17;
-    this.statsSheetColNMHealth = 18;
-    this.statsSheetColNMPZPlayed = 19;
-    this.statsSheetColNMPZWon = 20;
-    this.statsSheetColNMPZHealth = 21;
-    this.statsSheetColDACHPlayed = 22;
-    this.statsSheetColDACHWon = 23;
-    this.statsSheetColDACHHealth = 24;
-    this.statsSheetColFavMode = 25;
+    this.statsSheetColGGLink = 3;
+    this.statsSheetColSubdivision = 3 + 1; // usw.
+    this.statsSheetColLeagueParticipations = 4 + 1;
+    this.statsSheetColPB = 5 + 1;
+    this.statsSheetColWordsOfWisdom = 6 + 1;
+    this.statsSheetColPlacement = 7 + 1;
+    this.statsSheetColPoints = 8 + 1;
+    this.statsSheetCol5ks = 9 + 1;
+    this.statsSheetCol4800 = 10 + 1;
+    this.statsSheetColExt = 11 + 1;
+    this.statsSheetColYellowCards = 12 + 1;
+    this.statsSheetColMPlayed = 13 + 1;
+    this.statsSheetColMWon = 14 + 1;
+    this.statsSheetColMHealth = 15 + 1;
+    this.statsSheetColNMPlayed = 16 + 1;
+    this.statsSheetColNMWon = 17 + 1;
+    this.statsSheetColNMHealth = 18 + 1;
+    this.statsSheetColNMPZPlayed = 19 + 1;
+    this.statsSheetColNMPZWon = 20 + 1;
+    this.statsSheetColNMPZHealth = 21 + 1;
+    this.statsSheetColDACHPlayed = 22 + 1;
+    this.statsSheetColDACHWon = 23 + 1;
+    this.statsSheetColDACHHealth = 24 + 1;
+    this.statsSheetColFavMode = 25 + 1;
     this.sheetData;
   }
 
@@ -349,7 +350,7 @@ class LeagueTable {
         this.getURLStats(
           "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw",
           "Player_stats",
-          "A3:Z120"
+          "A3:AA120"
         ),
         "PlayerStats_table"
       );

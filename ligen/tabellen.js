@@ -378,10 +378,14 @@ class LeagueTable {
     )} ${sheetRow.c[this.statsSheetColGGName].v}`;
 
     modalDetails.innerHTML = `
-      <table class="player-info">
+      <table class="player-info" style="background-color: #d4d4d4">
         <tr>
           <td class="label">Discord</td>
           <td>${sheetRow.c[this.statsSheetColDiscordName].v}</td>
+        </tr>
+        <tr>
+          <td class="label">Profillink</td>
+          <td><a href="${sheetRow.c[this.statsSheetColGGLink].v}">Link</a></td>
         </tr>
         <tr>
           <td class="label">Region</td>

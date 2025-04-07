@@ -68,7 +68,7 @@ body{
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: white;
+    background-color: rgb(240, 240, 240);
     table-layout: fixed;
     height: 100%;
 }
@@ -198,7 +198,7 @@ tbody tr { background-color: transparent; }
 }
 
 .matchday-table tbody tr:has(td):hover {
-    background-color: #f0f0f0;
+    background-color: #d4d4d4;
     font-weight: bold;
 }
 
@@ -223,7 +223,7 @@ tbody tr { background-color: transparent; }
 
 .match-table .match-row:hover {
     font-weight: bold;
-    background-color: #f0f0f0; 
+    background-color: #d4d4d4; 
 }
 
 .prevDay, .nextDay {
@@ -324,7 +324,7 @@ tr:hover {
 
 /* Modal-Inhalt */
 .modal-content {
-    background-color: white;
+    background-color: #d4d4d4;
     color: black;
     padding: 20px;
     border-radius: 10px;

@@ -178,6 +178,10 @@ class StatsTable {
           <td>${sheetRow.c[this.statsSheetColDiscordName].v}</td>
         </tr>
         <tr>
+          <td class="label">Profillink</td>
+          <td><a href="${sheetRow.c[this.statsSheetColGGLink].v}">Link</a></td>
+        </tr>
+        <tr>
           <td class="label">Region</td>
           <td>${sheetRow.c[this.statsSheetColSubdivision]?.v || "-"}</td>
         </tr>

@@ -521,13 +521,13 @@ class LeagueTable {
 
     //arrays mit anzahl der spiele pro spielwoche
     const liga1Games = [3, 3, 3, 2, 2, 2];
-    const liga23Games = [3, 3, 2, 2, 2, 2];
+    const liga23Games = [3, 3, 3, 2, 2, 2];
     const liga4Games = [3, 2, 2, 2, 2, 2];
 
     // arrays mit jeweiligen offsets für jede spielwoche
-    const liga1Offsets = this.calculateOffsets(liga1Games);
-    const liga23Offsets = this.calculateOffsets(liga23Games);
-    const liga4Offsets = this.calculateOffsets(liga4Games);
+    const liga1Offsets = this.calculateOffsets(liga1Games, 8);
+    const liga23Offsets = this.calculateOffsets(liga23Games, 7);
+    const liga4Offsets = this.calculateOffsets(liga4Games, 7);
 
     //überschrift
     const headerElement = document.querySelector(".week");
@@ -546,7 +546,11 @@ class LeagueTable {
     if (this.name == "liga1") {
       startRow = liga1Offsets[wocheNummer - 1]; // Offset für die aktuelle Woche
       endRow = liga1Games[wocheNummer - 1] * 8 + startRow - 1;
-    } else if (this.name == "liga2" || this.name == "liga3a" || this.name == "liga3b") {
+    } else if (
+      this.name == "liga2" ||
+      this.name == "liga3a" ||
+      this.name == "liga3b"
+    ) {
       startRow = liga23Offsets[wocheNummer - 1]; // Offset für die aktuelle Woche
       endRow = liga23Games[wocheNummer - 1] * 7 + startRow - 1;
     } else {
@@ -557,7 +561,7 @@ class LeagueTable {
   }
 
   //hilfsfunktion
-  calculateOffsets(gamesPerWeek, spieleProTag = 7) {
+  calculateOffsets(gamesPerWeek, spieleProTag) {
     let offsets = [];
     let currentOffset = 3;
 

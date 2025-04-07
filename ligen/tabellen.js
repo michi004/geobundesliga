@@ -20,10 +20,44 @@ class LeagueTable {
     this.rescheduleRanges = [];
     this.cacheDuration = 1000 * 60 * 5; // 5 Minuten Cache-Dauer
     this.leagueSize = leagueSize;
+
+    // Spalten im Stats Google Sheet
+    this.statsSheetColLigaNumber = 0; // Spalte A
+    this.statsSheetColDiscordName = 1; // Spalte B
+    this.statsSheetColGGName = 2;
+    this.statsSheetColSubdivision = 3; // usw.
+    this.statsSheetColLeagueParticipations = 4;
+    this.statsSheetColPB = 5;
+    this.statsSheetColWordsOfWisdom = 6;
+    this.statsSheetColPlacement = 7;
+    this.statsSheetColPoints = 8;
+    this.statsSheetCol5ks = 9;
+    this.statsSheetCol4800 = 10;
+    this.statsSheetColExt = 11;
+    this.statsSheetColYellowCards = 12;
+    this.statsSheetColMPlayed = 13;
+    this.statsSheetColMWon = 14;
+    this.statsSheetColMHealth = 15;
+    this.statsSheetColNMPlayed = 16;
+    this.statsSheetColNMWon = 17;
+    this.statsSheetColNMHealth = 18;
+    this.statsSheetColNMPZPlayed = 19;
+    this.statsSheetColNMPZWon = 20;
+    this.statsSheetColNMPZHealth = 21;
+    this.statsSheetColDACHPlayed = 22;
+    this.statsSheetColDACHWon = 23;
+    this.statsSheetColDACHHealth = 24;
+    this.statsSheetColFavMode = 25;
+    this.sheetData;
   }
 
   getURL(range) {
     return `https://docs.google.com/spreadsheets/d/${this.sheetID}/gviz/tq?sheet=${this.sheetName}&range=${range}`;
+  }
+
+  getURLStats(sheetID, sheetName, range) {
+    // for stats data
+    return `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&range=${range}`;
   }
 
   fetchAndRenderData(url, cacheKey, renderFunction) {
@@ -45,6 +79,26 @@ class LeagueTable {
       .catch((error) => {
         console.error("Fehler beim Abrufen der Daten: ", error);
       });
+  }
+
+  fetchAndReturnStatsData(url, cacheKey) {
+    let jsonData;
+    fetch(url)
+      .then((res) => res.text())
+      .then((rep) => {
+        jsonData = JSON.parse(rep.substr(47).slice(0, -2));
+
+        // Speichere die Daten im Cache (localStorage)
+        let cacheData = {
+          data: jsonData,
+          expiry: Date.now() + this.cacheDuration,
+        };
+        localStorage.setItem(cacheKey, JSON.stringify(cacheData));
+      })
+      .catch((error) => {
+        console.error("Fehler beim Abrufen der Daten: ", error);
+      });
+    return jsonData;
   }
 
   isCacheValid(cacheKey) {
@@ -71,6 +125,10 @@ class LeagueTable {
                 <td>${row.c[7].v}</td>
                 <td>${parseFloat(row.c[8]?.v).toFixed(2)}</td>
             `;
+      newRow.addEventListener("click", () => {
+        this.openStatsModalForName(row.c[1].v);
+      });
+      newRow.classList.add("league-table-row");
       tableBody.appendChild(newRow);
     });
 
@@ -280,6 +338,150 @@ class LeagueTable {
     }
   }
 
+  loadAndReturnStatsTableData() {
+    if (this.isCacheValid("PlayerStats_table")) {
+      let cachedData = JSON.parse(
+        localStorage.getItem("PlayerStats_table")
+      ).data;
+      return cachedData;
+    } else {
+      return this.fetchAndReturnStatsData(
+        this.getURLStats(
+          "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw",
+          "Player_stats",
+          "A3:Z120"
+        ),
+        "PlayerStats_table"
+      );
+    }
+  }
+
+  openStatsModalForName(name) {
+    let jsonData = this.loadAndReturnStatsTableData();
+    let rows = jsonData.table.rows;
+    rows.forEach((row) => {
+      if (row.c[2]?.v == name) {
+        this.openStatsModal(row);
+      }
+    });
+  }
+
+  // copied from stats page
+  openStatsModal(sheetRow) {
+    const modal = document.getElementById("statsModal");
+    const modalTitle = document.getElementById("statsModalTitle");
+    const modalDetails = document.getElementById("statsModalDetails");
+
+    modalTitle.innerHTML = `Statistiken für ${this.getPlayerSubdivisionIcon(
+      sheetRow.c[this.statsSheetColSubdivision]?.v || "base"
+    )} ${sheetRow.c[this.statsSheetColGGName].v}`;
+
+    modalDetails.innerHTML = `
+      <table class="player-info">
+        <tr>
+          <td class="label">Discord</td>
+          <td>${sheetRow.c[this.statsSheetColDiscordName].v}</td>
+        </tr>
+        <tr>
+          <td class="label">Region</td>
+          <td>${sheetRow.c[this.statsSheetColSubdivision]?.v || "-"}</td>
+        </tr>
+        <tr>
+          <td class="label">Saisonteilnahmen</td>
+          <td>${
+            sheetRow.c[this.statsSheetColLeagueParticipations]?.v || "-"
+          }</td>
+        </tr>
+        <tr>
+          <td class="label">Beste Platzierung <br> reguläre Seasons</td>
+          <td>${sheetRow.c[this.statsSheetColPB]?.v || "-"}</td>
+        </tr>
+        <tr>
+          <td class="label">Lebensweisheit</td>
+          <td>${sheetRow.c[this.statsSheetColWordsOfWisdom]?.v || "-"}</td>
+        </tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr><td></td><td></td></tr>
+        <tr>
+          <td class="label">Platzierung in Liga</td>
+          <td>${sheetRow.c[this.statsSheetColPlacement]?.v || "-"}</td>
+        </tr>
+        <tr>
+          <td class="label">Punkte</td>
+          <td>${
+            Math.round(sheetRow.c[this.statsSheetColPoints]?.v * 100) / 100
+          }</td>
+        </tr>
+        <tr>
+          <td class="label">Anzahl 5k</td>
+          <td>${sheetRow.c[this.statsSheetCol5ks]?.v || "0"}</td>
+        </tr>
+        <tr>
+          <td class="label">Anzahl 4800+</td>
+          <td>${sheetRow.c[this.statsSheetCol4800]?.v || "0"}</td>
+        </tr>
+        <tr>
+          <td class="label">Extensions</td>
+          <td>${sheetRow.c[this.statsSheetColExt]?.v || "0"}</td>
+        </tr>
+        <tr>
+          <td class="label">Gelbe Karten</td>
+          <td>${sheetRow.c[this.statsSheetColYellowCards]?.v || "0"}</td>
+        </tr>
+        <tr>
+          <td class="label">Moving-Duels (${
+            sheetRow.c[this.statsSheetColMPlayed]?.v || "0"
+          })</td>
+          <td>${sheetRow.c[this.statsSheetColMWon]?.v || "0"}-${
+      sheetRow.c[this.statsSheetColMPlayed]?.v -
+      sheetRow.c[this.statsSheetColMWon]?.v
+    } / ${sheetRow.c[this.statsSheetColMHealth]?.v || "0"}</td>
+        </tr>
+        <tr>
+          <td class="label">NM-Duels (${
+            sheetRow.c[this.statsSheetColNMPlayed]?.v || "0"
+          })</td>
+          <td>${sheetRow.c[this.statsSheetColNMWon]?.v || "0"}-${
+      sheetRow.c[this.statsSheetColNMPlayed]?.v -
+      sheetRow.c[this.statsSheetColNMWon]?.v
+    } / ${sheetRow.c[this.statsSheetColNMHealth]?.v || "0"}</td>
+        </tr>
+        <tr>
+          <td class="label">NMPZ-Duels (${
+            sheetRow.c[this.statsSheetColNMPZPlayed]?.v || "0"
+          })</td>
+          <td>${sheetRow.c[this.statsSheetColNMPZWon]?.v || "0"}-${
+      sheetRow.c[this.statsSheetColNMPZPlayed]?.v -
+      sheetRow.c[this.statsSheetColNMPZWon]?.v
+    } / ${sheetRow.c[this.statsSheetColNMPZHealth]?.v || "0"}</td>
+        </tr>
+        <tr>
+          <td class="label">DACH-Duels (${
+            sheetRow.c[this.statsSheetColDACHPlayed]?.v || "0"
+          })</td>
+          <td>${sheetRow.c[this.statsSheetColDACHWon]?.v || "0"}-${
+      sheetRow.c[this.statsSheetColDACHPlayed]?.v -
+      sheetRow.c[this.statsSheetColDACHWon]?.v
+    } / ${sheetRow.c[this.statsSheetColDACHHealth]?.v || "0"}</td>
+        </tr>
+        <tr>
+          <td class="label">Lieblingsmodus</td>
+          <td>${sheetRow.c[this.statsSheetColFavMode]?.v || "-"}</td>
+        </tr>
+      </table>
+    `;
+    modal.style.display = "flex";
+  }
+
+  getPlayerSubdivisionIcon(playerSubdivision) {
+    return `<img src="./../img/herzen/${playerSubdivision}.png" alt="${playerSubdivision}" style="height: 1em; vertical-align: middle;" />`;
+  }
+
   loadMatchData() {
     if (this.isCacheValid(this.cacheKeyMatches)) {
       let cachedData = JSON.parse(
@@ -388,6 +590,20 @@ class LeagueTable {
     modal.addEventListener("click", function (event) {
       if (event.target === modal) {
         modal.style.display = "none"; // Modal ausblenden
+      }
+    });
+
+    // Event-Listener für das Schließen des Modals
+    let statsModal = document.getElementById("statsModal");
+    let closeStatsModalButton = statsModal.querySelector(".close");
+    closeStatsModalButton.addEventListener("click", function () {
+      statsModal.style.display = "none"; // Modal ausblenden
+    });
+
+    // Optional: Modal schließen, wenn außerhalb des Inhalts geklickt wird
+    statsModal.addEventListener("click", function (event) {
+      if (event.target === statsModal) {
+        statsModal.style.display = "none"; // Modal ausblenden
       }
     });
 

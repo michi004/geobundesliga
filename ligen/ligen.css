@@ -216,6 +216,11 @@ tbody tr { background-color: transparent; }
     cursor: pointer;
 }
 
+.league-table-row:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+
 .match-table .match-row:hover {
     font-weight: bold;
     background-color: #f0f0f0; 
@@ -378,3 +383,25 @@ tr:hover {
     border-color: red;
 }
 
+/*statsModal-Inhalt Eigenschaften*/
+.player-info {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border-collapse: collapse;
+    border: none;
+    font-style: normal;
+  }
+  
+  .player-info td {
+    padding: 0.2em 0.5em;
+    vertical-align: center;
+    border: none;
+    text-align: left;
+    font-style: normal;
+  }
+  
+  .player-info .label {
+    font-weight: bold;
+    text-align: right;
+    white-space: nowrap;
+  }

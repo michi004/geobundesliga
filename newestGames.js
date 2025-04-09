@@ -51,8 +51,8 @@ class NewestGameInfos {
         let li = document.createElement("li");
         li.innerHTML = `${
           row.c[18].v == 0
-            ? "vor " + row.c[19].v + " min"
-            : "vor " + row.c[18].v + " h"
+            ? "vor " + row.c[19].v + "min"
+            : "vor " + row.c[18].v + "h"
         } - ${row.c[17].v} - ${row.c[0].v} <span style="font-style: italic;">${
           row.c[3].v
         }</span> ${row.c[1].v}`;

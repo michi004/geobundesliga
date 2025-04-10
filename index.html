@@ -1,72 +1,144 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Geo Bundesliga</title>
-    <link rel="stylesheet" href="default.css" />
-    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: linear-gradient(to bottom right, #1a0033, #660066);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        color: white;
+        text-align: center;
+        font-size: larger;
+        padding: 40px 0;
+      }
+      .card-custom {
+        background-color: #dcd6e0;
+        color: black;
+        border-radius: 5px;
+        padding: 40px;
+        margin: 15px;
+        font-weight: bold;
+      }
+      .card-untere-reihe {
+        padding: 30px;
+      }
+      a {
+        text-decoration: none;
+      }
+
+      a:hover {
+        background-color: #2a2c6b;
+        color: #dcd6e0;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .my-6 {
+        margin-top: 5rem !important;
+        margin-bottom: 5rem !important;
+      }
+
+      #newest-games-card {
+        background-color: #dcd6e0cc;
+        text-align: left;
+      }
+    </style>
   </head>
   <body>
-    <!-- Große Überschrift -->
-    <h1 class="main-title">Geo Bundesliga</h1>
+    <div class="container">
+      <h1 class="mb-5 fw-bold">Geo Bundesliga</h1>
 
-    <div class="container-wrapper">
-      <div class="container">
-        <div class="liga">
-          <a href="ligen/liga1.html"><div class="liga-item">Liga 1</div></a>
-        </div>
-        <div class="liga">
-          <a href="ligen/liga3a.html"><div class="liga-item">Liga 3a</div></a>
-        </div>
-        <div class="liga">
-          <a href="ligen/liga4a.html"><div class="liga-item">Liga 4a</div></a>
+      <!-- liga X -->
+      <div class="row justify-content-center">
+        <a
+          href="ligen/liga1.html"
+          class="col-xs-12 col-sm-8 col-xl-4 card-custom"
+          >Liga 1</a
+        >
+        <a
+          href="ligen/liga2.html"
+          class="col-xs-12 col-sm-8 col-xl-4 card-custom"
+          >Liga 2</a
+        >
+        <a
+          href="ligen/liga3a.html"
+          class="col-xs-12 col-sm-8 col-xl-4 card-custom"
+          >Liga 3a</a
+        >
+        <a
+          href="ligen/liga3b.html"
+          class="col-xs-12 col-sm-8 col-xl-4 card-custom"
+          >Liga 3b</a
+        >
+        <a
+          href="ligen/liga4a.html"
+          class="col-xs-12 col-sm-8 col-xl-4 card-custom"
+          >Liga 4a</a
+        >
+        <a
+          href="ligen/liga4b.html"
+          class="col-xs-12 col-sm-8 col-xl-4 card-custom"
+          >Liga 4b</a
+        >
+      </div>
+
+      <!-- Newest games -->
+      <div class="row justify-content-center my-6" id="middle-section">
+        <div class="card col-xs-12 col-lg-10 col-xl-8" id="newest-games-card">
+          <div class="card-body">
+            Ergebnisse der letzten 24h:
+            <ul id="newest-games-list"></ul>
+          </div>
         </div>
       </div>
 
-      <div class="container">
-        <div class="liga">
-          <a href="ligen/liga2.html"><div class="liga-item">Liga 2</div></a>
-        </div>
-        <div class="liga">
-          <a href="ligen/liga3b.html"><div class="liga-item">Liga 3b</div></a>
-        </div>
-        <div class="liga">
-          <a href="ligen/liga4b.html"><div class="liga-item">Liga 4b</div></a>
-        </div>
+      <!-- untere reihe -->
+      <div class="row justify-content-center">
+        <a
+          href="untereReihe/archive/archive.html"
+          class="col-md-5 col-lg-2 card-custom card-untere-reihe"
+          >Archiv</a
+        ><a
+          href="https://docs.google.com/document/d/1CPyuTMtSDMK2kTKhhpUKLd309vni8A5F0L2GB1zwukw/edit?usp=sharing"
+          class="col-md-5 col-lg-2 card-custom card-untere-reihe"
+          >Regelwerk</a
+        ><a
+          href="untereReihe/mapbot/mapbot.html"
+          class="col-md-5 col-lg-2 card-custom card-untere-reihe"
+          >Map Bot</a
+        ><a
+          href="untereReihe/stats/stats.html"
+          class="col-md-5 col-lg-2 card-custom card-untere-reihe"
+          >Statistiken</a
+        >
       </div>
     </div>
 
-    <!-- Untere Buttons -->
-    <div class="bottom-buttons">
-      <a href="untereReihe/archive/archive.html">
-        <div class="bottom-item">Archiv</div>
-      </a>
-      <a
-        href="https://docs.google.com/document/d/1CPyuTMtSDMK2kTKhhpUKLd309vni8A5F0L2GB1zwukw/edit?usp=sharing"
-      >
-        <div class="bottom-item">Regelwerk</div>
-      </a>
-      <a href="untereReihe/mapbot/mapbot.html">
-        <div class="bottom-item">Map Bot</div>
-      </a>
-      <a href="untereReihe/stats/stats.html">
-        <div class="bottom-item">Teilnehmerstatistiken</div>
-      </a>
-    </div>
-
-    <!--<script src="newestGames.js"></script>
+    <script src="newestGames.js"></script>
     <script>
       const newestGameStats = new NewestGameInfos(
         "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw",
         "Newest_games",
-        "B2:S100",
+        "B2:U100",
         "",
         "NewestGames"
       );
 
       // Lade die Daten für alle Ligen
       newestGameStats.initialize();
-    </script>-->
+    </script>
   </body>
 </html>

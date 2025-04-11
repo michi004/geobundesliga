@@ -203,13 +203,14 @@ class LeagueTable {
     if (
       typeof matchData.punkteBlau === "number" &&
       typeof matchData.punkteRot === "number" &&
-      (matchData.punkteBlau !== 0 || matchData.punkteRot !== 0)
-    ) {
-      if (matchData.punkteBlau > matchData.punkteRot){
-        matchData.punkteBlau += 1
-      } else if(matchData.punkteRot > matchData.punkteBlau){
-        matchData.punkteRot += 1
+      !(matchData.punkteBlau === 0 && matchData.punkteRot === 0)) 
+    {
+      if (matchData.punkteBlau > matchData.punkteRot) {
+        matchData.punkteBlau += 1;
+      } else if (matchData.punkteRot > matchData.punkteBlau) {
+        matchData.punkteRot += 1;
       }
+
       const punkteBlau = matchData.punkteBlau.toFixed(2);
       const punkteRot = matchData.punkteRot.toFixed(2);
       punkteText = `${punkteBlau} : ${punkteRot}`;
@@ -327,8 +328,8 @@ class LeagueTable {
           rot: row.c[1]?.v || "N/A",
           id: row.c[2]?.v || "N/A",
           ergebnis: row.c[3]?.v || "N/A",
-          punkteBlau: parseFloat(row.c[4]?.v) || "N/A",
-          punkteRot: parseFloat(row.c[5]?.v) || "N/A",
+          punkteBlau: row.c[4]?.v != null ? parseFloat(row.c[4].v) : undefined,
+          punkteRot: row.c[5]?.v != null ? parseFloat(row.c[5].v) : undefined,
           healthBlau: row.c[8]?.v || "N/A",
           healthRot: row.c[9]?.v || "N/A",
           maps: JSON.parse(row.c[10]?.v || "[]"),
@@ -861,8 +862,10 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
       const rot = row.c[1]?.v || "N/A";
       const id = row.c[2]?.v || "N/A";
       const ergebnis = row.c[3]?.v || "N/A";
-      const punkteBlau = parseFloat(row.c[4]?.v) || "N/A";
-      const punkteRot = parseFloat(row.c[5]?.v) || "N/A";
+      //const punkteBlau = parseFloat(row.c[4]?.v) || "N/A";
+      //const punkteRot = parseFloat(row.c[5]?.v) || "N/A";
+      const punkteBlau = row.c[4]?.v != null ? parseFloat(row.c[4].v) : undefined;
+      const punkteRot = row.c[5]?.v != null ? parseFloat(row.c[5].v) : undefined;
       const healthBlau = row.c[8]?.v || "N/A";
       const healthRot = row.c[9]?.v || "N/A"; 
       const maps = JSON.parse(row.c[10]?.v || "[]");
@@ -950,7 +953,7 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
     if (
       typeof matchData.punkteBlau === "number" &&
       typeof matchData.punkteRot === "number" &&
-      (matchData.punkteBlau !== 0 || matchData.punkteRot !== 0)
+      !(matchData.punkteBlau === 0 && matchData.punkteRot === 0)
     ) {
       if (matchData.punkteBlau > matchData.punkteRot){
         matchData.punkteBlau += 1

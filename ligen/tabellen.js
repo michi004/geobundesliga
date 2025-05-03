@@ -203,8 +203,8 @@ class LeagueTable {
     if (
       typeof matchData.punkteBlau === "number" &&
       typeof matchData.punkteRot === "number" &&
-      !(matchData.punkteBlau === 0 && matchData.punkteRot === 0)) 
-    {
+      !(matchData.punkteBlau === 0 && matchData.punkteRot === 0)
+    ) {
       if (matchData.punkteBlau > matchData.punkteRot) {
         matchData.punkteBlau += 1;
       } else if (matchData.punkteRot > matchData.punkteBlau) {
@@ -230,7 +230,9 @@ class LeagueTable {
 
     modalDetails.innerHTML = `
       <strong>Match ID:</strong> ${matchData.id}<br>
-      <strong>Ergebnis:</strong> ${matchData.ergebnis || "Noch nicht verfügbar"}<br>
+      <strong>Ergebnis:</strong> ${
+        matchData.ergebnis || "Noch nicht verfügbar"
+      }<br>
       <strong>Punkte:</strong> ${punkteText}<br>
       <strong>Leben:</strong> ${lebenText}<br>
     `;
@@ -286,6 +288,8 @@ class LeagueTable {
               <div style="font-size: 0.8em; color: #777;">${
                 matchtype == "move"
                   ? "Moving"
+                  : matchtype == "bmd"
+                  ? "Better Moving Duel"
                   : matchtype == "no move"
                   ? "NM"
                   : "NMPZ"
@@ -864,13 +868,25 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
       const ergebnis = row.c[3]?.v || "N/A";
       //const punkteBlau = parseFloat(row.c[4]?.v) || "N/A";
       //const punkteRot = parseFloat(row.c[5]?.v) || "N/A";
-      const punkteBlau = row.c[4]?.v != null ? parseFloat(row.c[4].v) : undefined;
-      const punkteRot = row.c[5]?.v != null ? parseFloat(row.c[5].v) : undefined;
+      const punkteBlau =
+        row.c[4]?.v != null ? parseFloat(row.c[4].v) : undefined;
+      const punkteRot =
+        row.c[5]?.v != null ? parseFloat(row.c[5].v) : undefined;
       const healthBlau = row.c[8]?.v || "N/A";
-      const healthRot = row.c[9]?.v || "N/A"; 
+      const healthRot = row.c[9]?.v || "N/A";
       const maps = JSON.parse(row.c[10]?.v || "[]");
 
-      openModal({ blau, rot, id, ergebnis, punkteBlau, punkteRot, healthBlau, healthRot, maps });
+      openModal({
+        blau,
+        rot,
+        id,
+        ergebnis,
+        punkteBlau,
+        punkteRot,
+        healthBlau,
+        healthRot,
+        maps,
+      });
     });
 
     return table;
@@ -955,10 +971,10 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
       typeof matchData.punkteRot === "number" &&
       !(matchData.punkteBlau === 0 && matchData.punkteRot === 0)
     ) {
-      if (matchData.punkteBlau > matchData.punkteRot){
-        matchData.punkteBlau += 1
-      } else if(matchData.punkteRot > matchData.punkteBlau){
-        matchData.punkteRot += 1
+      if (matchData.punkteBlau > matchData.punkteRot) {
+        matchData.punkteBlau += 1;
+      } else if (matchData.punkteRot > matchData.punkteBlau) {
+        matchData.punkteRot += 1;
       }
       const punkteBlau = matchData.punkteBlau.toFixed(2);
       const punkteRot = matchData.punkteRot.toFixed(2);
@@ -979,7 +995,9 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
 
     modalDetails.innerHTML = `
       <strong>Match ID:</strong> ${matchData.id}<br>
-      <strong>Ergebnis:</strong> ${matchData.ergebnis || "Noch nicht verfügbar"}<br>
+      <strong>Ergebnis:</strong> ${
+        matchData.ergebnis || "Noch nicht verfügbar"
+      }<br>
       <strong>Punkte:</strong> ${punkteText}<br>
       <strong>Leben:</strong> ${lebenText}<br>
     `;
@@ -1035,6 +1053,8 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
               <div style="font-size: 0.8em; color: #777;">${
                 matchtype == "move"
                   ? "Moving"
+                  : matchtype == "bmd"
+                  ? "Better Moving Duel"
                   : matchtype == "no move"
                   ? "NM"
                   : "NMPZ"

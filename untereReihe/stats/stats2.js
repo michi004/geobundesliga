@@ -163,7 +163,7 @@ class StatsTable {
   }
 
   openModal(sheetRow) {
-    const modal = document.getElementById("statsModal");
+    const modal = new bootstrap.Modal(document.getElementById("statsModal"));
     const modalTitle = document.getElementById("modalTitle");
     const modalDetails = document.getElementById("modalDetails");
 
@@ -270,7 +270,7 @@ class StatsTable {
         </tr>
       </table>
     `;
-    modal.style.display = "flex";
+    modal.show();
   }
 
   loadTableData() {
@@ -345,16 +345,19 @@ function fetchAndRenderTable(sheetID, sheetName, dataRange, tableID) {
 
 document.addEventListener("DOMContentLoaded", function () {
   // Event-Listener für das Schließen des Modals
-  const modal = document.getElementById("statsModal");
-  const closeModalButton = modal.querySelector(".close");
+  const modalElement = document.getElementById("statsModal");
+  const modal = bootstrap.Modal.getInstance(modalElement);
+  const closeModalButton = modalElement.querySelector(".close");
   closeModalButton.addEventListener("click", function () {
-    modal.style.display = "none"; // Modal ausblenden
+    console.log(modal);
+    console.log(modalElement);
+    modal.hide(); // Modal ausblenden
   });
 
   // Optional: Modal schließen, wenn außerhalb des Inhalts geklickt wird
-  modal.addEventListener("click", function (event) {
-    if (event.target === modal) {
-      modal.style.display = "none"; // Modal ausblenden
+  modalElement.addEventListener("click", function (event) {
+    if (event.target === modalElement) {
+      modal.hide(); // Modal ausblenden
     }
   });
 });

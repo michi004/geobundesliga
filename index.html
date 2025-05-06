@@ -56,15 +56,78 @@
         background-color: #dcd6e0cc;
         text-align: left;
       }
+
+      .live-button {
+        background-color: #FF0000;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1em;
+        transition: background-color 0.3s ease;
+      }
+
+      .live-button:hover {
+        background-color: #cc0000;
+      }
+
+      #live-button {
+        position: absolute;
+        top: 3.5em;
+        right: 15%;
+        display: none;
+      }
+
+      .youtube-slider {
+        display: flex;
+        transition: transform 0.5s ease;
+      }
+
+      .yt-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        cursor: pointer;
+        z-index: 2;
+        padding: 5px 10px;
+        border-radius: 4px;
+        opacity: 0.8;
+      }
+
+      .yt-arrow.left {
+        left: 10px;
+      }
+
+      .yt-arrow.right {
+        right: 10px;
+      }
+
+      .yt-arrow:hover {
+        opacity: 1;
+        background-color: #5a6268;
+      }
+
+
     </style>
   </head>
   <body>
     <div class="container">
-      <h1 class="mb-5 fw-bold">
-        <img src="icon.png" alt="Icon" style="height: 1.75em; margin-right: 0.25em;">
-        Geo Bundesliga
-      </h1>
 
+      <div style="position: relative; text-align: center; ">
+        <h1 class="mb-5 fw-bold">
+          <img src="icon.png" alt="Icon" style="height: 1.75em; margin-right: 0.25em;">
+          Geo Bundesliga
+        </h1>
+        <a id="live-button" class = "live-button" href="#" target="_blank"></a>
+      </div>
+
+
+    
       <!-- liga X -->
       <div class="row justify-content-center">
         <a
@@ -99,12 +162,22 @@
         >
       </div>
 
-      <!-- Newest games -->
-      <div class="row justify-content-center my-6" id="middle-section">
-        <div class="card col-xs-12 col-lg-10 col-xl-8" id="newest-games-card">
-          <div class="card-body">
-            Ergebnisse der letzten 24h:
-            <ul id="newest-games-list"></ul>
+      <div class="d-flex flex-wrap justify-content-center gap-4" style="margin: 2rem 0">
+  
+        <!-- Ergebnisse -->
+        <div class="card p-3" style="background-color: #dcd6e0cc; text-align: left; min-width: 300px; max-width: 600px; flex: 1; max-height: 381px; overflow-y: auto; overflow-x: auto;">
+          <h5 class="card-title">Ergebnisse der letzten 24h:</h5>
+          <ul id="newest-games-list" style="margin-bottom: 0; white-space: nowrap;"></ul>
+        </div>
+        
+        <div class="card p-3" style="background-color: #dcd6e0cc; text-align: left; min-width: 300px; max-width: 600px; flex: 1; max-height: 381px;">
+          <h5 class="card-title">YouTube Videos zur GeoBundesliga:</h5>
+          <div id="youtube-slider" style="position: relative; overflow: hidden;">
+            <div id="youtube-slides" style="white-space: nowrap; transition: transform 0.5s ease;">
+            </div>
+            <button class="yt-arrow left" onclick="prevSlide()">&#10094;</button>
+            <div class="youtube-slider" id="youtube-slider"></div>
+            <button class="yt-arrow right" onclick="nextSlide()">&#10095;</button>
           </div>
         </div>
       </div>
@@ -132,6 +205,7 @@
     </div>
 
     <script src="newestGames.js"></script>
+    <script src="yt_twitch.js"></script>
     <script>
       const newestGameStats = new NewestGameInfos(
         "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw",
@@ -143,6 +217,7 @@
 
       // Lade die Daten für alle Ligen
       newestGameStats.initialize();
+
     </script>
   </body>
 </html>

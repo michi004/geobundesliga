@@ -6,6 +6,7 @@ const gvizUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet
 const gvizUrlYT = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&range=${rangeYT}`;
 
 
+// Live Button darstellen
 fetch(gvizUrl)
   .then(res => res.text())
   .then(text => {
@@ -39,7 +40,9 @@ fetch(gvizUrl)
   })
   .catch(err => console.error("Fehler beim Laden der Daten:", err));
 
-
+// Youtube Videos darstellen
+let currentSlide = 0;
+let ytIframes = [];
 
 fetch(gvizUrlYT)
   .then(res => res.text())
@@ -50,16 +53,49 @@ fetch(gvizUrlYT)
 
     if (linksYT.length === 0) return;
 
-    const halfHour = 5 * 60 * 1000;
-    const now = Date.now();
-    const index = Math.floor(now / halfHour) % linksYT.length;
+    const slidesContainer = document.getElementById('youtube-slides');
 
-    const videoId = extractYouTubeID(linksYT[index]);
-    document.getElementById('youtube-player').src =
-      `https://www.youtube.com/embed/${videoId}`;
+    linksYT.forEach((url, index) => {
+      const videoId = extractYouTubeID(url);
+      const iframe = document.createElement('iframe');
+      iframe.width = "100%";
+      iframe.height = "315";
+      iframe.frameBorder = "0";
+      iframe.allow = "accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=0`;
+
+      iframe.style.display = "inline-block";
+      iframe.style.width = "100%";
+      iframe.style.maxWidth = "100%";
+      iframe.style.verticalAlign = "top";
+
+      slidesContainer.appendChild(iframe);
+      ytIframes.push(iframe);
+    });
+
+    updateSlidePosition();
   });
 
 function extractYouTubeID(url) {
   const match = url.match(/v=([^&]+)/);
   return match ? match[1] : '';
+}
+
+function updateSlidePosition() {
+  const slideWidth = ytIframes[0]?.offsetWidth || 600;
+  const container = document.getElementById("youtube-slides");
+  container.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+}
+
+function nextSlide() {
+  if (ytIframes.length === 0) return;
+  currentSlide = (currentSlide + 1) % ytIframes.length;
+  updateSlidePosition();
+}
+
+function prevSlide() {
+  if (ytIframes.length === 0) return;
+  currentSlide = (currentSlide - 1 + ytIframes.length) % ytIframes.length;
+  updateSlidePosition();
 }

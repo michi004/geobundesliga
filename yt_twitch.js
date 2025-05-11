@@ -1,9 +1,10 @@
 const sheetID = '1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw';
-const sheetName = 'Creator_content';
-const range = 'A2:D'; 
-const rangeYT = 'F2:F'; 
+const sheetName = 'Twitch_live';
+const sheetNameYT = 'YT_content';
+const range = 'B2:E'; 
+const rangeYT = 'B2:B'; 
 const gvizUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&range=${range}`;
-const gvizUrlYT = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&range=${rangeYT}`;
+const gvizUrlYT = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetNameYT}&range=${rangeYT}`;
 
 
 // Live Button darstellen
@@ -17,14 +18,18 @@ fetch(gvizUrl)
 
     for (const row of rows) {
       const channel = row.c[0]?.v;
-      const dateStr = row.c[1]?.f; 
+      const dateStr = row.c[1]?.f;
       const startStr = row.c[2]?.f;
-      const endStr = row.c[3]?.f;
+      const endStr = row.c[3]?.f;  
 
       if (!channel || !dateStr || !startStr || !endStr) continue;
 
-      const startTime = new Date(`${dateStr}T${startStr}:00`);
-      const endTime = new Date(`${dateStr}T${endStr}:00`);
+      // Datum ins JS-kompatible Format bringen
+      const dateParts = dateStr.split('.');
+      const isoDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`; // yyyy-mm-dd
+
+      const startTime = new Date(`${isoDate}T${startStr}`);
+      const endTime = new Date(`${isoDate}T${endStr}`);
 
       if (now >= startTime && now <= endTime) {
         const button = document.getElementById('live-button');
@@ -49,7 +54,7 @@ fetch(gvizUrlYT)
   .then(text => {
     const jsonYT = JSON.parse(text.substr(47).slice(0, -2));
     const rowsYT = jsonYT.table.rows;
-    const linksYT = rowsYT.map(row => row.c[0]?.v).filter(Boolean);
+    const linksYT = rowsYT.map(row => row.c[0]?.v).filter(Boolean).reverse();
 
     if (linksYT.length === 0) return;
 

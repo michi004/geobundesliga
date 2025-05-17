@@ -80,6 +80,17 @@ fetch(gvizUrlYT)
     });
 
     updateSlidePosition();
+
+    const intervalMs = 10000;
+    const index = Math.floor(Date.now() / intervalMs) % ytIframes.length;
+    currentSlide = index;
+    updateSlidePosition();
+
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % ytIframes.length;
+      updateSlidePosition();
+    }, intervalMs);
+
   });
 
 function extractYouTubeID(url) {

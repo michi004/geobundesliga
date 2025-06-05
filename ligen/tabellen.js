@@ -344,39 +344,49 @@ class LeagueTable {
     });
   }
 
-  /*
-    renderRescheduleTable(jsonData) {
-        // Anzahl der Spiele pro Spielwoche
-        const liga12Games = [3, 3, 3, 2, 2];
-        const liga3Games = [3, 3, 3, 3, 3];
-    
-        // Offsets für jede Woche
-        const liga12Offsets = this.calculateOffsets(liga12Games)
-        const liga3Offsets = this.calculateOffsets(liga3Games)
-        
-        let offset
-        if (this.name === "liga1" || this.name === "liga2") {
-            offset = liga12Offsets[getSpielwoche().week-1]-3
-        } else {
-            offset = liga3Offsets[getSpielwoche().week-1]-3
-        }
+  renderRescheduleTable(jsonData) {
+    //arrays mit anzahl der spiele pro spielwoche
+    const liga1Games = [3, 3, 3, 2, 2, 2];
+    const liga23Games = [3, 3, 3, 2, 2, 2];
+    const liga4Games = [3, 2, 2, 2, 2, 2];
 
-        let rows = jsonData.table.rows;
-        let tableBody = document.querySelector('.match-table:last-of-type tbody');
-        tableBody.innerHTML = ''; // Platzhalter löschen
-        rows.slice(0,offset).forEach(row => {
-            if (!row.c[4]?.v) { // Prüfen, ob Spalte E leer ist
-                let newRow = document.createElement('tr');
-                newRow.innerHTML = `
-                    <td>${row.c[1]?.v || '-'}</td>
-                    <td>${row.c[2]?.v || '-'}</td>
-                    <td>${row.c[3]?.v || '-'}</td>
-                    <td>${row.c[4]?.v || '-'}</td>
+    // arrays mit jeweiligen offsets für jede spielwoche
+    const liga1Offsets = this.calculateOffsets(liga1Games, 8);
+    const liga23Offsets = this.calculateOffsets(liga23Games, 7);
+    const liga4Offsets = this.calculateOffsets(liga4Games, 7);
+
+    let offset;
+    if (this.name === "liga1") {
+      offset = liga1Offsets[getSpielwoche().week - 1] - 3;
+    } else if (
+      this.name === "liga2" ||
+      this.name === "liga3a" ||
+      this.name === "liga3b"
+    ) {
+      offset = liga23Offsets[getSpielwoche().week - 1] - 3;
+    } else if (this.name === "liga4a" || this.name === "liga4b") {
+      offset = liga4Offsets[getSpielwoche().week - 1] - 3;
+    }
+
+    let rows = jsonData.table.rows;
+    let tableBody = document.querySelector("#nachholspiele tbody");
+    tableBody.innerHTML = ""; // Platzhalter löschen
+    rows = rows.slice(0, offset);
+
+    rows.forEach((row) => {
+      if (!row.c[4]?.v) {
+        // Prüfen, ob Spalte E leer ist
+        let newRow = document.createElement("tr");
+        newRow.innerHTML = `
+                    <td>${row.c[1]?.v || "-"}</td>
+                    <td>${row.c[2]?.v || "-"}</td>
+                    <td>${row.c[3]?.v || "-"}</td>
+                    <td>${row.c[4]?.v || "-"}</td>
                 `;
-                tableBody.appendChild(newRow);
-            }
-        });
-    }*/
+        tableBody.appendChild(newRow);
+      }
+    });
+  }
 
   loadTableData() {
     if (this.isCacheValid(this.cacheKeyTable)) {
@@ -555,16 +565,22 @@ class LeagueTable {
       );
     }
   }
-  /*
-    loadRescheduleData() {
-        if (this.isCacheValid(this.cacheKeyRescheduled)) {
-            let cachedData = JSON.parse(localStorage.getItem(this.cacheKeyRescheduled)).data;
-            this.renderRescheduleTable(cachedData);
-        } else {
-            // Verwende die dynamisch berechnete Match-Range
-            this.fetchAndRenderData(this.getURL(this.rescheduleRanges), this.cacheKeyRescheduled, this.renderRescheduleTable.bind(this));
-        }
-    }*/
+
+  loadRescheduleData() {
+    if (this.isCacheValid(this.cacheKeyRescheduled)) {
+      let cachedData = JSON.parse(
+        localStorage.getItem(this.cacheKeyRescheduled)
+      ).data;
+      this.renderRescheduleTable(cachedData);
+    } else {
+      // Verwende die dynamisch berechnete Match-Range
+      this.fetchAndRenderData(
+        this.getURL(this.rescheduleRanges),
+        this.cacheKeyRescheduled,
+        this.renderRescheduleTable.bind(this)
+      );
+    }
+  }
 
   updateSpielwoche() {
     const spielwoche = getSpielwoche();
@@ -632,7 +648,7 @@ class LeagueTable {
     this.updateSpielwoche();
     this.loadMatchData();
     this.loadTableData();
-    //this.loadRescheduleData();
+    this.loadRescheduleData();
 
     //seite 2
     //variable tabellengröße bei unterschiedlicher ligagröße

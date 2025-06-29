@@ -723,8 +723,8 @@ function getSpielwoche() {
     { start: new Date("2025-05-05"), end: new Date("2025-05-18"), week: 3 },
     { start: new Date("2025-05-19"), end: new Date("2025-06-01"), week: 4 },
     { start: new Date("2025-06-02"), end: new Date("2025-06-15"), week: 5 },
-    { start: new Date("2025-06-16"), end: new Date("2025-06-29"), week: 6 },
-    { start: new Date("2025-06-30"), end: new Date("2025-07-13"), week: 7 },
+    { start: new Date("2025-06-16"), end: new Date("2025-07-02"), week: 6 },
+    /*{ start: new Date("2025-06-30"), end: new Date("2025-07-13"), week: 7 },*/
   ];
 
   // Setzt ebenfalls die Zeit aller Start- und Enddaten auf Mitternacht

@@ -734,7 +734,18 @@ function getSpielwoche() {
   });
 
   // Rückgabe der passenden Spielwoche
-  return spielwochen.find((sw) => today >= sw.start && today <= sw.end) || null;
+  //return spielwochen.find((sw) => today >= sw.start && today <= sw.end) || null;
+
+  const aktuelleWoche = spielwochen.find(
+    (sw) => today >= sw.start && today <= sw.end
+  );
+
+  // Nach der letzten Spielwoche, wird der letzte Spieltag zurückgegeben
+  if (!aktuelleWoche && today > spielwochen[spielwochen.length - 1].end) {
+    return spielwochen[spielwochen.length - 1];
+  }
+
+  return aktuelleWoche || null;
 }
 
 function formatDate(date) {

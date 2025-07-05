@@ -365,8 +365,12 @@
               const [mapName, winner, matchtype, link] = mapInfo;
 
               const mapBox = document.createElement('a');
-              mapBox.href = link;
-              mapBox.target = '_blank';
+              if (link) {
+                mapBox.href = link;
+                mapBox.target = "_blank";
+              } else {
+                mapBox.style.pointerevents = "none";
+              }
               //mapBox.textContent = game.title;
               //mapBox.classList.add('map-box');
 

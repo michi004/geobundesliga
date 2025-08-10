@@ -1104,4 +1104,62 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
 
   generateMatchdayList();
   renderMatchdayTables();
+
+  // Sortierfunktion für Tabellen "Gelbe Karten" und "Meiste Pinpoints"
+  function makeSortable(tableId, sortableCols) {
+    const table = document.getElementById(tableId);
+    if (!table) return;
+
+    const headerRow = table.querySelector("thead tr:last-child");
+    if (!headerRow) return;
+    const headers = headerRow.querySelectorAll("th");
+
+    sortableCols.forEach(colIndex => {
+      let asc = false;
+      const header = headers[colIndex];
+      if (!header) return;
+
+      header.style.cursor = "pointer";
+      header.addEventListener("click", (event) => {
+        event.stopPropagation();
+
+        const tbody = table.querySelector("tbody");
+        const rowsArray = Array.from(tbody.querySelectorAll("tr"))
+          .filter(tr => tr.querySelectorAll("td").length > 1);
+
+        rowsArray.sort((a, b) => {
+          const aText = (a.children[colIndex]?.textContent || "").trim();
+          const bText = (b.children[colIndex]?.textContent || "").trim();
+
+          const parseNum = txt => {
+            if (!txt) return 0;
+            const cleaned = txt.replace(/[^\d\-,.]/g, "").replace(",", ".");
+            const n = parseFloat(cleaned);
+            return Number.isNaN(n) ? 0 : n;
+          };
+
+          const aVal = parseNum(aText);
+          const bVal = parseNum(bText);
+
+          return asc ? aVal - bVal : bVal - aVal; 
+        });
+
+        rowsArray.forEach((row, i) => {
+          if (row.children[0]) row.children[0].textContent = i + 1;
+          tbody.appendChild(row);
+        });
+
+        asc = !asc;
+
+        headers.forEach(h => h.classList.remove("sort-asc", "sort-desc"));
+        header.classList.add(asc ? "sort-asc" : "sort-desc");
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    makeSortable("yellowCards", [2, 3]);
+    makeSortable("pinpointTable", [2, 3]);
+  });
+  
 }

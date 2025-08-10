@@ -405,3 +405,6 @@ tr:hover {
     text-align: right;
     white-space: nowrap;
   }
+
+thead th.sort-asc::after { content: " ▲"; font-size: 0.8em; }
+thead th.sort-desc::after { content: " ▼"; font-size: 0.8em; }

@@ -1,4 +1,12 @@
 
+html, body {
+  overflow-y: auto;             /* enable vertical scroll */
+  -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
+}
+
+/* 2) Add safe breathing room at the bottom (esp. on phones with gesture bar) */
+:root { --safe-bottom: max(env(safe-area-inset-bottom), 16px); }
+
 /* Größerer und zentrierter Button für Saison-Archiv */
 .button-container {
     display: flex;
@@ -9,10 +17,12 @@
 }
 
 .button-container .button {
-    font-size: 1.5rem; /* Größere Schriftgröße */
-    padding: 20px 50px; /* Mehr Polsterung für größere Buttons */
-    width: 30%; /* Einheitliche Breite für größere Buttons */
-    text-align: center; 
+    font-size: 1.5rem;
+    padding: 1em 2em;
+    width: clamp(180px, 60%, 320px);     
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
 .image-container {
@@ -27,4 +37,12 @@
     width: calc(50% - 20px); /* Setzt die Breite auf 50% minus den Abstand */
     height: auto; /* Bewahrt das Seitenverhältnis */
     border-radius: 10px; /* Abgerundete Ecken für die Bilder */
+}
+
+@media (max-width: 600px) {
+  .button-container .button {
+    width: 80%;
+    font-size: clamp(1rem, 4vw, 1.3rem);
+    padding: 0.8em 1.2em;
+  }
 }

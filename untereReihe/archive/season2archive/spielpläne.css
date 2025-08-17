@@ -5,12 +5,18 @@
 }
 
 body {
-    font-family: Verdana, sans-serif;
-    background: linear-gradient(to bottom right, #1c1e4a, #74215d);
-    min-height: 100vh; /* Stellt sicher, dass es mindestens den Viewport abdeckt */
-    overflow-y: hidden; /* Verhindert horizontales Scrollen */
-    margin: 0;
-    padding: 0;
+  font-family: Verdana, sans-serif;
+  background: linear-gradient(135deg, #1c1e4a, #74215d) fixed;
+  /* use the dynamic viewport on modern browsers, fall back to 100vh */
+  min-height: 100dvh;
+  min-height: 100vh;
+
+  /* prevent sideways scroll, allow vertical scroll */
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  margin: 0;
+  padding: 0;
 }
 
 header {
@@ -21,13 +27,14 @@ header {
 header h1 {
     background-color: #2a2c6b;
     padding: 10px;
-    margin-bottom: 20px;
+    margin: 16px auto 24px;
     border-radius: 8px;
     color: #fff;
     font-size: 36px; /* Vergrößert die Schrift */
     text-align: center; /* Zentriert die Überschrift */
     display: inline-block; /* Macht den Kasten nur so breit wie der Inhalt */
-    width: 50%; /* Setzt die Breite auf 50% des Containers */
+    width: max-content;   /* Setzt die Breite auf 50% des Containers */
+    max-width: 90vw;
 }
 
 /* Slideshow-Container */
@@ -91,7 +98,9 @@ th:last-child, td:last-child {
     font-size: 30px;
     text-align: center;
     display: block;
-    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    width: max-content;
 }
 
 /* Wenn man über ein Spiel hovert, ändert sich der Cursor in die Hand */
@@ -142,3 +151,129 @@ tr:hover {
 }
 
 
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #2a2c6b;
+}
+
+@-moz-document url-prefix() {
+    tr, th, td, thead {
+        height: 1em;
+    }
+}
+
+/* Make tables responsive on smaller screens */
+@media (max-width: 1024px) {
+
+.table-scroll { max-height: 60vh; }
+
+  thead th, td {
+  padding: 6px 8px;
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+  body {
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;        /* prevent sideways scroll */
+    overflow-y: auto;          /* allow vertical scroll */
+    height: 100%;       /* better for mobile browsers */
+  }
+
+
+  .arrow {
+    position: static;        /* no absolute positioning */
+    transform: none;
+    margin: 16px auto 24px;
+    text-align: center;
+  }
+
+  header h1 {
+    font-size: clamp(1.5em, 5vw, 2.5em);
+  }
+
+
+  /* Limit vertical size for tables */
+  .league-table table, .match-table table {
+    max-height: 69vh;          /* adjust as needed */
+    overflow-y: auto;           /* enable vertical scrolling inside */
+    display: block;             /* required for overflow to work */
+  }
+
+  .tables-container {
+    flex-direction: column;      /* stack */
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 16px;
+    margin: 2vh 10px;
+    padding: 0;
+    height: auto;                /* remove 69vh lock */
+  }
+
+  .league-table,
+  .match-tables {
+    width: auto;
+    height: auto;
+    margin: 0;
+  }
+
+  .match-tables {
+    align-self: center;
+  }
+
+  /* make each match-table use full width on mobile */
+  .match-table,
+  .match-table:first-of-type,
+  .match-table:last-of-type {
+    width: 100% !important;    /* override the 80% desktop rule */
+    margin: 0;
+  }
+
+
+  .league-table thead,
+  .match-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;                /* keep it above rows */
+    background-color: #2a2c6b; /* match your header color */
+  }
+
+  .league-table,
+  .match-table,
+  table {
+    width: auto;
+    height: auto;          /* drop fixed 100% heights */
+    max-height: none;
+  }
+
+  table {
+    width: auto;
+    table-layout: auto;          /* allow natural column widths */
+    display: block;              /* enable horizontal scroll */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    height: auto;                /* drop 100% height */
+  }
+
+  /* override <col style="width:…"> from colgroup */
+  colgroup col {
+    width: auto !important;
+  }
+
+  thead th, td {
+    padding: 6px 8px;
+    font-size: 0.9rem;           /* smaller text on mobile */
+  }
+
+  /* allow labels/names to wrap instead of ellipsis everywhere */
+  thead th {
+    white-space: normal;
+  }
+  tbody td {
+    white-space: normal;         /* allow wrapping for names */
+    text-overflow: clip;
+  }
+}

@@ -90,6 +90,7 @@ header h1 {
     margin: auto; /* Falls es innerhalb eines Containers liegt */
 }
 
+
 table {
     width: 80%; /* Passt Breite an, um Raum für zwei Tabellen nebeneinander zu lassen */
     border-collapse: collapse;
@@ -104,8 +105,8 @@ th, td {
     padding: 5px;
     border: 1px solid #000;
     text-align: center;
-    overflow:hidden;
-    text-overflow:ellipsis;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 thead {
@@ -116,6 +117,7 @@ thead th {
     background-color: #2a2c6b;
     color: white; /* Setzt die Schriftfarbe auf weiß */
 }
+
 
 tbody td {
     height: 20px; /* Höhe des weißen Kastens */
@@ -140,12 +142,12 @@ tbody td {
 }
 
 .match-table:first-of-type,
-.match-table:last-of-type {         
+.match-table:last-of-type {
     overflow-y: auto;     /* Ermöglicht Scrollen innerhalb der Tabelle */
     display: flex;
     justify-content: center;  /* Horizontale Zentrierung */
     width: 80%;
-} 
+}
 
 .match-table {
     overflow-y: auto; /* Aktiviert vertikales Scrollen */
@@ -240,4 +242,141 @@ tbody tr.green-row {
 
 .final-four td{
     background-color: rgb(101, 145, 255);
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #2a2c6b;
+}
+
+@-moz-document url-prefix() {
+    tr, th, td, thead {
+        height: 1em;
+    }
+}
+@media (max-width: 1350px) {
+  thead th, td {
+  font-size: 0.8rem;
+  }
+}
+/* Make tables responsive on smaller screens */
+@media (max-width: 1024px) {
+
+.table-scroll { max-height: 60vh; }
+
+  thead th, td {
+  padding: 6px 8px;
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+  html, body {
+    height: auto;              /* allow page to grow */
+  }
+
+  body {
+    min-height: 100dvh;        /* better for mobile browsers */
+    overflow-x: hidden;        /* prevent sideways scroll */
+    overflow-y: auto;          /* ⬅️ allow vertical scroll */
+  }
+
+  /* avoid stray horizontal overflow from vw */
+  header {
+    width: 100%;               /* instead of 100vw */
+  }
+  .arrow {
+  position: static;        /* no absolute positioning */
+  transform: none;
+  margin: 16px auto 24px;
+  text-align: center;
+}
+
+  header h1 {
+    font-size: clamp(1.5em, 5vw, 2.5em);
+    text-align: center;
+  }
+
+
+  /* Limit vertical size for tables */
+  .league-table table, .match-table table {
+    max-height: 69vh;          /* adjust as needed */
+    overflow-y: auto;           /* enable vertical scrolling inside */
+    display: block;             /* required for overflow to work */
+  }
+
+  .tables-container {
+    flex-direction: column;      /* stack */
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 16px;
+    margin: 2vh 10px;
+    padding: 0;
+    height: auto;                /* remove 69vh lock */
+  }
+
+  .league-table,
+  .match-tables {
+    width: auto;
+    height: auto;
+    margin: 0;
+  }
+
+  .match-tables {
+    align-self: center;
+  }
+
+  /* make each match-table use full width on mobile */
+  .match-table,
+  .match-table:first-of-type,
+  .match-table:last-of-type {
+    width: 100% !important;    /* override the 80% desktop rule */
+    margin: 0;
+  }
+
+
+  .league-table thead,
+  .match-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;                /* keep it above rows */
+    background-color: #2a2c6b; /* match your header color */
+  }
+
+  .league-table,
+  .match-table,
+  table {
+    width: auto;
+    height: auto;          /* drop fixed 100% heights */
+    max-height: none;
+  }
+
+  table {
+    width: auto;
+    table-layout: auto;          /* allow natural column widths */
+    display: block;              /* enable horizontal scroll */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    height: auto;                /* drop 100% height */
+  }
+
+  /* override <col style="width:…"> from colgroup */
+  colgroup col {
+    width: auto !important;
+  }
+
+  thead th, td {
+    padding: 6px 8px;
+    font-size: 0.9rem;           /* smaller text on mobile */
+  }
+
+  /* allow labels/names to wrap instead of ellipsis everywhere */
+  thead th {
+    white-space: normal;
+  }
+  tbody td {
+    white-space: normal;         /* allow wrapping for names */
+    text-overflow: clip;
+  }
 }

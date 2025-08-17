@@ -140,3 +140,48 @@ th {
     text-align: right;
     white-space: nowrap;
   }
+
+
+/* Make tables responsive on smaller screens */
+@media (max-width: 768px) {
+
+    header h1 {
+        font-size: clamp(1.5em, 5vw, 2.5em);
+        text-align: center;
+    }
+
+    .table-container {
+        flex-direction: column; /* Stack tables vertically */
+        align-items: center; /* Center them horizontally */
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+    }
+
+    .table-wrapper table {
+        border-collapse: collapse;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+        font-size: 0.85em; /* smaller font */
+    }
+
+    .table-wrapper th,
+    .table-wrapper td {
+        padding: 4px 6px; /* reduce padding */
+    }
+
+    .table-container table {
+        width: 100%; /* Full width on small screens */
+        max-width: 100%;
+        overflow-x: auto; /* Allow horizontal scroll if table is too wide */
+        display: block;
+    }
+
+    .table-title {
+        font-size: 1em; /* Slightly smaller headings */
+    }
+}

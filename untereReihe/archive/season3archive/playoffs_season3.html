@@ -2,8 +2,9 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>GeoBundesliga Relegation Season 3</title>
-  <link rel="icon" href="../icon.png" />
+  <title>GeoBundesliga Playoffs Season 3</title>
+
+  <link rel="icon" href="icon.png" />
   <style>
     :root {
       --primary-color: #2a2c6b;
@@ -246,37 +247,48 @@
       font-weight: bold;
     }
 
-
   </style>
 </head>
 <body>
 
   <header>
-    <a href="../index.html" class="button" id="back-button">
-      <span>Zurück</span>
+    <a href="../archive.html" class="button" id="back-button">
+      <span>Archiv</span>
     </a>
-    <h1>GeoBundesliga Relegation</h1>
+    <h1>GeoBundesliga Playoffs</h1>
   </header>
-  
+
   <!--<h1 style="text-align:center; color:#5ce1e6">EMEA Turnierbaum</h1>-->
   <div class="bracket-wrapper">
     <div class="bracket" id="bracket">
       <div class="round">
-        <div class="round-title">Liga 1-2</div>
-        <div class="match" id="rele-1_2"></div>
+        <div class="round-title">Quali</div>
+        <div class="match" id="match-q1"></div>
       </div>
       <div class="round">
-        <div class="round-title">Liga 2-3</div>
-        <div class="match" id="rele-2_3_1"></div>
-        <div class="match" id="rele-2_3_2"></div>
+        <div class="round-title">Viertelfinale</div>
+        <div class="match" id="match-vf1"></div>
+        <div class="match" id="match-vf2"></div>
+        <div class="match" id="match-vf3"></div>
       </div>
       <div class="round">
-        <div class="round-title">Liga 3a-4a</div>
-        <div class="match" id="rele-3a_4a"></div>
+        <div class="round-title">Halbfinale</div>
+        <div style="height: 37px;"></div><!--20px/ -->
+        <div class="match" id="match-hf1"></div>
+        <div style="height: 38px;"></div><!--27px/ -->
+        <div class="match" id="match-hf2"></div>
+        <div style="height: 38px;"></div><!--27px/ -->
       </div>
       <div class="round">
-        <div class="round-title">Liga 3b-4b</div>
-        <div class="match" id="rele-3b_4b"></div>
+        <div class="round-title">Finale</div>
+        <div style="height: 183px;"></div><!--140px/ -->
+        <div class="match" id="match-final"></div>
+        <div style="height: 183px;"></div><!--140px/ -->
+      </div>
+      <div class="round">
+        <div class="round-title">Spiel um Platz 3</div>
+        <div style="height: 240px;"></div><!--240px/ -->
+        <div class="match" id="match-3rd"></div>
       </div>
     </div>
     <svg id="lines"></svg>
@@ -290,9 +302,9 @@
       <p id="modalDetails">Details zum Spiel werden hier angezeigt.</p>
       <div id="maps-container"></div>
     </div>
-  </div>  
+  </div>
 
-  <!-- Modal für Spielzusammenfassungen 
+  <!-- Modal für Spielzusammenfassungen
   <div id="gameModal" class="modal">
       <div class="modal-content">
           <span class="close" onclick="closePopup()">&times;</span>
@@ -307,15 +319,18 @@
   <script>
     const sheetID = "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw";
     const spreadsheetName = "playoffs";
-    const range = "K2:P100";
+    const range = "A2:F100";
     const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${spreadsheetName}&range=${range}`;
 
     const matchMap = {
-      "Relegation Liga 1-2": "rele-1_2",
-      "Relegation Liga 2-3 Spiel 1": "rele-2_3_1",
-      "Relegation Liga 2-3 Spiel 2": "rele-2_3_2",
-      "Relegation Liga 3a-4a": "rele-3a_4a",
-      "Relegation Liga 3b-4b": "rele-3b_4b",
+      "Qualifikation": "match-q1",
+      "Viertelfinale 1": "match-vf1",
+      "Viertelfinale 2": "match-vf2",
+      "Viertelfinale 3": "match-vf3",
+      "Halbfinale 1": "match-hf1",
+      "Halbfinale 2": "match-hf2",
+      "Finale": "match-final",
+      "Spiel um Platz 3": "match-3rd"
     };
 
     function openModal(matchData) {
@@ -365,12 +380,14 @@
               const [mapName, winner, matchtype, link] = mapInfo;
 
               const mapBox = document.createElement('a');
+              // Prüft ob Link vorhanden ist
               if (link) {
                 mapBox.href = link;
                 mapBox.target = "_blank";
               } else {
                 mapBox.style.pointerevents = "none";
               }
+
               //mapBox.textContent = game.title;
               //mapBox.classList.add('map-box');
 
@@ -413,7 +430,7 @@
       } else {
         mapsContainer.innerHTML = '<em>Keine Maps verfügbar</em>';
       }
-      
+
       //modalDetails.appendChild(mapsContainer);
       modal.style.display = 'flex';
     }
@@ -501,38 +518,19 @@
       const tRect = to.getBoundingClientRect();
       const bRect = bracket.getBoundingClientRect();
 
-      const xFrom = fRect.left + fRect.width / 2 - bRect.left;
-      const xTo = tRect.left + tRect.width / 2 - bRect.left;
-
-      const yFromMiddle = fRect.top + fRect.height / 2 - bRect.top;
-      const yToMiddle = tRect.top + tRect.height / 2 - bRect.top;
-
-      const yFromBottom = fRect.bottom - bRect.top;
-      const yToTop = tRect.top - bRect.top;
+      const x1 = fRect.right - bRect.left;
+      const y1 = fRect.top + fRect.height / 2 - bRect.top;
+      const x2 = tRect.left - bRect.left;
+      const y2 = tRect.top + tRect.height / 2 - bRect.top;
 
       const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-
-      const isVertical = Math.abs(xFrom - xTo) < 10;
-
-      if (isVertical) {
-        path.setAttribute("d", `M ${xFrom} ${yFromBottom} V ${yToTop}`);
-      } else {
-        const x1 = fRect.right - bRect.left;
-        const y1 = yFromMiddle;
-        const x2 = tRect.left - bRect.left;
-        const y2 = yToMiddle;
-        const midX = (x1 + x2) / 2;
-        path.setAttribute("d", `M ${x1} ${y1} H ${midX} V ${y2} H ${x2}`);
-      }
-
-      path.setAttribute("stroke", "#5ce1e6");
+      path.setAttribute("d", curvedPath(x1, y1, x2, y2));
+      path.setAttribute("stroke", "#55d4ff");//2e90ff //55d4ff
       path.setAttribute("stroke-width", "2");
       path.setAttribute("fill", "none");
 
       document.getElementById('lines').appendChild(path);
     }
-
-
 
     function drawLines() {
       const svg = document.getElementById('lines');
@@ -541,7 +539,12 @@
       svg.setAttribute("width", bracket.scrollWidth);
       svg.setAttribute("height", bracket.scrollHeight);
 
-      connect("rele-2_3_1", "rele-2_3_2");
+      connect("match-q1", "match-vf1");
+      connect("match-vf1", "match-hf1");
+      connect("match-vf2", "match-hf1");
+      connect("match-vf3", "match-hf2");
+      connect("match-hf1", "match-final");
+      connect("match-hf2", "match-final");
     }
 
     window.onload = () => {

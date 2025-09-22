@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+      charset="UTF-8"
+    />
     <title>Geo Bundesliga</title>
     <link rel="icon" href="icon.png" />
     <link
@@ -58,7 +62,7 @@
       }
 
       .live-button {
-        background-color: #FF0000;
+        background-color: #ff0000;
         color: white;
         padding: 8px 16px;
         border-radius: 8px;
@@ -111,21 +115,21 @@
         opacity: 1;
         background-color: #5a6268;
       }
-
-
     </style>
   </head>
   <body>
     <div class="container">
-
-      <div style="position: relative; text-align: center; ">
+      <div style="position: relative; text-align: center">
         <h1 class="mb-5 fw-bold">
-          <img src="icon.png" alt="Icon" style="height: 1.75em; margin-right: 0.25em;">
+          <img
+            src="icon.png"
+            alt="Icon"
+            style="height: 1.75em; margin-right: 0.25em"
+          />
           Geo Bundesliga
         </h1>
-        <a id="live-button" class = "live-button" href="#" target="_blank"></a>
+        <a id="live-button" class="live-button" href="#" target="_blank"></a>
       </div>
-
 
       <!--href="index.html"-->
       <!-- liga X -->
@@ -133,29 +137,64 @@
         <a
           href="preseason_s4.html"
           class="col-xs-12 col-sm-8 col-xl-4 card-custom"
-          >Preseason</a>
+          >Preseason</a
+        >
         <a
           href="resignups_s4.html"
           class="col-xs-12 col-sm-8 col-xl-4 card-custom"
-          >Wiederanmeldung</a>
+          >Wiederanmeldung</a
+        >
       </div>
 
-      <div class="d-flex flex-wrap justify-content-center gap-4" style="margin: 2rem 0">
-  
+      <div
+        class="d-flex flex-wrap justify-content-center gap-4"
+        style="margin: 2rem 0"
+      >
         <!-- Ergebnisse -->
-        <div class="card p-3" style="background-color: #dcd6e0cc; text-align: left; min-width: 300px; max-width: 600px; flex: 1; max-height: 381px; overflow-y: auto; overflow-x: auto;">
+        <div
+          class="card p-3"
+          style="
+            background-color: #dcd6e0cc;
+            text-align: left;
+            min-width: 300px;
+            max-width: 600px;
+            flex: 1;
+            max-height: 381px;
+            overflow-y: auto;
+            overflow-x: auto;
+          "
+        >
           <h5 class="card-title">Ergebnisse der letzten 24h:</h5>
-          <ul id="newest-games-list" style="margin-bottom: 0; white-space: nowrap;"></ul>
+          <ul
+            id="newest-games-list"
+            style="margin-bottom: 0; white-space: nowrap"
+          ></ul>
         </div>
-        
-        <div class="card p-3" style="background-color: #dcd6e0cc; text-align: left; min-width: 300px; max-width: 600px; flex: 1; max-height: 381px;">
+
+        <div
+          class="card p-3"
+          style="
+            background-color: #dcd6e0cc;
+            text-align: left;
+            min-width: 300px;
+            max-width: 600px;
+            flex: 1;
+            max-height: 381px;
+          "
+        >
           <h5 class="card-title">YouTube Videos zur GeoBundesliga:</h5>
-          <div id="youtube-slider" style="position: relative; overflow: hidden;">
-            <div id="youtube-slides" style="white-space: nowrap; transition: transform 0.5s ease;">
-            </div>
-            <button class="yt-arrow left" onclick="prevSlide()">&#10094;</button>
+          <div id="youtube-slider" style="position: relative; overflow: hidden">
+            <div
+              id="youtube-slides"
+              style="white-space: nowrap; transition: transform 0.5s ease"
+            ></div>
+            <button class="yt-arrow left" onclick="prevSlide()">
+              &#10094;
+            </button>
             <div class="youtube-slider" id="youtube-slider"></div>
-            <button class="yt-arrow right" onclick="nextSlide()">&#10095;</button>
+            <button class="yt-arrow right" onclick="nextSlide()">
+              &#10095;
+            </button>
           </div>
         </div>
       </div>
@@ -167,7 +206,7 @@
           class="col-md-5 col-lg-2 card-custom card-untere-reihe"
           >Archiv</a
         ><a
-          href="https://docs.google.com/document/d/1CPyuTMtSDMK2kTKhhpUKLd309vni8A5F0L2GB1zwukw/edit?usp=sharing"
+          href="https://docs.google.com/document/d/1InAqAS-TSFhilSsoxQJZFee-SdjD0VU_6mBI3aWo5GQ/edit?usp=sharing"
           class="col-md-5 col-lg-2 card-custom card-untere-reihe"
           >Regelwerk</a
         ><a
@@ -199,8 +238,6 @@
 
       // Lade die Daten für alle Ligen
       newestGameStats.initialize();
-
     </script>
   </body>
 </html>
-

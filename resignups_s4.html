@@ -11,13 +11,13 @@
       body {
         overflow: auto;
       }
-      
+
       .container {
         display: flex;
         justify-content: center;
         margin-bottom: 2vh;
       }
-      
+
       .table-container {
         display: flex;
         flex-wrap: wrap;
@@ -30,7 +30,7 @@
       }
 
       .league-table-wide {
-        width: 16vw; 
+        width: 16vw;
       }
 
       th {
@@ -58,25 +58,41 @@
     <div class="table-container">
       <!-- Liga 1 -->
       <table class="league-table" id="liga1">
-        <thead><tr><th>Liga 1</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Liga 1</th>
+          </tr>
+        </thead>
         <tbody></tbody>
       </table>
 
       <!-- Liga 2 -->
       <table class="league-table" id="liga2">
-        <thead><tr><th>Liga 2</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Liga 2</th>
+          </tr>
+        </thead>
         <tbody></tbody>
       </table>
 
       <!-- Liga 3 -->
       <table class="league-table-wide" id="liga3">
-        <thead><tr><th colspan="2">Liga 3</th></tr></thead>
+        <thead>
+          <tr>
+            <th colspan="2">Liga 3</th>
+          </tr>
+        </thead>
         <tbody></tbody>
       </table>
 
       <!-- Liga 4 -->
       <table class="league-table-wide" id="liga4">
-        <thead><tr><th colspan="2">Liga 4</th></tr></thead>
+        <thead>
+          <tr>
+            <th colspan="2">Liga 4</th>
+          </tr>
+        </thead>
         <tbody></tbody>
       </table>
     </div>
@@ -144,7 +160,7 @@
 
         let newRow = document.createElement("tr");
         newRow.innerHTML = `<td>${player}</td>`;
-        if (status == "1") newRow.style.backgroundColor = "green";
+        if (status == "1") newRow.style.backgroundColor = "#75A960";
 
         tableBody.appendChild(newRow);
       });
@@ -166,7 +182,7 @@
           let status = firstHalf[i].c[1]?.v || "0";
           let td = document.createElement("td");
           td.textContent = player;
-          if (status == "1") td.style.backgroundColor = "green";
+          if (status == "1") td.style.backgroundColor = "#75A960";
           row.appendChild(td);
         } else {
           row.appendChild(document.createElement("td"));
@@ -178,7 +194,7 @@
           let status = secondHalf[i].c[1]?.v || "0";
           let td = document.createElement("td");
           td.textContent = player;
-          if (status == "1") td.style.backgroundColor = "green";
+          if (status == "1") td.style.backgroundColor = "#75A960";
           row.appendChild(td);
         } else {
           row.appendChild(document.createElement("td"));
@@ -198,10 +214,18 @@
         renderHalf(rows, "#liga2 tbody");
       } else if (URL == URL3) {
         let halfway = Math.ceil(rows.length / 2);
-        renderSplit(rows.slice(0, halfway), rows.slice(halfway), "#liga3 tbody");
+        renderSplit(
+          rows.slice(0, halfway),
+          rows.slice(halfway),
+          "#liga3 tbody"
+        );
       } else if (URL == URL4) {
         let halfway = Math.ceil(rows.length / 2);
-        renderSplit(rows.slice(0, halfway), rows.slice(halfway), "#liga4 tbody");
+        renderSplit(
+          rows.slice(0, halfway),
+          rows.slice(halfway),
+          "#liga4 tbody"
+        );
       }
     }
 

@@ -319,7 +319,56 @@ class LeagueTable {
       let newRow = document.createElement("tr");
       newRow.classList.add("match-row");
 
+      // 🗓️ Datum aus Spalte 16 holen und formatieren
+      let formattedDate = "-";
+
+      if (row.c[16]?.v) {
+        let rawDate = row.c[16].v;
+
+        // Wenn es sich um ein echtes Datum-Objekt handelt
+        if (typeof rawDate === "object" && rawDate instanceof Date) {
+          formattedDate = rawDate.toLocaleDateString("de-DE", {
+            day: "2-digit",
+            month: "2-digit",
+            /*year: "numeric",*/
+            hour: "2-digit",
+            minute: "2-digit",
+          }).replace(",", "");
+        }
+        // Wenn es als String "Date(YYYY,MM,DD,...)" geliefert wird
+        else if (typeof rawDate === "string" && rawDate.startsWith("Date(")) {
+          try {
+            // Werte aus der Google-"Date(...)"-Notation extrahieren
+            const parts = rawDate
+              .replace("Date(", "")
+              .replace(")", "")
+              .split(",")
+              .map(Number);
+            const jsDate = new Date(parts[0], parts[1], parts[2], parts[3], parts[4]); // Monat ist 0-basiert!
+            formattedDate = jsDate.toLocaleDateString("de-DE", {
+              day: "2-digit",
+              month: "2-digit",
+              /*year: "numeric",*/
+              hour: "2-digit",
+              minute: "2-digit",
+            }).replace(",", "");
+          } catch (e) {
+            formattedDate = rawDate;
+          }
+        }
+        // Falls es ein String im Format "TT.MM.JJJJ HH:MM:SS" ist
+        else if (typeof rawDate === "string" && rawDate.includes(" ")) {
+          formattedDate = rawDate.split(" ")[0];
+        }
+        // Oder wenn Google das formatierte Feld bereitstellt (z. B. row.c[16].f)
+        else if (row.c[16]?.f) {
+          formattedDate = row.c[16].f;
+        }
+      }
+
+
       newRow.innerHTML = `
+                <td>${formattedDate}</td>
                 <td>${row.c[0]?.v || "-"}</td>
                 <td>${row.c[1]?.v || "-"}</td>
                 <td>${row.c[2]?.v || "-"}</td>
@@ -628,7 +677,7 @@ class LeagueTable {
       startRow = liga4Offsets[wocheNummer - 1]; // Offset für die aktuelle Woche
       endRow = liga4Games[wocheNummer - 1] * 7 + startRow - 1;
     }
-    this.matchRange = `B${startRow}:L${endRow}`;
+    this.matchRange = `B${startRow}:R${endRow}`;
   }
 
   //hilfsfunktion
@@ -876,7 +925,7 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
   function createMatchdayTable(index) {
     const startRow = 3 + (index - 1) * matchdaySize;
     const endRow = startRow + matchdaySize - 1;
-    const dataRange = `B${startRow}:L${endRow}`;
+    const dataRange = `B${startRow}:R${endRow}`;
     const tableID = `matchday-${index}`;
 
     const table = document.createElement("table");

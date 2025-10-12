@@ -165,11 +165,7 @@ class LeagueTable {
       }
     }
 
-    if (
-      this.name == "liga2" ||
-      this.name == "liga4a" ||
-      this.name == "liga4b"
-    ) {
+    if (this.name == "liga2" || this.name == "liga4" || this.name == "liga5") {
       let firstThreeRows = [...allRows].slice(0, 3);
       firstThreeRows.forEach((row) => row.classList.add("first-three"));
 
@@ -418,7 +414,7 @@ class LeagueTable {
         this.getAmountOfGamesPerWeekAndOffsets().liga23Offsets[
           getSpielwoche().week - 1
         ] - 3;
-    } else if (this.name === "liga4a" || this.name === "liga4b") {
+    } else if (this.name === "liga4" || this.name === "liga5") {
       offset =
         this.getAmountOfGamesPerWeekAndOffsets().liga4Offsets[
           getSpielwoche().week - 1

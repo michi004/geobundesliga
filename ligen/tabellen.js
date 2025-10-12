@@ -327,13 +327,15 @@ class LeagueTable {
 
         // Wenn es sich um ein echtes Datum-Objekt handelt
         if (typeof rawDate === "object" && rawDate instanceof Date) {
-          formattedDate = rawDate.toLocaleDateString("de-DE", {
-            day: "2-digit",
-            month: "2-digit",
-            /*year: "numeric",*/
-            hour: "2-digit",
-            minute: "2-digit",
-          }).replace(",", "");
+          formattedDate = rawDate
+            .toLocaleDateString("de-DE", {
+              day: "2-digit",
+              month: "2-digit",
+              /*year: "numeric",*/
+              hour: "2-digit",
+              minute: "2-digit",
+            })
+            .replace(",", "");
         }
         // Wenn es als String "Date(YYYY,MM,DD,...)" geliefert wird
         else if (typeof rawDate === "string" && rawDate.startsWith("Date(")) {
@@ -344,14 +346,22 @@ class LeagueTable {
               .replace(")", "")
               .split(",")
               .map(Number);
-            const jsDate = new Date(parts[0], parts[1], parts[2], parts[3], parts[4]); // Monat ist 0-basiert!
-            formattedDate = jsDate.toLocaleDateString("de-DE", {
-              day: "2-digit",
-              month: "2-digit",
-              /*year: "numeric",*/
-              hour: "2-digit",
-              minute: "2-digit",
-            }).replace(",", "");
+            const jsDate = new Date(
+              parts[0],
+              parts[1],
+              parts[2],
+              parts[3],
+              parts[4]
+            ); // Monat ist 0-basiert!
+            formattedDate = jsDate
+              .toLocaleDateString("de-DE", {
+                day: "2-digit",
+                month: "2-digit",
+                /*year: "numeric",*/
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+              .replace(",", "");
           } catch (e) {
             formattedDate = rawDate;
           }
@@ -365,7 +375,6 @@ class LeagueTable {
           formattedDate = row.c[16].f;
         }
       }
-
 
       newRow.innerHTML = `
                 <td>${formattedDate}</td>
@@ -394,27 +403,26 @@ class LeagueTable {
   }
 
   renderRescheduleTable(jsonData) {
-    //arrays mit anzahl der spiele pro spielwoche
-    const liga1Games = [3, 3, 3, 2, 2, 2];
-    const liga23Games = [3, 3, 3, 2, 2, 2];
-    const liga4Games = [3, 2, 2, 2, 2, 2];
-
-    // arrays mit jeweiligen offsets für jede spielwoche
-    const liga1Offsets = this.calculateOffsets(liga1Games, 8);
-    const liga23Offsets = this.calculateOffsets(liga23Games, 7);
-    const liga4Offsets = this.calculateOffsets(liga4Games, 7);
-
     let offset;
     if (this.name === "liga1") {
-      offset = liga1Offsets[getSpielwoche().week - 1] - 3;
+      offset =
+        this.getAmountOfGamesPerWeekAndOffsets().liga1Offsets[
+          getSpielwoche().week - 1
+        ] - 3;
     } else if (
       this.name === "liga2" ||
       this.name === "liga3a" ||
       this.name === "liga3b"
     ) {
-      offset = liga23Offsets[getSpielwoche().week - 1] - 3;
+      offset =
+        this.getAmountOfGamesPerWeekAndOffsets().liga23Offsets[
+          getSpielwoche().week - 1
+        ] - 3;
     } else if (this.name === "liga4a" || this.name === "liga4b") {
-      offset = liga4Offsets[getSpielwoche().week - 1] - 3;
+      offset =
+        this.getAmountOfGamesPerWeekAndOffsets().liga4Offsets[
+          getSpielwoche().week - 1
+        ] - 3;
     }
 
     let rows = jsonData.table.rows;
@@ -631,6 +639,28 @@ class LeagueTable {
     }
   }
 
+  // define amounts of games per spielwoche and offsets for each spielwoche
+  getAmountOfGamesPerWeekAndOffsets() {
+    let gpwAndOffsets = {
+      liga1Games: [3, 3, 3, 2, 2, 2],
+      liga23Games: [3, 3, 3, 2, 2, 2],
+      liga4Games: [3, 2, 2, 2, 2, 2],
+    };
+    gpwAndOffsets.liga1Offsets = this.calculateOffsets(
+      gpwAndOffsets.liga1Games,
+      6
+    );
+    gpwAndOffsets.liga23Offsets = this.calculateOffsets(
+      gpwAndOffsets.liga23Games,
+      8
+    );
+    gpwAndOffsets.liga4Offsets = this.calculateOffsets(
+      gpwAndOffsets.liga4Games,
+      23
+    );
+    return gpwAndOffsets;
+  }
+
   updateSpielwoche() {
     const spielwoche = getSpielwoche();
     if (!spielwoche) return;
@@ -638,16 +668,6 @@ class LeagueTable {
     const wocheNummer = spielwoche.week;
     const wocheStart = formatDate(spielwoche.start);
     const wocheEnde = formatDate(spielwoche.end);
-
-    //arrays mit anzahl der spiele pro spielwoche
-    const liga1Games = [3, 3, 3, 2, 2, 2];
-    const liga23Games = [3, 3, 3, 2, 2, 2];
-    const liga4Games = [3, 2, 2, 2, 2, 2];
-
-    // arrays mit jeweiligen offsets für jede spielwoche
-    const liga1Offsets = this.calculateOffsets(liga1Games, 8);
-    const liga23Offsets = this.calculateOffsets(liga23Games, 7);
-    const liga4Offsets = this.calculateOffsets(liga4Games, 7);
 
     //überschrift
     const headerElement = document.querySelector(".week");
@@ -664,18 +684,33 @@ class LeagueTable {
     let endRow = 0;
     // Dynamische Match-Range basierend auf der Liga
     if (this.name == "liga1") {
-      startRow = liga1Offsets[wocheNummer - 1]; // Offset für die aktuelle Woche
-      endRow = liga1Games[wocheNummer - 1] * 8 + startRow - 1;
+      startRow =
+        this.getAmountOfGamesPerWeekAndOffsets().liga1Offsets[wocheNummer - 1]; // Offset für die aktuelle Woche
+      endRow =
+        this.getAmountOfGamesPerWeekAndOffsets().liga1Games[wocheNummer - 1] *
+          6 +
+        startRow -
+        1;
     } else if (
       this.name == "liga2" ||
       this.name == "liga3a" ||
       this.name == "liga3b"
     ) {
-      startRow = liga23Offsets[wocheNummer - 1]; // Offset für die aktuelle Woche
-      endRow = liga23Games[wocheNummer - 1] * 7 + startRow - 1;
+      startRow =
+        this.getAmountOfGamesPerWeekAndOffsets().liga23Offsets[wocheNummer - 1]; // Offset für die aktuelle Woche
+      endRow =
+        this.getAmountOfGamesPerWeekAndOffsets().liga23Games[wocheNummer - 1] *
+          8 +
+        startRow -
+        1;
     } else {
-      startRow = liga4Offsets[wocheNummer - 1]; // Offset für die aktuelle Woche
-      endRow = liga4Games[wocheNummer - 1] * 7 + startRow - 1;
+      startRow =
+        this.getAmountOfGamesPerWeekAndOffsets().liga4Offsets[wocheNummer - 1]; // Offset für die aktuelle Woche
+      endRow =
+        this.getAmountOfGamesPerWeekAndOffsets().liga4Games[wocheNummer - 1] *
+          23 +
+        startRow -
+        1;
     }
     this.matchRange = `B${startRow}:R${endRow}`;
   }
@@ -701,9 +736,9 @@ class LeagueTable {
 
     //seite 2
     //variable tabellengröße bei unterschiedlicher ligagröße
-    let dataRange1 = "S24:V" + (this.leagueSize + 23);
-    let dataRange2 = "S46:V" + (this.leagueSize + 45);
-    let dataRange3 = "T67:W" + (this.leagueSize + 66);
+    let dataRange1 = "AD3:AG" + (this.leagueSize + 3 - 1);
+    let dataRange2 = "AL3:AO" + (this.leagueSize + 3 - 1);
+    let dataRange3 = "AQ3:AT" + (this.leagueSize + 3 - 1);
 
     // Event-Listener für das Schließen des Modals
     let modal = document.getElementById("gameModal");
@@ -735,19 +770,19 @@ class LeagueTable {
 
     // horizontale slideshow mit extra daten
     fetchAndRenderTable(
-      "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw",
+      "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo",
       this.spielplanName,
       dataRange1,
       "pinpointTable"
     );
     fetchAndRenderTable(
-      "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw",
+      "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo",
       this.spielplanName,
       dataRange2,
       "yellowCards"
     );
     fetchAndRenderTable(
-      "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw",
+      "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo",
       this.spielplanName,
       dataRange3,
       "extensions"
@@ -755,7 +790,7 @@ class LeagueTable {
 
     // Liga Spieltage rendern
     fetchAndRenderMatchdayTables(
-      "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw",
+      "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo",
       this.spielplanName,
       this.leagueSize
     );
@@ -767,12 +802,12 @@ function getSpielwoche() {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Setzt die Zeit auf Mitternacht
   const spielwochen = [
-    { start: new Date("2025-04-06"), end: new Date("2025-04-20"), week: 1 },
-    { start: new Date("2025-04-21"), end: new Date("2025-05-04"), week: 2 },
-    { start: new Date("2025-05-05"), end: new Date("2025-05-18"), week: 3 },
-    { start: new Date("2025-05-19"), end: new Date("2025-06-01"), week: 4 },
-    { start: new Date("2025-06-02"), end: new Date("2025-06-15"), week: 5 },
-    { start: new Date("2025-06-16"), end: new Date("2025-07-02"), week: 6 },
+    { start: new Date("2025-10-12"), end: new Date("2025-10-26"), week: 1 },
+    { start: new Date("2025-10-27"), end: new Date("2025-11-09"), week: 2 },
+    { start: new Date("2025-11-10"), end: new Date("2025-11-23"), week: 3 },
+    { start: new Date("2025-11-24"), end: new Date("2025-12-07"), week: 4 },
+    { start: new Date("2025-12-08"), end: new Date("2025-12-28"), week: 5 },
+    { start: new Date("2025-12-29"), end: new Date("2025-01-11"), week: 6 },
     /*{ start: new Date("2025-06-30"), end: new Date("2025-07-13"), week: 7 },*/
   ];
 
@@ -889,7 +924,7 @@ function fetchAndRenderTable(
             if (cell?.f && /^\d{1,2}\.\d{1,2}\.\d{4}$/.test(cell.f)) {
               value = cell.f; // Der formatierte Wert ist bereits im gewünschten Format
             }
-            
+
             return `<td>${value}</td>`;
           })
           .join("");
@@ -1163,7 +1198,7 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
     if (!headerRow) return;
     const headers = headerRow.querySelectorAll("th");
 
-    sortableCols.forEach(colIndex => {
+    sortableCols.forEach((colIndex) => {
       let asc = false;
       const header = headers[colIndex];
       if (!header) return;
@@ -1173,14 +1208,15 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
         event.stopPropagation();
 
         const tbody = table.querySelector("tbody");
-        const rowsArray = Array.from(tbody.querySelectorAll("tr"))
-          .filter(tr => tr.querySelectorAll("td").length > 1);
+        const rowsArray = Array.from(tbody.querySelectorAll("tr")).filter(
+          (tr) => tr.querySelectorAll("td").length > 1
+        );
 
         rowsArray.sort((a, b) => {
           const aText = (a.children[colIndex]?.textContent || "").trim();
           const bText = (b.children[colIndex]?.textContent || "").trim();
 
-          const parseNum = txt => {
+          const parseNum = (txt) => {
             if (!txt) return 0;
             const cleaned = txt.replace(/[^\d\-,.]/g, "").replace(",", ".");
             const n = parseFloat(cleaned);
@@ -1190,7 +1226,7 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
           const aVal = parseNum(aText);
           const bVal = parseNum(bText);
 
-          return asc ? aVal - bVal : bVal - aVal; 
+          return asc ? aVal - bVal : bVal - aVal;
         });
 
         rowsArray.forEach((row, i) => {
@@ -1200,19 +1236,14 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
 
         asc = !asc;
 
-        headers.forEach(h => h.classList.remove("sort-asc", "sort-desc"));
+        headers.forEach((h) => h.classList.remove("sort-asc", "sort-desc"));
         header.classList.add(asc ? "sort-asc" : "sort-desc");
       });
     });
   }
 
-
   document.addEventListener("DOMContentLoaded", function () {
     makeSortable("yellowCards", [2, 3]);
     makeSortable("pinpointTable", [2, 3]);
   });
-
-
-
 }
-

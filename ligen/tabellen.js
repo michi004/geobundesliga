@@ -946,6 +946,8 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
     totalMatchdays = leagueSize; // Anzahl der Spieltage (keine Rückrunde)
   }
 
+  if (totalMatchdays > 20) totalMatchdays = 12; // Swiss System
+
   const slideshowContainer = document.querySelector(".matchday-slideshow");
   const prevButton = document.querySelector(".prevDay");
   const nextButton = document.querySelector(".nextDay");

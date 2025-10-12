@@ -50,9 +50,9 @@ body{
     height: 100%;
     overflow-y: auto;
     display: flex;
-    justify-content: center; /* Horizontale Zentrierung */
-    align-items: center; /* Vertikale Zentrierung */
-    margin: auto; /* Falls es innerhalb eines Containers liegt */
+    justify-content: center; 
+    align-items: flex-start;
+    margin: auto; 
 }
 
 .match-table {
@@ -60,9 +60,9 @@ body{
     height: 100%;
     overflow-y: auto;
     display: flex;
-    flex-direction: column;
-    justify-content: center; /* Zentriert die Match-Tabellen vertikal */
-    align-items: center; /* Zentriert die Match-Tabellen horizontal */
+    /*flex-direction: column;*/
+    justify-content: center;
+    align-items: flex-start; 
     margin: auto;
 }
 

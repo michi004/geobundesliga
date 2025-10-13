@@ -318,13 +318,12 @@ class LeagueTable {
       // 🗓️ Datum aus Spalte 16 holen und formatieren
       let formattedDate = "-";
 
-      if (row.c[16]?.v) {
-        let rawDate = row.c[16].v;
+      if (row.c[17]?.v) {
+        let rawDate = row.c[17].v;
 
         // Wenn es sich um ein echtes Datum-Objekt handelt
         if (typeof rawDate === "object" && rawDate instanceof Date) {
-          formattedDate = rawDate
-            .toLocaleDateString("de-DE", {
+          formattedDate = rawDate.toLocaleDateString("de-DE", {
               day: "2-digit",
               month: "2-digit",
               /*year: "numeric",*/
@@ -347,7 +346,8 @@ class LeagueTable {
               parts[1],
               parts[2],
               parts[3],
-              parts[4]
+              parts[4], 
+              parts[5]
             ); // Monat ist 0-basiert!
             formattedDate = jsDate
               .toLocaleDateString("de-DE", {
@@ -364,11 +364,11 @@ class LeagueTable {
         }
         // Falls es ein String im Format "TT.MM.JJJJ HH:MM:SS" ist
         else if (typeof rawDate === "string" && rawDate.includes(" ")) {
-          formattedDate = rawDate.split(" ")[0];
+          formattedDate = rawDate
         }
         // Oder wenn Google das formatierte Feld bereitstellt (z. B. row.c[16].f)
-        else if (row.c[16]?.f) {
-          formattedDate = row.c[16].f;
+        else if (row.c[17]?.f) {
+          formattedDate = row.c[17].f;
         }
       }
 
@@ -638,9 +638,9 @@ class LeagueTable {
   // define amounts of games per spielwoche and offsets for each spielwoche
   getAmountOfGamesPerWeekAndOffsets() {
     let gpwAndOffsets = {
-      liga1Games: [3, 3, 3, 2, 2, 2],
+      liga1Games: [2, 2, 2, 2, 2, 1],
       liga23Games: [3, 3, 3, 2, 2, 2],
-      liga4Games: [3, 2, 2, 2, 2, 2],
+      liga4Games: [2, 2, 2, 2, 2, 2],
     };
     gpwAndOffsets.liga1Offsets = this.calculateOffsets(
       gpwAndOffsets.liga1Games,
@@ -708,7 +708,7 @@ class LeagueTable {
         startRow -
         1;
     }
-    this.matchRange = `B${startRow}:R${endRow}`;
+    this.matchRange = `B${startRow}:S${endRow}`;
   }
 
   //hilfsfunktion
@@ -958,7 +958,7 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
   function createMatchdayTable(index) {
     const startRow = 3 + (index - 1) * matchdaySize;
     const endRow = startRow + matchdaySize - 1;
-    const dataRange = `B${startRow}:R${endRow}`;
+    const dataRange = `B${startRow}:S${endRow}`;
     const tableID = `matchday-${index}`;
 
     const table = document.createElement("table");

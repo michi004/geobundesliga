@@ -139,7 +139,7 @@ class LeagueTable {
     //unterschiedliche Färbung der Tabellenplätze
 
     if (this.name == "liga1") {
-      let firstFourRows = [...allRows].slice(0, 4);
+      let firstFourRows = [...allRows].slice(0, 5);
       firstFourRows.forEach((row) => row.classList.add("final-four"));
     }
 
@@ -165,12 +165,26 @@ class LeagueTable {
       }
     }
 
-    if (this.name == "liga2" || this.name == "liga4" || this.name == "liga5") {
-      let firstThreeRows = [...allRows].slice(0, 3);
+    if (this.name == "liga2") {
+      let firstFourRows = [...allRows].slice(0, 3);
+      firstFourRows.forEach((row) => row.classList.add("first-three"));
+    }
+
+    if (this.name == "liga4" || this.name == "liga5") {
+      let firstThreeRows = [...allRows].slice(0, 6);
       firstThreeRows.forEach((row) => row.classList.add("first-three"));
 
-      if (allRows[3]) {
-        allRows[3].classList.add("relegation");
+      if (allRows[6]) {
+        allRows[6].classList.add("relegation");
+      }
+    }
+
+    if (this.name == "liga4") {
+      let lastFourRows = [...allRows].slice(-7);
+      lastFourRows.forEach((row) => row.classList.add("last-three"));
+
+      if (allRows[7]) {
+        allRows[allRows.length - 7].classList.add("relegation-bottom");
       }
     }
 

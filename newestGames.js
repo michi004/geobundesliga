@@ -1,12 +1,12 @@
-class NewestGameInfos {
-  constructor(sheetID, sheetName, dataRange, matchRange, keyIndex) {
-    this.sheetID = sheetID;
-    this.sheetName = sheetName;
-    this.dataRange = dataRange;
-    this.matchRange = matchRange;
-    this.cacheKeyTable = keyIndex + "_table";
+class GameInfos {
+  constructor(config) {
+    this.sheetID = config.sheetID;
+    this.sheetName = config.sheetName;
+    this.dataRange = config.dataRange;
+    this.cacheKeyTable = config.key + "_table";
     this.cacheDuration = 1 * 60 * 5; // 5 Minuten Cache-Dauer
-    this.sheetData;
+    this.targetElement = document.querySelector(config.target);
+    this.renderMode = config.renderMode || "stats"; // 'stats' oder 'upcoming'
   }
 
   getURL(range) {
@@ -19,19 +19,13 @@ class NewestGameInfos {
       .then((rep) => {
         let jsonData = JSON.parse(rep.substr(47).slice(0, -2));
 
-        // Speichere die Daten im Cache (localStorage)
-        let cacheData = {
-          data: jsonData,
-          expiry: Date.now() + this.cacheDuration,
-        };
+        // Cache speichern
+        let cacheData = { data: jsonData, expiry: Date.now() + this.cacheDuration };
         localStorage.setItem(cacheKey, JSON.stringify(cacheData));
 
-        // Rendere die Tabelle mit den Daten
         renderFunction(jsonData);
       })
-      .catch((error) => {
-        console.error("Fehler beim Abrufen der Daten: ", error);
-      });
+      .catch((error) => console.error("Fehler beim Abrufen der Daten: ", error));
   }
 
   isCacheValid(cacheKey) {
@@ -42,43 +36,51 @@ class NewestGameInfos {
 
   renderStatsTable(jsonData) {
     let rows = jsonData.table.rows;
-    this.sheetData = rows;
-
-    let newestResultsList = document.querySelector("#newest-games-list");
+    this.targetElement.innerHTML = "";
 
     rows.forEach((row) => {
       if (row.c[0]) {
         let li = document.createElement("li");
         li.innerHTML = `${
-          row.c[18].v == 0
-            ? "vor " + row.c[19].v + "min"
-            : "vor " + row.c[18].v + "h"
-        } - ${row.c[17].v} - ${row.c[0].v} <span style="font-style: italic;">${
-          row.c[3].v
-        }</span> ${row.c[1].v}`;
-        newestResultsList.appendChild(li);
+          row.c[18].v == 0 ? "vor " + row.c[19].v + "min" : "vor " + row.c[18].v + "h"
+        } - ${row.c[17].v} - ${row.c[0].v}
+          <span style="font-style: italic;">${row.c[3].v}</span> ${row.c[1].v}`;
+        this.targetElement.appendChild(li);
+      }
+    });
+  }
+
+  renderUpcomingTable(jsonData) {
+    let rows = jsonData.table.rows;
+    this.targetElement.innerHTML = "";
+
+    rows.forEach((row) => {
+      if (row.c[0]) {
+        let li = document.createElement("li");
+        li.innerHTML = `${
+          row.c[19].v == 0 ? "in " + row.c[20].v + "min" : "in " + row.c[19].v + "h"
+        } (${row.c[17].f}) - ${row.c[18].v} - ${row.c[0].v}
+          <span style="font-style: italic;">vs.</span> ${row.c[1].v}`;
+        this.targetElement.appendChild(li);
       }
     });
   }
 
   initialize() {
-    this.loadTableData();
-  }
-
-  loadTableData() {
     if (this.isCacheValid(this.cacheKeyTable)) {
-      // lade die Daten aus localStorage (Cache)
-      let cachedData = JSON.parse(
-        localStorage.getItem(this.cacheKeyTable)
-      ).data;
-      this.renderStatsTable(cachedData);
+      let cachedData = JSON.parse(localStorage.getItem(this.cacheKeyTable)).data;
+      this.render(cachedData);
     } else {
-      // Lade die Daten aus dem Google Sheet
       this.fetchAndRenderData(
-        this.getURL(this.dataRange),
+        this.getURL("B2:U100"),
         this.cacheKeyTable,
-        this.renderStatsTable.bind(this)
+        this.render.bind(this)
       );
     }
+  }
+
+  render(jsonData) {
+    if (this.renderMode === "upcoming") this.renderUpcomingTable(jsonData);
+    else this.renderStatsTable(jsonData);
   }
 }

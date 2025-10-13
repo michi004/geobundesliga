@@ -34,7 +34,7 @@ class StatsTable {
     this.statsSheetColDACHPlayed = 22 + 1;
     this.statsSheetColDACHWon = 23 + 1;
     this.statsSheetColDACHHealth = 24 + 1;
-    this.statsSheetColFavMode = 25 + 1;
+    this.statsSheetColFavMode = 6 + 1;
     this.sheetData;
   }
 
@@ -99,27 +99,31 @@ class StatsTable {
 
         ligaRows = [];
       }
-      let newRow = document.createElement("tr");
-      let playerSubdivision = row.c[this.statsSheetColSubdivision]?.v || "base";
-      let playerSubdivisionIcon = getPlayerSubdivisionIcon(playerSubdivision);
-      newRow.innerHTML = `
+
+      if (row.c[this.statsSheetColDiscordName]) {
+        let newRow = document.createElement("tr");
+        let playerSubdivision =
+          row.c[this.statsSheetColSubdivision]?.v || "base";
+        let playerSubdivisionIcon = getPlayerSubdivisionIcon(playerSubdivision);
+        newRow.innerHTML = `
               <td>${row.c[this.statsSheetColPlacement]?.v || " "}</td>
               <td style="text-align: right">${
                 row.c[this.statsSheetColDiscordName].v
               }</td>
               <td style="text-align: left">${playerSubdivisionIcon} ${
-        row.c[this.statsSheetColGGName].v
-      }</td>
+          row.c[this.statsSheetColGGName].v
+        }</td>
               <td>${(
                 Math.round(row.c[this.statsSheetColPoints]?.v * 100) / 100
               ).toFixed(2)}</td>
           `;
 
-      newRow.classList.add("hoverable");
-      newRow.addEventListener("click", () => {
-        this.openModal(row);
-      });
-      ligaRows.push(newRow);
+        newRow.classList.add("hoverable");
+        newRow.addEventListener("click", () => {
+          this.openModal(row);
+        });
+        ligaRows.push(newRow);
+      }
     });
     // sortiere die für diese Liga gesammelten Zeilen
     ligaRows.sort(
@@ -292,14 +296,6 @@ class StatsTable {
 
   initialize() {
     this.loadTableData();
-    //this.loadRescheduleData();
-    /*
-    // Liga Spieltage rendern
-    fetchAndRenderMatchdayTables(
-      "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw",
-      this.spielplanName,
-      this.leagueSize
-    );*/
   }
 }
 

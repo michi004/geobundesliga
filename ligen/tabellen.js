@@ -48,7 +48,7 @@ class LeagueTable {
     this.statsSheetColDACHPlayed = 22 + 1;
     this.statsSheetColDACHWon = 23 + 1;
     this.statsSheetColDACHHealth = 24 + 1;
-    this.statsSheetColFavMode = 25 + 1;
+    this.statsSheetColFavMode = 6 + 1;
     this.sheetData;
   }
 
@@ -337,7 +337,8 @@ class LeagueTable {
 
         // Wenn es sich um ein echtes Datum-Objekt handelt
         if (typeof rawDate === "object" && rawDate instanceof Date) {
-          formattedDate = rawDate.toLocaleDateString("de-DE", {
+          formattedDate = rawDate
+            .toLocaleDateString("de-DE", {
               day: "2-digit",
               month: "2-digit",
               /*year: "numeric",*/
@@ -360,7 +361,7 @@ class LeagueTable {
               parts[1],
               parts[2],
               parts[3],
-              parts[4], 
+              parts[4],
               parts[5]
             ); // Monat ist 0-basiert!
             formattedDate = jsDate
@@ -378,7 +379,7 @@ class LeagueTable {
         }
         // Falls es ein String im Format "TT.MM.JJJJ HH:MM:SS" ist
         else if (typeof rawDate === "string" && rawDate.includes(" ")) {
-          formattedDate = rawDate
+          formattedDate = rawDate;
         }
         // Oder wenn Google das formatierte Feld bereitstellt (z. B. row.c[16].f)
         else if (row.c[17]?.f) {
@@ -479,9 +480,9 @@ class LeagueTable {
     } else {
       return this.fetchAndReturnStatsData(
         this.getURLStats(
-          "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw",
+          "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo",
           "Player_stats",
-          "A3:AA120"
+          "A3:AA200"
         ),
         "PlayerStats_table"
       );

@@ -168,6 +168,10 @@ class LeagueTable {
     if (this.name == "liga2") {
       let firstFourRows = [...allRows].slice(0, 3);
       firstFourRows.forEach((row) => row.classList.add("first-three"));
+
+      if (allRows[3]) {
+        allRows[3].classList.add("relegation");
+      }
     }
 
     if (this.name == "liga4" || this.name == "liga5") {

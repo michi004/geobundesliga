@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+      charset="UTF-8"
+    />
+    <title>Geo Bundesliga</title>
+    <link rel="icon" href="icon.png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: linear-gradient(to bottom right, #1a0033, #660066);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        color: white;
+        text-align: center;
+        font-size: larger;
+        padding: 40px 0;
+      }
+      .card-custom {
+        background-color: #dcd6e0;
+        color: black;
+        border-radius: 5px;
+        padding: 40px;
+        margin: 15px;
+        font-weight: bold;
+      }
+      .card-untere-reihe {
+        padding: 30px;
+      }
+      a {
+        text-decoration: none;
+      }
+
+      a:hover {
+        background-color: #2a2c6b;
+        color: #dcd6e0;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .my-6 {
+        margin-top: 5rem !important;
+        margin-bottom: 5rem !important;
+      }
+
+      #newest-games-card {
+        background-color: #dcd6e0cc;
+        text-align: left;
+      }
+
+      .live-button {
+        background-color: #ff0000;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1em;
+        transition: background-color 0.3s ease;
+      }
+
+      .live-button:hover {
+        background-color: #cc0000;
+      }
+
+      #live-button {
+        position: absolute;
+        top: 3.5em;
+        right: 15%;
+        display: none;
+      }
+
+      .youtube-slider {
+        display: flex;
+        transition: transform 0.5s ease;
+      }
+
+      .yt-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        cursor: pointer;
+        z-index: 2;
+        padding: 5px 10px;
+        border-radius: 4px;
+        opacity: 0.8;
+      }
+
+      .yt-arrow.left {
+        left: 10px;
+      }
+
+      .yt-arrow.right {
+        right: 10px;
+      }
+
+      .yt-arrow:hover {
+        opacity: 1;
+        background-color: #5a6268;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div style="position: relative; text-align: center">
+        <h1 class="mb-5 fw-bold">
+          <img
+            src="icon.png"
+            alt="Icon"
+            style="height: 1.75em; margin-right: 0.25em"
+          />
+          Geo Bundesliga
+        </h1>
+        <a id="live-button" class="live-button" href="#" target="_blank"></a>
+      </div>
+
+      <!--href="index.html"-->
+      <!-- liga X -->
+      <div class="row justify-content-center">
+        <a
+          href="preseason_s4.html"
+          class="col-xs-12 col-sm-8 col-xl-4 card-custom"
+          >Preseason</a
+        >
+        <a
+          href="resignups_s4.html"
+          class="col-xs-12 col-sm-8 col-xl-4 card-custom"
+          >Wiederanmeldung</a
+        >
+      </div>
+
+      <div
+        class="d-flex flex-wrap justify-content-center gap-4"
+        style="margin: 2rem 0"
+      >
+        <!-- Ergebnisse -->
+        <div
+          class="card p-3"
+          style="
+            background-color: #dcd6e0cc;
+            text-align: left;
+            min-width: 300px;
+            max-width: 600px;
+            flex: 1;
+            max-height: 381px;
+            overflow-y: auto;
+            overflow-x: auto;
+          "
+        >
+          <h5 class="card-title">Ergebnisse der letzten 24h:</h5>
+          <ul
+            id="newest-games-list"
+            style="margin-bottom: 0; white-space: nowrap"
+          ></ul>
+        </div>
+
+        <div
+          class="card p-3"
+          style="
+            background-color: #dcd6e0cc;
+            text-align: left;
+            min-width: 300px;
+            max-width: 600px;
+            flex: 1;
+            max-height: 381px;
+          "
+        >
+          <h5 class="card-title">YouTube Videos zur GeoBundesliga:</h5>
+          <div id="youtube-slider" style="position: relative; overflow: hidden">
+            <div
+              id="youtube-slides"
+              style="white-space: nowrap; transition: transform 0.5s ease"
+            ></div>
+            <button class="yt-arrow left" onclick="prevSlide()">
+              &#10094;
+            </button>
+            <div class="youtube-slider" id="youtube-slider"></div>
+            <button class="yt-arrow right" onclick="nextSlide()">
+              &#10095;
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- untere reihe -->
+      <div class="row justify-content-center">
+        <a
+          href="untereReihe/archive/archive.html"
+          class="col-md-5 col-lg-2 card-custom card-untere-reihe"
+          >Archiv</a
+        ><a
+          href="https://docs.google.com/document/d/1InAqAS-TSFhilSsoxQJZFee-SdjD0VU_6mBI3aWo5GQ/edit?usp=sharing"
+          class="col-md-5 col-lg-2 card-custom card-untere-reihe"
+          >Regelwerk</a
+        ><a
+          href="untereReihe/mapbot/mapbot.html"
+          class="col-md-5 col-lg-2 card-custom card-untere-reihe"
+          >Map Bot</a
+        ><!--<a
+          href="untereReihe/stats/stats.html"
+          class="col-md-5 col-lg-2 card-custom card-untere-reihe"
+          >Statistiken</a
+        >--><a
+          href="untereReihe/gcec/gcec_info.html"
+          class="col-md-5 col-lg-2 card-custom card-untere-reihe"
+          >GCEC</a
+        >
+      </div>
+    </div>
+
+    <script src="newestGames.js"></script>
+    <script src="yt_twitch.js"></script>
+    <script>
+      /*const newestGameStats = new NewestGameInfos(
+        "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo",
+        "Newest_games",
+        "B2:U100",
+        "",
+        "NewestGames"
+      );*/
+
+      const newestGameStats = new NewestGameInfos(
+        "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo",
+        "Upcoming_games",
+        "B2:V100",
+        "",
+        "UpcomingGames"
+      );
+
+      // Lade die Daten für alle Ligen
+      newestGameStats.initialize();
+    </script>
+  </body>
+</html>

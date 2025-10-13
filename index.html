@@ -9,28 +9,26 @@
       rel="stylesheet"
     />
     <style>
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        background: linear-gradient(to bottom right, #1a0033, #660066);
-        color: white;
-      }
-      
-      body {
+      html {
+        min-height: 100%;
         background: linear-gradient(to bottom right, #1a0033, #660066);
         background-repeat: no-repeat;
         background-size: cover;
-        background-attachment: fixed;
+        background-position: center;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background: transparent; /* html-Farbverlauf sichtbar */
         color: white;
         text-align: center;
         font-size: larger;
-        /*padding: 40px 0;*/
-        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden; /* verhindert Rand-Artefakte */
       }
+
       .card-custom {
         background-color: #dcd6e0;
         color: black;
@@ -158,7 +156,7 @@
       /* Footer */
       footer {
         text-align: center;
-        padding: 20px;
+        padding: 0;
         font-size: 0.9rem;
         color: #ccc;
         background: #1a012b;
@@ -226,8 +224,8 @@
           <a href="ligen/liga2.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Liga 2</a>
           <a href="ligen/liga3a.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Liga 3a</a>
           <a href="ligen/liga3b.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Liga 3b</a>
-          <a href="ligen/liga4a.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Liga 4a</a>
-          <a href="ligen/liga4b.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Liga 4b</a>
+          <a href="ligen/liga4.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Liga 4</a>
+          <a href="ligen/liga5.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Liga 5</a>
         </div>
     
         <div class="d-flex flex-wrap justify-content-center gap-4" style="margin: 2rem 0">

@@ -20,12 +20,17 @@ class GameInfos {
         let jsonData = JSON.parse(rep.substr(47).slice(0, -2));
 
         // Cache speichern
-        let cacheData = { data: jsonData, expiry: Date.now() + this.cacheDuration };
+        let cacheData = {
+          data: jsonData,
+          expiry: Date.now() + this.cacheDuration,
+        };
         localStorage.setItem(cacheKey, JSON.stringify(cacheData));
 
         renderFunction(jsonData);
       })
-      .catch((error) => console.error("Fehler beim Abrufen der Daten: ", error));
+      .catch((error) =>
+        console.error("Fehler beim Abrufen der Daten: ", error)
+      );
   }
 
   isCacheValid(cacheKey) {
@@ -42,7 +47,9 @@ class GameInfos {
       if (row.c[0]) {
         let li = document.createElement("li");
         li.innerHTML = `${
-          row.c[18].v == 0 ? "vor " + row.c[19].v + "min" : "vor " + row.c[18].v + "h"
+          row.c[18].v == 0
+            ? "vor " + row.c[19].v + "min"
+            : "vor " + row.c[18].v + "h"
         } - ${row.c[17].v} - ${row.c[0].v}
           <span style="font-style: italic;">${row.c[3].v}</span> ${row.c[1].v}`;
         this.targetElement.appendChild(li);
@@ -58,8 +65,10 @@ class GameInfos {
       if (row.c[0]) {
         let li = document.createElement("li");
         li.innerHTML = `${
-          row.c[19].v == 0 ? "in " + row.c[20].v + "min" : "in " + row.c[19].v + "h"
-        } (${row.c[17].f}) - ${row.c[18].v} - ${row.c[0].v}
+          row.c[19].v == 0
+            ? "in " + row.c[20].v + "min"
+            : "in " + row.c[19].v + "h"
+        } (${row.c[17].f} Uhr) - ${row.c[18].v} - ${row.c[0].v}
           <span style="font-style: italic;">vs.</span> ${row.c[1].v}`;
         this.targetElement.appendChild(li);
       }
@@ -68,7 +77,9 @@ class GameInfos {
 
   initialize() {
     if (this.isCacheValid(this.cacheKeyTable)) {
-      let cachedData = JSON.parse(localStorage.getItem(this.cacheKeyTable)).data;
+      let cachedData = JSON.parse(
+        localStorage.getItem(this.cacheKeyTable)
+      ).data;
       this.render(cachedData);
     } else {
       this.fetchAndRenderData(

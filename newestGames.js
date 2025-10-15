@@ -70,7 +70,7 @@ class GameInfos {
             : "in " + row.c[19].v + "h"
         } (${row.c[17].f} Uhr) - ${row.c[18].v} - ${row.c[0].v}
           <span style="font-style: italic;">vs.</span> ${row.c[1].v}`;
-        this.targetElement.appendChild(li);
+        this.targetElement.insertBefore(li, this.targetElement.firstChild);
       }
     });
   }

@@ -1030,15 +1030,21 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
     slideshowContainer.innerHTML = "";
     slideshowContainer.appendChild(prevButton);
 
-    let indices = [
-      getWrappedIndex(currentIndex - 1),
-      getWrappedIndex(currentIndex),
-      getWrappedIndex(currentIndex + 1),
-    ];
+    const prevIndex = getWrappedIndex(currentIndex - 1);
+    const activeIndex = getWrappedIndex(currentIndex);
+    const nextIndex = getWrappedIndex(currentIndex + 1);
 
-    indices.forEach((i) => {
-      slideshowContainer.appendChild(createMatchdayTable(i));
-    });
+    const prevTable = createMatchdayTable(prevIndex);
+    prevTable.classList.add("previousTable");
+    slideshowContainer.appendChild(prevTable);
+
+    const activeTable = createMatchdayTable(activeIndex);
+    activeTable.classList.add("activeTable");
+    slideshowContainer.appendChild(activeTable);
+
+    const nextTable = createMatchdayTable(nextIndex);
+    nextTable.classList.add("nextTable");
+    slideshowContainer.appendChild(nextTable);
 
     slideshowContainer.appendChild(nextButton);
     updateMatchdayView();

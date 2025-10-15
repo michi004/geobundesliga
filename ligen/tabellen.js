@@ -302,8 +302,8 @@ class LeagueTable {
               <div style="font-size: 0.8em; color: #777;">${
                 matchtype == "move"
                   ? "Moving"
-                  : matchtype == "bmd"
-                  ? "Better Moving Duel"
+                  : matchtype == "ppd"
+                  ? "Pinpointing Duel"
                   : matchtype == "no move"
                   ? "NM"
                   : "NMPZ"
@@ -1187,8 +1187,8 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
               <div style="font-size: 0.8em; color: #777;">${
                 matchtype == "move"
                   ? "Moving"
-                  : matchtype == "bmd"
-                  ? "Better Moving Duel"
+                  : matchtype == "ppd"
+                  ? "Pinpointing Duel"
                   : matchtype == "no move"
                   ? "NM"
                   : "NMPZ"

@@ -343,6 +343,7 @@
 
     <label style="font-size: 1.2em; font-weight: bold; display: block; text-align: left;  margin-bottom: 2px; margin-top: 20px;">Zufälliger Spielmodus</label>
     <div id="checkbox-container">
+        <input type="checkbox" class="extra-checkbox" value="Pinpointing"> Pinpointing Duell<br>
         <input type="checkbox" class="extra-checkbox" value="Moving"> Moving<br>
         <input type="checkbox" class="extra-checkbox" value="NM"> NM<br>
         <input type="checkbox" class="extra-checkbox" value="NMPZ"> NMPZ<br>
@@ -356,6 +357,7 @@
 
         const extraCategories = {
             "Any": ['Moving', 'NM', 'NMPZ'],
+            "Moving / Pinpointing": ['Moving', 'Pinpointing Duell'],
             "Moving / NM": ['Moving', 'NM'],
             "Moving / NMPZ": ['Moving', 'NMPZ'],
             "NM / NMPZ": ['NM', 'NMPZ']

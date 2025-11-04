@@ -1,4 +1,4 @@
-const sheetID = '1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw';
+const sheetID = '1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo';
 const sheetName = 'Twitch_live';
 const sheetNameYT = 'YT_content';
 const range = 'B2:E'; 

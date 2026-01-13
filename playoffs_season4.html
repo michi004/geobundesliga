@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GeoBundesliga Playoffs Season 4</title>
 
   <link rel="icon" href="icon.png" />
@@ -107,7 +108,8 @@
 
     .bracket-wrapper {
       width: 100%;
-      height: 100vh;
+      /*height: 100vh;*/
+      min-height: calc(100vh - 160px);
       overflow: auto;
       position: relative;
     }
@@ -293,7 +295,9 @@
   <header class="site-header">
     <div class="logo">
     <img src="icon.png" alt="Icon" style="height: 1.5em; margin-right: 0.25em;" />
-    Geo Bundesliga
+    <nav class="d-flex align-items-center">
+      <a href="index.html">Geo Bundesliga</a>
+    </nav>
     </div>
     <nav class="d-flex align-items-center">
       <a href="untereReihe/archive/archive.html">Archiv</a>
@@ -304,7 +308,6 @@
       <a href="https://discord.gg/3YkaPPTp" class="btn-discord">DACH Discord</a>
     </nav>
   </header>
-
   <!-- Header -->
   <!--<header class="d-flex justify-content-between align-items-center">
     <div class="logo">
@@ -613,8 +616,8 @@
       }, 1000);
     };
     window.onresize = drawLines;
+
   </script>
-  
 
 </body>
 

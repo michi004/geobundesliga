@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GeoBundesliga Relegation Season 4</title>
   <link rel="icon" href="icon.png" />
   <style>
@@ -18,62 +19,95 @@
       padding: 0;
       box-sizing: border-box;
     }
+    
+    html {
+      min-height: 100%;
+      background: linear-gradient(to bottom right, #1a0033, #660066);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    /*body {
+      min-height: 100vh;
+      margin: 0;
+      background: transparent;
+      color: white;
+      text-align: center;
+      font-size: larger;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }*/
 
     body {
-      background: linear-gradient(to bottom right, var(--tertiary-color), var(--secondary-color));
+      background: linear-gradient(to bottom right, #1a0033, #660066);
       font-family: Verdana, sans-serif;
-      /*margin: 0;
-      padding: 0px;*/
-      /*overflow-x: auto;*/
-      overflow-x: hidden; /* oder: unset */
+      color: white;
+      overflow-x: hidden;
       overflow-y: auto;
+    }
+
+
+    .card-untere-reihe {
+      padding: 30px;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      background-color: #2a2c6b;
+      color: #dcd6e0;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     /* Header */
     header {
+      background-color: #1a012b;
+      padding: 30px 40px;
+      flex-shrink: 0;
+    }
+
+    header .logo {
+      font-weight: bold;
+      font-size: 1.6rem;
       display: flex;
       align-items: center;
-      justify-content: center;
-      width: 100vw;
-      height: 11vh;
-      margin: 2vh 0;
     }
 
-    header h1 {
-      background-color: var(--primary-color);
-      padding: 1vh 1vw;
-      border-radius: var(--border-radius);
-      color: var(--text-color);
-      font-size: 3rem;
-      text-align: center;
-      width: 50vw;
-      height: 100%;
-    }
-
-    /* Buttons */
-    .button {
-      background-color: var(--primary-color);
-      color: var(--text-color);
-      padding: 1vh 2vw;
-      font-size: 1.5vw;
-      border-radius: var(--border-radius);
+    header nav a {
       text-decoration: none;
-      border: 2px solid white;
+      color: white;
+      margin: 0 10px;
     }
 
-    #back-button {
-      position: absolute;
-      left: 10px; /* Abstand vom linken Rand */
-      top: 2vh;
+    header nav a:hover {
+      color: #ffcc00;
+      background-color: transparent;
     }
 
-    .button:hover {
-      background-color: var(--secondary-color);
+    header .btn-discord {
+      background: #4b1d69;
+      padding: 6px 12px;
+      border-radius: 6px;
+      color: white;
+      text-decoration: none;
+      margin-left: 10px;
     }
+
+    .btn-discord:hover {
+      border-color: #9b5de5;
+      background-color: #5b2a86;
+    }
+
+    /**********************************************************************************************************/
 
     .bracket-wrapper {
       width: 100%;
-      height: 100vh;
+      /*height: 100vh;*/
+      min-height: calc(100vh - 160px);
       overflow: auto;
       position: relative;
     }
@@ -110,7 +144,7 @@
       color: white;
       border-radius: 12px;
       padding: 12px;
-      min-width: 260px;
+      min-width: 220px;
       position: relative;
       box-shadow: 0 0 10px #0e1c2f;
       cursor: pointer;
@@ -246,17 +280,42 @@
       font-weight: bold;
     }
 
-
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   </style>
 </head>
 <body>
 
-  <header>
+  <!--<header>
     <a href="index.html" class="button" id="back-button">
       <span>Zurück</span>
     </a>
     <h1>GeoBundesliga Relegation</h1>
+  </header>-->
+
+  <header class="site-header">
+    <div class="logo">
+    <img src="icon.png" alt="Icon" style="height: 1.5em; margin-right: 0.25em;" />
+    <nav class="d-flex align-items-center">
+      <a href="index.html">Geo Bundesliga</a>
+    </nav>
+    </div>
+    <nav class="d-flex align-items-center">
+      <a href="untereReihe/archive/archive.html">Archiv</a>
+      <a
+        href="https://docs.google.com/document/d/1InAqAS-TSFhilSsoxQJZFee-SdjD0VU_6mBI3aWo5GQ/edit?usp=sharing">Regelwerk</a>
+      <a href="untereReihe/mapbot/mapbot.html">Map Bot</a>
+      <a href="untereReihe/stats/stats.html">Statistiken</a>
+      <a href="https://discord.gg/3YkaPPTp" class="btn-discord">DACH Discord</a>
+    </nav>
   </header>
+  
+  <section class="text-center mt-5">
+    <h1 style="font-size: 2.5rem; font-weight: bold; text-align: center; margin-top: 20px;">Geo Bundesliga Relegation</h1>
+  </section>
   
   <div class="bracket-wrapper">
     <div class="bracket" id="bracket">

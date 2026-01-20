@@ -562,7 +562,7 @@
             score: row.c[3]?.v || "N/A",
             winner: row.c[4]?.v || "-",
             maps: JSON.parse(row.c[5]?.v || "[]"),
-            matchid: row.c[7]?.v || "Unbekannt",
+            matchid: row.c[6]?.v || "Unbekannt",
           }));
 
           matchData.forEach(match => {

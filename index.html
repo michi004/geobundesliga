@@ -33,9 +33,9 @@
       background-color: #dcd6e0;
       color: black;
       border-radius: 5px;
-      padding: 40px;
+      padding: 80px;
       margin: 15px;
-      font-weight: bold;
+      font-weight: bold;  
     }
 
     .card-untere-reihe {
@@ -231,14 +231,16 @@
 
       <!-- liga X -->
       <div class="row justify-content-center">
-        <a href="ligen/liga1.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Liga 1</a>
+        <!--<a href="ligen/liga1.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Liga 1</a>
         <a href="ligen/liga2.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Liga 2</a>
         <a href="ligen/liga3a.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Liga 3a</a>
         <a href="ligen/liga3b.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Liga 3b</a>
         <a href="ligen/liga4.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Liga 4</a>
         <a href="ligen/liga5.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Liga 5</a>
         <a href="playoffs_season4.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Playoffs</a>
-        <a href="relegation_season4.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Relegation</a>
+        <a href="relegation_season4.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Relegation</a>-->
+        <a class="col-xs-12 col-sm-8 col-xl-4 card-custom">Preseason</a><!--href="preseason_s5.html"-->
+        <a class="col-xs-12 col-sm-8 col-xl-4 card-custom">Wiederanmeldungen</a><!--href="resignups_s5.html"-->
       </div>
 
       <div class="d-flex flex-wrap justify-content-center gap-4" style="margin: 2rem 0">
@@ -273,7 +275,7 @@
           </div>
         </div>
 
-        <div class="card p-3"
+        <!--<div class="card p-3"
           style="background-color: #dcd6e0cc; text-align: left; min-width: 300px; max-width: 600px; flex: 1; max-height: 381px;">
           <h5 class="card-title">YouTube Videos zur GeoBundesliga:</h5>
           <div id="youtube-slider" style="position: relative; overflow: hidden;">
@@ -283,7 +285,22 @@
             <div class="youtube-slider" id="youtube-slider"></div>
             <button class="yt-arrow right" onclick="nextSlide()">&#10095;</button>
           </div>
+        </div>-->
+        <div class="card p-3"
+          style="background-color: #dcd6e0cc; text-align: left; min-width: 300px; max-width: 600px; flex: 1; max-height: 381px; overflow-y: auto; overflow-x: auto;">
+          <div id="results-slider" style="position: relative; overflow: hidden;">
+            <div id="results-slides" style="white-space: nowrap; transition: transform 0.5s ease;">
+
+              <!-- Slide 1 -->
+              <div style="display: inline-block; width: 100%; white-space: normal; vertical-align: top;">
+                <h5 class="card-title">GeoBundesliga Zeitplan:</h5>
+                Geplanter Start der S5 Preseason: 27.04.2026<br>
+                Geplanter Start der S5 Ligaphase: 18.05.2026
+                <ul id="newest-games-list" style="margin-bottom: 0; white-space: nowrap;"></ul>
+              </div>
+          </div>
         </div>
+
       </div>
     </div>
   </div>

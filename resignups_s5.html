@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Geobundesliga - S4 Wiederanmeldungen</title>
+    <title>Geobundesliga - S5 Wiederanmeldungen</title>
 
     <link rel="stylesheet" href="default.css" />
     <link rel="icon" href="icon.png" />
@@ -47,7 +47,7 @@
     </header>
     <div class="container">
       <a
-        href="https://forms.gle/SGyeUqEV6MY8dpFq8"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSd4o0o-9AXuAF6aZHLGHdSAUFPg5of2C1Ue5r7Y0hMXxblaAw/viewform"
         class="button"
         id="resignup-button"
         target="_blank"
@@ -95,17 +95,28 @@
         </thead>
         <tbody></tbody>
       </table>
+
+      <!-- Liga 5 -->
+      <table class="league-table-wide" id="liga5">
+        <thead>
+          <tr>
+            <th colspan="2">Liga 5</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
   </body>
   <script>
     // Google Sheet Setup
-    let sheetID = "1Dg2kWwGmSLQyYCAsKiDq45o6LIAiXnVg_o1wI8kkPQE";
+    let sheetID = "1Uf9rBnJ1zhPtU3EoVm2bar0-St0Vxon29Gouw2REq-U";
     let spreadsheetName = "resignups";
 
-    let dataRange1 = "B2:C17";
-    let dataRange2 = "D2:E16";
-    let dataRange3 = "F2:G31";
-    let dataRange4 = "H2:I29";
+    let dataRange1 = "B1:C12";
+    let dataRange2 = "E1:F16";
+    let dataRange3 = "H1:I46";
+    let dataRange4 = "K1:L46";
+    let dataRange5 = "N1:O46";
 
     let URL1 =
       "https://docs.google.com/spreadsheets/d/" +
@@ -135,6 +146,14 @@
       spreadsheetName +
       "&range=" +
       dataRange4;
+
+    let URL5 =
+      "https://docs.google.com/spreadsheets/d/" +
+      sheetID +
+      "/gviz/tq?sheet=" +
+      spreadsheetName +
+      "&range=" +
+      dataRange5;
 
     // Daten abrufen
     function fetchAndRenderData(URL) {
@@ -226,6 +245,13 @@
           rows.slice(halfway),
           "#liga4 tbody"
         );
+      } else if (URL == URL5) {
+        let halfway = Math.ceil(rows.length / 2);
+        renderSplit(
+          rows.slice(0, halfway),
+          rows.slice(halfway),
+          "#liga5 tbody"
+        );
       }
     }
 
@@ -235,6 +261,7 @@
       fetchAndRenderData(URL2);
       fetchAndRenderData(URL3);
       fetchAndRenderData(URL4);
+      fetchAndRenderData(URL5);
     });
   </script>
 </html>

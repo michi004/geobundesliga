@@ -584,9 +584,15 @@
                 const randomItem = ergebnisse2[select2.value][Math.floor(Math.random() * ergebnisse2[select2.value].length)];
                 resultText2 += `Map ${index + 1}: <a href="${randomItem.url}" target="_blank">${randomItem.text}</a>`;
 
+                // 👉 LOGGING HIER (Hauptkategorie)
+                logToGoogleSheets(select2.value, randomItem.text);
+
                 if (extraDropdowns[index].value && extraCategories[extraDropdowns[index].value]) {
                     const extraItem = extraCategories[extraDropdowns[index].value][Math.floor(Math.random() * extraCategories[extraDropdowns[index].value].length)];
                     resultText2 += ` (${extraItem})`;
+
+                    // 👉 OPTIONAL: Extra-Kategorie auch loggen
+                    logToGoogleSheets(extraDropdowns[index].value, extraItem);
                 }
 
                     
@@ -596,6 +602,32 @@
         });
             
         document.getElementById('ergebnis2').innerHTML = resultText2 || 'Keine Auswahl getroffen';
+    }
+
+    function getSessionID() {
+        let session = localStorage.getItem("sessionID");
+        if (!session) {
+            session = Math.random().toString(36).substring(2);
+            localStorage.setItem("sessionID", session);
+        }
+        return session;
+    }
+
+    function logToGoogleSheets(kategorie, ausgabe) {
+        fetch("DEINE_SCRIPT_URL_HIER", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                kategorie: kategorie,
+                ausgabe: ausgabe,
+                session: getSessionID()
+            })
+        })
+        .then(res => res.text())
+        .then(data => console.log("Sheet Antwort:", data))
+        .catch(err => console.log("Logging Fehler:", err));
     }
 
     

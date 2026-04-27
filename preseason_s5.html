@@ -10,7 +10,7 @@
   <link rel="icon" href="icon.png" />
   <style>
     body {
-      /*overflow: auto;*/
+      overflow: auto;
       background-image: url("hintergrund.png");
       background-size: cover;
       background-position: center;
@@ -42,8 +42,12 @@
       background-color: #1a012b;
       padding: 30px 40px;
       flex-shrink: 0;
-    }
 
+      display: flex;    
+      justify-content: space-between;
+      align-items: center;        
+    }
+    
     header .logo {
       font-weight: bold;
       font-size: 1.6rem;
@@ -83,9 +87,10 @@
     <div class="logo">
     <img src="icon.png" alt="Icon" style="height: 1.5em; margin-right: 0.25em;" />
     <nav class="d-flex align-items-center">
-      <a href="index.html">Geo Bundesliga</a>
+      <a href="index.html">Geo Bundesliga Preseason</a>
     </nav>
     </div>
+
     <nav class="d-flex align-items-center">
       <a href="untereReihe/archive/archive.html">Archiv</a>
       <a
@@ -96,6 +101,8 @@
     </nav>
   </header>
 
+  <br><br>
+  
   <!--<header>
     <a href="index.html" class="button" id="back-button">
       <span>Zurück</span>

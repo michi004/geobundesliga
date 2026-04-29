@@ -4,7 +4,7 @@ class StatsTable {
     this.sheetName = sheetName;
     this.dataRange = dataRange;
     this.matchRange = matchRange;
-    this.cacheKeyTable = keyIndex + "_table";
+    this.cacheKeyTable = keyIndex + "_table_s4";
     this.cacheDuration = 1 * 60 * 5 * 1000; // 5 Minuten Cache-Dauer
 
     // Spalten im Google Sheet
@@ -84,7 +84,7 @@ class StatsTable {
         ligaRows.sort(
           (a, b) =>
             a.children[0].childNodes[0].nodeValue.trim() -
-            b.children[0].childNodes[0].nodeValue.trim()
+            b.children[0].childNodes[0].nodeValue.trim(),
         );
         // füge die für diese Liga gesammelten Zeilen ein
         ligaRows.forEach((ligaRow) => {
@@ -111,8 +111,8 @@ class StatsTable {
                 row.c[this.statsSheetColDiscordName].v
               }</td>
               <td style="text-align: left">${playerSubdivisionIcon} ${
-          row.c[this.statsSheetColGGName].v
-        }</td>
+                row.c[this.statsSheetColGGName].v
+              }</td>
               <td>${(
                 Math.round(row.c[this.statsSheetColPoints]?.v * 100) / 100
               ).toFixed(2)}</td>
@@ -129,7 +129,7 @@ class StatsTable {
     ligaRows.sort(
       (a, b) =>
         a.children[0].childNodes[0].nodeValue.trim() -
-        b.children[0].childNodes[0].nodeValue.trim()
+        b.children[0].childNodes[0].nodeValue.trim(),
     );
     // füge die für diese Liga gesammelten Zeilen ein
     ligaRows.forEach((ligaRow) => {
@@ -172,7 +172,7 @@ class StatsTable {
     const modalDetails = document.getElementById("modalDetails");
 
     modalTitle.innerHTML = `Statistiken für ${getPlayerSubdivisionIcon(
-      sheetRow.c[this.statsSheetColSubdivision]?.v || "base"
+      sheetRow.c[this.statsSheetColSubdivision]?.v || "base",
     )} ${sheetRow.c[this.statsSheetColGGName].v}`;
 
     modalDetails.innerHTML = `
@@ -237,36 +237,36 @@ class StatsTable {
             sheetRow.c[this.statsSheetColMPlayed]?.v || "0"
           })</td>
           <td>${sheetRow.c[this.statsSheetColMWon]?.v || "0"}-${
-      sheetRow.c[this.statsSheetColMPlayed]?.v -
-      sheetRow.c[this.statsSheetColMWon]?.v
-    } / ${sheetRow.c[this.statsSheetColMHealth]?.v || "0"}</td>
+            sheetRow.c[this.statsSheetColMPlayed]?.v -
+            sheetRow.c[this.statsSheetColMWon]?.v
+          } / ${sheetRow.c[this.statsSheetColMHealth]?.v || "0"}</td>
         </tr>
         <tr>
           <td class="label">NM-Duels (${
             sheetRow.c[this.statsSheetColNMPlayed]?.v || "0"
           })</td>
           <td>${sheetRow.c[this.statsSheetColNMWon]?.v || "0"}-${
-      sheetRow.c[this.statsSheetColNMPlayed]?.v -
-      sheetRow.c[this.statsSheetColNMWon]?.v
-    } / ${sheetRow.c[this.statsSheetColNMHealth]?.v || "0"}</td>
+            sheetRow.c[this.statsSheetColNMPlayed]?.v -
+            sheetRow.c[this.statsSheetColNMWon]?.v
+          } / ${sheetRow.c[this.statsSheetColNMHealth]?.v || "0"}</td>
         </tr>
         <tr>
           <td class="label">NMPZ-Duels (${
             sheetRow.c[this.statsSheetColNMPZPlayed]?.v || "0"
           })</td>
           <td>${sheetRow.c[this.statsSheetColNMPZWon]?.v || "0"}-${
-      sheetRow.c[this.statsSheetColNMPZPlayed]?.v -
-      sheetRow.c[this.statsSheetColNMPZWon]?.v
-    } / ${sheetRow.c[this.statsSheetColNMPZHealth]?.v || "0"}</td>
+            sheetRow.c[this.statsSheetColNMPZPlayed]?.v -
+            sheetRow.c[this.statsSheetColNMPZWon]?.v
+          } / ${sheetRow.c[this.statsSheetColNMPZHealth]?.v || "0"}</td>
         </tr>
         <tr>
           <td class="label">DACH-Duels (${
             sheetRow.c[this.statsSheetColDACHPlayed]?.v || "0"
           })</td>
           <td>${sheetRow.c[this.statsSheetColDACHWon]?.v || "0"}-${
-      sheetRow.c[this.statsSheetColDACHPlayed]?.v -
-      sheetRow.c[this.statsSheetColDACHWon]?.v
-    } / ${sheetRow.c[this.statsSheetColDACHHealth]?.v || "0"}</td>
+            sheetRow.c[this.statsSheetColDACHPlayed]?.v -
+            sheetRow.c[this.statsSheetColDACHWon]?.v
+          } / ${sheetRow.c[this.statsSheetColDACHHealth]?.v || "0"}</td>
         </tr>
         <tr>
           <td class="label">Lieblingsmodus</td>
@@ -281,7 +281,7 @@ class StatsTable {
     if (this.isCacheValid(this.cacheKeyTable)) {
       // lade die Daten aus localStorage (Cache)
       let cachedData = JSON.parse(
-        localStorage.getItem(this.cacheKeyTable)
+        localStorage.getItem(this.cacheKeyTable),
       ).data;
       this.renderStatsTable(cachedData);
     } else {
@@ -289,7 +289,7 @@ class StatsTable {
       this.fetchAndRenderData(
         this.getURL(this.dataRange),
         this.cacheKeyTable,
-        this.renderStatsTable.bind(this)
+        this.renderStatsTable.bind(this),
       );
     }
   }

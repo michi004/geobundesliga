@@ -230,6 +230,20 @@
             align-items: center;
         }
 
+        .map-output {
+
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #f0f3f7;
+            white-space: pre-line;
+        }
+
+        .map-output a,
+        .map-output a:visited {
+
+            color: #f7e014;
+        }
+
     </style>
 </head>
 <body>
@@ -343,7 +357,7 @@
         <div class="modal-content">
             <span class="close" data-target="modal5">&times;</span>
             <h2>Country Dach</h2>
-            <p>IntersectionGuessr - Germanosphere, A Community Germany, A Balanced Germany, A Balanced Austria, Intersectionguessr Austria, Geotime Switzerland, Intersectionguessr Switzerland, IntersectionGuessr - Liechtenstein</p>
+            <p>IntersectionGuessr - Germanosphere, Intersectionguessr DACH, KreiselGuessr - Germanosphere, Intersectionguessr Germany, A Community Germany, A Balanced Germany, A Balanced Austria, Intersectionguessr Austria, Geotime Switzerland, Intersectionguessr Switzerland, IntersectionGuessr - Liechtenstein</p>
         </div>
     </div>
 
@@ -390,7 +404,7 @@
         <div class="modal-content">
             <span class="close" data-target="modal10">&times;</span>
             <h2>Dach</h2>
-            <p>IntersectionGuessr - Germanosphere, A Community Germany, A Balanced Germany, A Balanced Austria, Intersectionguessr Austria, Geotime Switzerland, Intersectionguessr Switzerland, Schleswig-Holstein, Hamburg, Niedersachsen, Bremen, Mecklenburg-Vorpommern, Brandenburg, Berlin, Sachsen-Anhalt, Sachsen, Thüringen, Hessen, Nordrhein-Westfalen, Rheinland-Pfalz, 
+            <p>IntersectionGuessr - Germanosphere, IntersectionGuessr - Germany, A Community Germany, A Balanced Germany, A Balanced Austria, Intersectionguessr Austria, Geotime Switzerland, Intersectionguessr Switzerland, Schleswig-Holstein, Hamburg, Niedersachsen, Bremen, Mecklenburg-Vorpommern, Brandenburg, Berlin, Sachsen-Anhalt, Sachsen, Thüringen, Hessen, Nordrhein-Westfalen, Rheinland-Pfalz, 
                 Saarland, Baden-Würtemberg, Bayern, Vorarlberg, Tirol, Salzburg, Steiermark, Kärnten, Burgenland, Oberösterreich, Niederösterreich, Wien, Zürich, Bern, Luzern, Uri, Schwyz, Obwalden, Nidwalden, Glarus, Zug, Solothurn, Basel-Stadt, Basel-Landschaft, Schaffhausen, Appenzell Ausserrhoden, Appenzell Innerrhoden, St. Gallen, Graubünden, Aargau, Thurgau, Südtirol, Ostbelgien, Liechtenstein, Intersectionguessr DACH</p>
         </div>
     </div>
@@ -443,6 +457,28 @@
     <button id="generate-button" onclick="generateAdditionalResult()">Spielmodus ausgeben</button>
     <div id="additionalResult"></div>
 
+    <br><br>
+
+    <label style="font-size: 1.4em; font-family: Arial, sans-serif; font-weight: bold; display: block; text-align: center;  margin-bottom: 2px; margin-top: 20px;">
+        Zufälliges Format generieren
+    </label>
+
+    <br><br>
+
+    <select id="bo-select">
+        <option value="3">BO3</option>
+        <option value="5">BO5</option>
+        <option value="7">BO7</option>
+    </select>
+
+    <br><br>
+
+    <button onclick="generateMatch()">Modus generieren</button>
+
+    <br><br>
+
+    <div id="match-result" class="map-output"></div>
+
     
     <script>
 
@@ -481,11 +517,11 @@
                 { text: "A Moving World", url: "https://www.geoguessr.com/maps/696fe47c5b07bed052077a95" },{ text: "An Informed World", url: "https://www.geoguessr.com/maps/676340ae2f718dbabdf30331"}
             ],
             "Country Dach": [
-                { text: "IntersectionGuessr - Germanosphere", url: "https://www.geoguessr.com/maps/66170c51972c49fd9c018202" },
-                { text: "A Community Germany", url: "https://www.geoguessr.com/maps/64efee86bf3812caa0647e9d" },{ text: "A Balanced Germany", url: "https://www.geoguessr.com/maps/617d2526ed0f750001c24b21" },
-                { text: "A Balanced Austria", url: "https://www.geoguessr.com/maps/639dd16256418a9903a7b61b" },{ text: "Intersectionguessr Austria", url: "https://www.geoguessr.com/maps/6294a76cf6507e6b8d920280" },
-                { text: "Geotime Switzerland", url: "https://www.geoguessr.com/maps/64284a05d2209c876eb65435" }, { text: "Intersectionguessr Switzerland", url: "https://www.geoguessr.com/maps/612cf0736033f40001dea3b8" },
-                { text: "IntersectionGuessr - Liechtenstein", url:"https://www.geoguessr.com/maps/66fb7d64a75091adc393f469"}  
+                { text: "IntersectionGuessr - Germanosphere", url: "https://www.geoguessr.com/maps/66170c51972c49fd9c018202", weight: 11},{ text: "Intersectionguessr DACH", url: "https://www.geoguessr.com/maps/69f20a22634a56b29184b275", weight: 11},{ text: "KreiselGuessr - Germanosphere", url: "https://www.geoguessr.com/maps/68a472413b76b861a924bf6f", weight: 11},
+                { text: "A Community Germany", url: "https://www.geoguessr.com/maps/64efee86bf3812caa0647e9d", weight: 9},{ text: "A Balanced Germany", url: "https://www.geoguessr.com/maps/617d2526ed0f750001c24b21", weight: 9},{ text: "Intersectionguessr Germany", url: "https://www.geoguessr.com/maps/659730771825fbec5c7ee0dc", weight: 9},
+                { text: "A Balanced Austria", url: "https://www.geoguessr.com/maps/639dd16256418a9903a7b61b", weight: 9},{ text: "Intersectionguessr Austria", url: "https://www.geoguessr.com/maps/6294a76cf6507e6b8d920280", weight: 9},
+                { text: "Geotime Switzerland", url: "https://www.geoguessr.com/maps/64284a05d2209c876eb65435", weight: 9}, { text: "Intersectionguessr Switzerland", url: "https://www.geoguessr.com/maps/612cf0736033f40001dea3b8", weight: 9},
+                { text: "IntersectionGuessr - Liechtenstein", url:"https://www.geoguessr.com/maps/66fb7d64a75091adc393f469", weight: 4}  
             ],
             "Country8": [
                 { text: "USA", url: "https://www.geoguessr.com/maps/61dfb63654e4730001e8faf5"}, { text: "Russia", url: "https://www.geoguessr.com/maps/62e309bfac02fca31aa404b8" }, { text: "Brazil", url: "https://www.geoguessr.com/maps/61df8477a94f5d0001ef9f2c" }, { text: "Indonesia", url: "https://www.geoguessr.com/maps/619086606e5572000185a1db" }, 
@@ -518,12 +554,12 @@
                 { text: "Bosnien & Herzegovina", url: "https://www.geoguessr.com/maps/6906fd5ec7731161a3752595" }, { text: "Zypern", url: "https://www.geoguessr.com/maps/69066659c7731161a3738090" }, { text: "Paraguay", url: "https://www.geoguessr.com/maps/6921f4761744c5356b09f1bd" }
             ],
             "Dach": [
-                { text: "IntersectionGuessr - Germanosphere", url: "https://www.geoguessr.com/maps/66170c51972c49fd9c018202" },{ text: "A Community Germany", url: "https://www.geoguessr.com/maps/64efee86bf3812caa0647e9d" }, { text: "A Balanced Germany", url: "https://www.geoguessr.com/maps/617d2526ed0f750001c24b21" }, { text: "A Balanced Austria", url: "https://www.geoguessr.com/maps/639dd16256418a9903a7b61b" }, { text: "Intersectionguessr Austria", url: "https://www.geoguessr.com/maps/6294a76cf6507e6b8d920280" }, { text: "Geotime Switzerland", url: "https://www.geoguessr.com/maps/64284a05d2209c876eb65435" }, { text: "Intersectionguessr Switzerland", url: "https://www.geoguessr.com/maps/612cf0736033f40001dea3b8" },  
-                { text: "Schleswig-Holstein", url: "https://www.geoguessr.com/maps/65959c73a95179a1ccc6cdb7" }, { text: "Hamburg", url: "https://www.geoguessr.com/maps/659716ab5a3a8058292cff0e" }, { text: "Niedersachsen", url: "https://www.geoguessr.com/maps/6595dab2692d87091a6dff87" }, { text: "Bremen", url: "https://www.geoguessr.com/maps/65970c0e234134853362b455" }, { text: "Mecklenburg-Vorpommern", url: "https://www.geoguessr.com/maps/6595982417360fe0d27f1131" }, { text: "Brandenburg", url: "https://www.geoguessr.com/maps/65958d455576dc5391f1ccb8" }, { text: "Berlin", url: "https://www.geoguessr.com/maps/64dd17800f64492a144bbb40" }, { text: "Sachsen-Anhalt", url: "https://www.geoguessr.com/maps/659714780a752feb8ddf694e" }, { text: "Sachsen", url: "https://www.geoguessr.com/maps/65959eadd95b74255b19bb4c" }, { text: "Thüringen", url: "https://www.geoguessr.com/maps/659711ef5a3a8058292cf90f" }, { text: "Hessen", url: "https://www.geoguessr.com/maps/6595e2f8d95b74255b1a09e6" }, { text: "Nordrhein-Westfalen", url: "https://www.geoguessr.com/maps/659708caa012abdbf7503434" }, { text: "Rheinland-Pfalz", url: "https://www.geoguessr.com/maps/65970f529235d8a32e125dbc" }, { text: "Saarland", url: "https://www.geoguessr.com/maps/6596fe663c578ea6a3796e8d" },{ text: "Baden-Würtemberg", url: "https://www.geoguessr.com/maps/6596f23ea012abdbf75019b9" },{ text: "Bayern", url: "https://www.geoguessr.com/maps/6596c3e8eb4579dcb691d512" }, 
-                { text: "Vorarlberg", url: "https://www.geoguessr.com/maps/65a6ed38ff1043a4408fd551" }, { text: "Tirol", url: "https://www.geoguessr.com/maps/65a6ecdcfd23dbefa5fcad7c" }, { text: "Salzburg", url: "https://www.geoguessr.com/maps/65a6eb32012e371eda8f13db" }, { text: "Steiermark", url: "https://www.geoguessr.com/maps/65a6ec313509435083fd4133" }, { text: "Kärnten", url: "https://www.geoguessr.com/maps/65a6e86c8a230b43bbc33e3d" }, { text: "Burgenland", url: "https://www.geoguessr.com/maps/65a6dd3c2a202e741455ddf0" }, { text: "Oberösterreich", url: "https://www.geoguessr.com/maps/65a6ea21ac56ac0d27b0b108" }, { text: "Niederösterreich", url: "https://www.geoguessr.com/maps/65a6e8ec982033c2b4cb5c24" }, { text: "Wien", url: "https://www.geoguessr.com/maps/65a6eda43509435083fd4371" },
-                { text: "Zürich", url: "https://www.geoguessr.com/maps/665d7f95cf204bd3ed40cd50" }, { text: "Bern", url: "https://www.geoguessr.com/maps/665cd8c1fd64298cf7d0246a" }, { text: "Luzern", url: "https://www.geoguessr.com/maps/665d7cfff33fde70bd0d8bfa" }, { text: "Uri", url: "https://www.geoguessr.com/maps/665d7ee93a13d962ba9f2c7e" }, { text: "Schwyz", url: "https://www.geoguessr.com/maps/665d7dfe423f06c0fa1426e3" }, { text: "Obwalden", url: "https://www.geoguessr.com/maps/665d7d9380305b30aae831f0" }, { text: "Nidwalden", url: "https://www.geoguessr.com/maps/665d7d645169ac70c4dc3d50" }, { text: "Glarus", url: "https://www.geoguessr.com/maps/665d7c3acf204bd3ed40c7f1" }, { text: "Zug", url: "https://www.geoguessr.com/maps/665d7f6ca75496d095a8643f" }, { text: "Solothurn", url: "https://www.geoguessr.com/maps/665d7e27a75496d095a8629f" }, { text: "Basel-Stadt", url: "https://www.geoguessr.com/maps/665d7b4de857cea1b3496d90" }, { text: "Basel-Landschaft", url: "https://www.geoguessr.com/maps/665d7b09a75496d095a85e0b" }, { text: "Schaffhausen", url: "https://www.geoguessr.com/maps/665d7dbf80305b30aae83234" },
-                { text: "Appenzell Ausserrhoden", url: "https://www.geoguessr.com/maps/665d7ac3a75496d095a85da0" }, { text: "Appenzell Innerrhoden", url: "https://www.geoguessr.com/maps/665d7a40bf5c13127edb618f" }, { text: "St. Gallen", url: "https://www.geoguessr.com/maps/665d7e648c652860392a363e" }, { text: "Graubünden", url: "https://www.geoguessr.com/maps/665d7c99f4191410581bca6b" }, { text: "Aargau", url: "https://www.geoguessr.com/maps/665cd226ed72f80c0f4a9887" }, { text: "Thurgau", url: "https://www.geoguessr.com/maps/665d7e8bf33fde70bd0d8e82" },  
-                { text: "Südtirol", url: "https://www.geoguessr.com/maps/6659d06ad36a100cdb3b77f6" }, { text: "Ostbelgien", url: "https://www.geoguessr.com/maps/6659df40605d765499e0b503" },{ text: "Liechtenstein", url:"https://www.geoguessr.com/maps/66fc40ca7d691c25a7b521b8"},{ text: "Intersectionguessr DACH ", url:"https://www.geoguessr.com/maps/69f20a22634a56b29184b275"} 
+                { text: "IntersectionGuessr - Germanosphere", url: "https://www.geoguessr.com/maps/66170c51972c49fd9c018202" , weight: 7},{ text: "IntersectionGuessr - Germany", url: "https://www.geoguessr.com/maps/659730771825fbec5c7ee0dc" , weight: 7},{ text: "A Community Germany", url: "https://www.geoguessr.com/maps/64efee86bf3812caa0647e9d" , weight: 6}, { text: "A Balanced Germany", url: "https://www.geoguessr.com/maps/617d2526ed0f750001c24b21" , weight: 6}, { text: "A Balanced Austria", url: "https://www.geoguessr.com/maps/639dd16256418a9903a7b61b" , weight: 6}, { text: "Intersectionguessr Austria", url: "https://www.geoguessr.com/maps/6294a76cf6507e6b8d920280" , weight: 6}, { text: "Geotime Switzerland", url: "https://www.geoguessr.com/maps/64284a05d2209c876eb65435" , weight: 6}, { text: "Intersectionguessr Switzerland", url: "https://www.geoguessr.com/maps/612cf0736033f40001dea3b8" , weight: 6},  
+                { text: "Schleswig-Holstein", url: "https://www.geoguessr.com/maps/65959c73a95179a1ccc6cdb7" , weight: 1}, { text: "Hamburg", url: "https://www.geoguessr.com/maps/659716ab5a3a8058292cff0e" , weight: 1}, { text: "Niedersachsen", url: "https://www.geoguessr.com/maps/6595dab2692d87091a6dff87" , weight: 1}, { text: "Bremen", url: "https://www.geoguessr.com/maps/65970c0e234134853362b455" , weight: 1}, { text: "Mecklenburg-Vorpommern", url: "https://www.geoguessr.com/maps/6595982417360fe0d27f1131" , weight: 1}, { text: "Brandenburg", url: "https://www.geoguessr.com/maps/65958d455576dc5391f1ccb8" , weight: 1}, { text: "Berlin", url: "https://www.geoguessr.com/maps/64dd17800f64492a144bbb40" , weight: 1}, { text: "Sachsen-Anhalt", url: "https://www.geoguessr.com/maps/659714780a752feb8ddf694e", weight: 1}, { text: "Sachsen", url: "https://www.geoguessr.com/maps/65959eadd95b74255b19bb4c", weight: 1}, { text: "Thüringen", url: "https://www.geoguessr.com/maps/659711ef5a3a8058292cf90f", weight: 1}, { text: "Hessen", url: "https://www.geoguessr.com/maps/6595e2f8d95b74255b1a09e6", weight: 1}, { text: "Nordrhein-Westfalen", url: "https://www.geoguessr.com/maps/659708caa012abdbf7503434", weight: 1}, { text: "Rheinland-Pfalz", url: "https://www.geoguessr.com/maps/65970f529235d8a32e125dbc", weight: 1}, { text: "Saarland", url: "https://www.geoguessr.com/maps/6596fe663c578ea6a3796e8d", weight: 1},{ text: "Baden-Würtemberg", url: "https://www.geoguessr.com/maps/6596f23ea012abdbf75019b9", weight: 1},{ text: "Bayern", url: "https://www.geoguessr.com/maps/6596c3e8eb4579dcb691d512", weight: 1}, 
+                { text: "Vorarlberg", url: "https://www.geoguessr.com/maps/65a6ed38ff1043a4408fd551" , weight: 1}, { text: "Tirol", url: "https://www.geoguessr.com/maps/65a6ecdcfd23dbefa5fcad7c" , weight: 1}, { text: "Salzburg", url: "https://www.geoguessr.com/maps/65a6eb32012e371eda8f13db" , weight: 1}, { text: "Steiermark", url: "https://www.geoguessr.com/maps/65a6ec313509435083fd4133" , weight: 1}, { text: "Kärnten", url: "https://www.geoguessr.com/maps/65a6e86c8a230b43bbc33e3d" , weight: 1}, { text: "Burgenland", url: "https://www.geoguessr.com/maps/65a6dd3c2a202e741455ddf0" , weight: 1}, { text: "Oberösterreich", url: "https://www.geoguessr.com/maps/65a6ea21ac56ac0d27b0b108" , weight: 1}, { text: "Niederösterreich", url: "https://www.geoguessr.com/maps/65a6e8ec982033c2b4cb5c24", weight: 1}, { text: "Wien", url: "https://www.geoguessr.com/maps/65a6eda43509435083fd4371", weight: 1},
+                { text: "Zürich", url: "https://www.geoguessr.com/maps/665d7f95cf204bd3ed40cd50" , weight: 1}, { text: "Bern", url: "https://www.geoguessr.com/maps/665cd8c1fd64298cf7d0246a" , weight: 1}, { text: "Luzern", url: "https://www.geoguessr.com/maps/665d7cfff33fde70bd0d8bfa" , weight: 1}, { text: "Uri", url: "https://www.geoguessr.com/maps/665d7ee93a13d962ba9f2c7e" , weight: 1}, { text: "Schwyz", url: "https://www.geoguessr.com/maps/665d7dfe423f06c0fa1426e3" , weight: 1}, { text: "Obwalden", url: "https://www.geoguessr.com/maps/665d7d9380305b30aae831f0" , weight: 1}, { text: "Nidwalden", url: "https://www.geoguessr.com/maps/665d7d645169ac70c4dc3d50" , weight: 1}, { text: "Glarus", url: "https://www.geoguessr.com/maps/665d7c3acf204bd3ed40c7f1", weight: 1}, { text: "Zug", url: "https://www.geoguessr.com/maps/665d7f6ca75496d095a8643f" , weight: 1}, { text: "Solothurn", url: "https://www.geoguessr.com/maps/665d7e27a75496d095a8629f", weight: 1}, { text: "Basel-Stadt", url: "https://www.geoguessr.com/maps/665d7b4de857cea1b3496d90", weight: 1}, { text: "Basel-Landschaft", url: "https://www.geoguessr.com/maps/665d7b09a75496d095a85e0b", weight: 1}, { text: "Schaffhausen", url: "https://www.geoguessr.com/maps/665d7dbf80305b30aae83234", weight: 1},
+                { text: "Appenzell Ausserrhoden", url: "https://www.geoguessr.com/maps/665d7ac3a75496d095a85da0" , weight: 1}, { text: "Appenzell Innerrhoden", url: "https://www.geoguessr.com/maps/665d7a40bf5c13127edb618f" , weight: 1}, { text: "St. Gallen", url: "https://www.geoguessr.com/maps/665d7e648c652860392a363e" , weight: 1}, { text: "Graubünden", url: "https://www.geoguessr.com/maps/665d7c99f4191410581bca6b" , weight: 1}, { text: "Aargau", url: "https://www.geoguessr.com/maps/665cd226ed72f80c0f4a9887" , weight: 1}, { text: "Thurgau", url: "https://www.geoguessr.com/maps/665d7e8bf33fde70bd0d8e82" , weight: 1},  
+                { text: "Südtirol", url: "https://www.geoguessr.com/maps/6659d06ad36a100cdb3b77f6" , weight: 1}, { text: "Ostbelgien", url: "https://www.geoguessr.com/maps/6659df40605d765499e0b503" , weight: 1},{ text: "Liechtenstein", url:"https://www.geoguessr.com/maps/66fc40ca7d691c25a7b521b8", weight: 1},{ text: "Intersectionguessr DACH ", url:"https://www.geoguessr.com/maps/69f20a22634a56b29184b275", weight: 7} 
             ],
             "DACH Moving": [
                 { text: "Intersectionguessr Germanosphere", url: "https://www.geoguessr.com/maps/66170c51972c49fd9c018202", weight: 30 },{ text: "Intersectionguessr DACH", url: "https://www.geoguessr.com/maps/69f20a22634a56b29184b275", weight: 30},{ text: "KreiselGuessr - Germanosphere", url: "https://www.geoguessr.com/maps/68a472413b76b861a924bf6f", weight: 12},{ text: "A Community Germany", url: "https://www.geoguessr.com/maps/64efee86bf3812caa0647e9d", weight: 10},
@@ -544,6 +580,63 @@
                 { text: "Appenzell Ausserrhoden", url: "https://www.geoguessr.com/maps/665d7ac3a75496d095a85da0" }, { text: "Appenzell Innerrhoden", url: "https://www.geoguessr.com/maps/665d7a40bf5c13127edb618f" }, { text: "St. Gallen", url: "https://www.geoguessr.com/maps/665d7e648c652860392a363e" }, { text: "Graubünden", url: "https://www.geoguessr.com/maps/665d7c99f4191410581bca6b" }, { text: "Aargau", url: "https://www.geoguessr.com/maps/665cd226ed72f80c0f4a9887" }, { text: "Thurgau", url: "https://www.geoguessr.com/maps/665d7e8bf33fde70bd0d8e82" } 
             ]
         };
+
+        const categoryWeights = [
+            { category: "World9", weight: 27 },
+            { category: "World Easy", weight: 13 },
+            { category: "Worldall", weight: 16 },
+            { category: "World Moving", weight: 16 },
+            { category: "Country Dach", weight: 8.5 },
+            { category: "Country8", weight: 4 },
+            { category: "Country32", weight: 2 },
+            { category: "Countryall", weight: 1 },
+            { category: "CountryALLEAußer8", weight: 1 },
+            { category: "Dach", weight: 1 },
+            { category: "Dach Moving", weight: 9 },
+            { category: "Deutschland", weight: 0.5 },
+            { category: "Österreich", weight: 0.5 },
+            { category: "Schweiz", weight: 0.5 }
+        ];
+
+        const specialExtraRules = {
+
+            "World Moving": [
+                "Moving",
+                "Pinpointing Duell"
+            ],
+
+            "Dach Moving": [
+                "Moving",
+                "Pinpointing Duell"
+            ],
+
+            "World9": [
+                "NM",
+                "NMPZ"
+            ]
+        };
+
+        const defaultExtras = [
+            "Moving",
+            "NM",
+            "NMPZ"
+        ];
+
+        const dachCategories = [
+            "Country Dach",
+            "Dach",
+            "Dach Moving",
+            "Deutschland",
+            "Österreich",
+            "Schweiz"
+        ];
+
+        const countryCategories = [
+            "Country8",
+            "Country32",
+            "Countryall",
+            "CountryALLEAußer8"
+        ];
 
     // Alle "öffnen"-Buttons auswählen
     const openModals = document.querySelectorAll('.open-modal');
@@ -718,6 +811,94 @@
         });
             
         document.getElementById('ergebnis2').innerHTML = resultText2 || 'Keine Auswahl getroffen';
+    }
+
+    function generateMatch() {
+
+        const bo = parseInt(
+            document.getElementById("bo-select").value
+        );
+
+        const maxSpecialMaps = bo === 7 ? 2 : 1;
+
+        let currentDachMaps = 0;
+        let currentCountryMaps = 0;
+
+        let resultText = '';
+
+        for (let i = 0; i < bo; i++) {
+
+            let selectedCategory;
+
+            while (true) {
+
+                selectedCategory =
+                    getWeightedRandom(categoryWeights).category;
+
+                const isDach =
+                    dachCategories.includes(selectedCategory);
+
+                const isCountry =
+                    countryCategories.includes(selectedCategory);
+
+                // DACH Limit
+                if (
+                    isDach &&
+                    currentDachMaps >= maxSpecialMaps
+                ) {
+                    continue;
+                }
+
+                // COUNTRY Limit
+                if (
+                    isCountry &&
+                    currentCountryMaps >= maxSpecialMaps
+                ) {
+                    continue;
+                }
+
+                // Wenn erlaubt → zählen
+                if (isDach) {
+                    currentDachMaps++;
+                }
+
+                if (isCountry) {
+                    currentCountryMaps++;
+                }
+
+                break;
+            }
+
+            // Zufällige Map
+            const randomMap =
+                getWeightedRandom(
+                    ergebnisse2[selectedCategory]
+                );
+
+            // Extra bestimmen
+            let extraPool;
+
+            if (specialExtraRules[selectedCategory]) {
+
+                extraPool =
+                    specialExtraRules[selectedCategory];
+
+            } else {
+
+                extraPool = defaultExtras;
+            }
+
+            const randomExtra =
+                extraPool[
+                    Math.floor(Math.random() * extraPool.length)
+                ];
+
+            resultText += `
+                Map ${i + 1}: <a href="${randomMap.url}" target="_blank">${randomMap.text}</a> (${randomExtra})`;
+        }
+
+        document.getElementById("match-result").innerHTML =
+            resultText;
     }
     
     </script>

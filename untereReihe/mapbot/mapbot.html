@@ -467,7 +467,7 @@
 
     <select id="bo-select">
         <option value="3">BO3</option>
-        <option value="5">BO5</option>
+        <option value="5" selected>BO5</option>
         <option value="7">BO7</option>
     </select>
 
@@ -475,7 +475,7 @@
 
     <button onclick="generateMatch()">Modus generieren</button>
 
-    <br><br>
+    <br>
 
     <div id="match-result" class="map-output"></div>
 
@@ -561,7 +561,7 @@
                 { text: "Appenzell Ausserrhoden", url: "https://www.geoguessr.com/maps/665d7ac3a75496d095a85da0" , weight: 1}, { text: "Appenzell Innerrhoden", url: "https://www.geoguessr.com/maps/665d7a40bf5c13127edb618f" , weight: 1}, { text: "St. Gallen", url: "https://www.geoguessr.com/maps/665d7e648c652860392a363e" , weight: 1}, { text: "Graubünden", url: "https://www.geoguessr.com/maps/665d7c99f4191410581bca6b" , weight: 1}, { text: "Aargau", url: "https://www.geoguessr.com/maps/665cd226ed72f80c0f4a9887" , weight: 1}, { text: "Thurgau", url: "https://www.geoguessr.com/maps/665d7e8bf33fde70bd0d8e82" , weight: 1},  
                 { text: "Südtirol", url: "https://www.geoguessr.com/maps/6659d06ad36a100cdb3b77f6" , weight: 1}, { text: "Ostbelgien", url: "https://www.geoguessr.com/maps/6659df40605d765499e0b503" , weight: 1},{ text: "Liechtenstein", url:"https://www.geoguessr.com/maps/66fc40ca7d691c25a7b521b8", weight: 1},{ text: "Intersectionguessr DACH ", url:"https://www.geoguessr.com/maps/69f20a22634a56b29184b275", weight: 7} 
             ],
-            "DACH Moving": [
+            "Dach Moving": [
                 { text: "Intersectionguessr Germanosphere", url: "https://www.geoguessr.com/maps/66170c51972c49fd9c018202", weight: 30 },{ text: "Intersectionguessr DACH", url: "https://www.geoguessr.com/maps/69f20a22634a56b29184b275", weight: 30},{ text: "KreiselGuessr - Germanosphere", url: "https://www.geoguessr.com/maps/68a472413b76b861a924bf6f", weight: 12},{ text: "A Community Germany", url: "https://www.geoguessr.com/maps/64efee86bf3812caa0647e9d", weight: 10},
                 { text: "Intersectionguessr Germany", url: "https://www.geoguessr.com/maps/659730771825fbec5c7ee0dc", weight: 10},{ text: "Intersectionguessr Austria", url: "https://www.geoguessr.com/maps/659db0a6527597591947ff5f" , weight: 4},{ text: "Intersectionguessr Switzerland", url: "https://www.geoguessr.com/maps/612cf0736033f40001dea3b8", weight: 4}    
             ],
@@ -763,7 +763,6 @@
     }
 
     function getWeightedRandom(list) {
-
         // Falls kein weight existiert → automatisch 1 setzen
         const normalizedList = list.map(item => ({
             ...item,
@@ -898,7 +897,7 @@
         }
 
         document.getElementById("match-result").innerHTML =
-            resultText;
+            resultText + "<br><br>";
     }
     
     </script>

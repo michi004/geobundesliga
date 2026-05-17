@@ -36,7 +36,7 @@
       background-color: #dcd6e0;
       color: black;
       border-radius: 5px;
-      padding: 20px;
+      padding: 40px;
       margin: 15px;
       font-weight: bold;  
     }
@@ -167,7 +167,7 @@
       padding: 0;
       font-size: 0.9rem;
       color: #ccc;
-      background: #1a012b;
+      background: transparent;
       flex-shrink: 0;
     }
 
@@ -234,11 +234,11 @@
 
       <!-- liga X -->
       <div class="row justify-content-center">
-        <a href="ligen/liga1.html" class="col-xs-6 col-sm-4 col-xl-2 card-custom">Liga 1</a>
-        <a href="ligen/liga2.html" class="col-xs-6 col-sm-4 col-xl-2 card-custom">Liga 2</a>
-        <a href="ligen/liga3.html" class="col-xs-6 col-sm-4 col-xl-2 card-custom">Liga 3</a>
-        <a href="ligen/liga4.html" class="col-xs-6 col-sm-4 col-xl-2 card-custom">Liga 4</a>
-        <a href="ligen/liga5.html" class="col-xs-6 col-sm-4 col-xl-2 card-custom">Liga 5</a>
+        <a href="ligen/liga1.html" class="col-xs-6 col-sm-4 col-xl-4 card-custom">Liga 1</a>
+        <a href="ligen/liga2.html" class="col-xs-6 col-sm-4 col-xl-4 card-custom">Liga 2</a>
+        <a href="ligen/liga3.html" class="col-xs-6 col-sm-4 col-xl-4 card-custom">Liga 3</a>
+        <a href="ligen/liga4.html" class="col-xs-6 col-sm-4 col-xl-4 card-custom">Liga 4</a>
+        <a href="ligen/liga5.html" class="col-xs-6 col-sm-4 col-xl-4 card-custom">Liga 5</a>
         <!-- <a href="playoffs_season4.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Playoffs</a>
         <a href="relegation_season4.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Relegation</a> -->
         <!-- <a href="preseason_s5.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Preseason</a>
@@ -273,7 +273,7 @@
           </div>
         </div>
     
-          <div class="card p-3"
+          <!-- <div class="card p-3"
             style="background-color: #dcd6e0cc; text-align: left; min-width: 300px; max-width: 600px; flex: 1; max-height: 381px;">
             <h5 class="card-title">YouTube Videos zur GeoBundesliga:</h5>
             <div id="youtube-slider" style="position: relative; overflow: hidden;">
@@ -283,16 +283,41 @@
               <div class="youtube-slider" id="youtube-slider"></div>
               <button class="yt-arrow right" onclick="nextSlide()">&#10095;</button>
             </div>
-          </div>
+          </div> -->
+          <!-- <div class="card p-3"
+            style="background-color: #dcd6e0cc; text-align: left; min-width: 300px; max-width: 600px; flex: 1; max-height: 381px;">
+            <h5 class="card-title">Aktuelles:</h5>
+            18.05.2026 - Die fünfte Saison ist gestartet!
+          </div> -->
         </div>
 
       </div>
     </div>
   </div>
   <!-- Footer (sticky) -->
-  <footer>
-    <!-- © GeoBundesliga · <a href="#">Kontakt</a> · <a href="#">Impressum</a> -->
-  </footer>
+  <footer style="padding-bottom: 1rem;">
+  <div class="container" style="display: flex; justify-content: flex-end; align-items: center; gap: 15px;">
+    
+    <div style="margin-right: auto; visibility: hidden;"><b>© 2026 Geobundesliga</b></div>
+    
+    <a href="https://www.twitch.tv/geobundesliga" target="_blank">
+      <img src="img/socials/twitch.png" alt="Twitch" style="height: 2rem;">
+    </a>
+    
+    <a href="https://www.youtube.com/@Geobundesliga" target="_blank">
+      <img src="img/socials/youtube.png" alt="YouTube" style="height: 2rem;">
+    </a>
+    
+    <a href="https://www.instagram.com/geobundesliga" target="_blank">
+      <img src="img/socials/instagram.png" alt="Instagram" style="height: 2rem;">
+    </a>
+    
+    <a href="https://www.tiktok.com/@geobundesliga" target="_blank">
+      <img src="img/socials/tiktok.png" alt="Tiktok" style="height: 2rem;">
+    </a>
+
+  </div>
+</footer>
 
   <script src="newestGames.js"></script>
   <script src="yt_twitch.js"></script>

@@ -6,7 +6,7 @@ class LeagueTable {
     dataRange,
     matchRange,
     keyIndex,
-    leagueSize
+    leagueSize,
   ) {
     this.sheetID = sheetID;
     this.name = name;
@@ -289,10 +289,10 @@ class LeagueTable {
                 matchtype == "move"
                   ? "Moving"
                   : matchtype == "bmd"
-                  ? "Better Moving Duel"
-                  : matchtype == "no move"
-                  ? "NM"
-                  : "NMPZ"
+                    ? "Better Moving Duel"
+                    : matchtype == "no move"
+                      ? "NM"
+                      : "NMPZ"
               }</div>
             `;
 
@@ -391,14 +391,14 @@ class LeagueTable {
   loadTableData() {
     if (this.isCacheValid(this.cacheKeyTable)) {
       let cachedData = JSON.parse(
-        localStorage.getItem(this.cacheKeyTable)
+        localStorage.getItem(this.cacheKeyTable),
       ).data;
       this.renderLeagueTable(cachedData);
     } else {
       this.fetchAndRenderData(
         this.getURL(this.dataRange),
         this.cacheKeyTable,
-        this.renderLeagueTable.bind(this)
+        this.renderLeagueTable.bind(this),
       );
     }
   }
@@ -406,7 +406,7 @@ class LeagueTable {
   loadAndReturnStatsTableData() {
     if (this.isCacheValid("PlayerStats_table")) {
       let cachedData = JSON.parse(
-        localStorage.getItem("PlayerStats_table")
+        localStorage.getItem("PlayerStats_table"),
       ).data;
       return cachedData;
     } else {
@@ -414,9 +414,9 @@ class LeagueTable {
         this.getURLStats(
           "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw",
           "Player_stats",
-          "A3:AA120"
+          "A3:AA120",
         ),
-        "PlayerStats_table"
+        "PlayerStats_table",
       );
     }
   }
@@ -438,7 +438,7 @@ class LeagueTable {
     const modalDetails = document.getElementById("statsModalDetails");
 
     modalTitle.innerHTML = `Statistiken für ${this.getPlayerSubdivisionIcon(
-      sheetRow.c[this.statsSheetColSubdivision]?.v || "base"
+      sheetRow.c[this.statsSheetColSubdivision]?.v || "base",
     )} ${sheetRow.c[this.statsSheetColGGName].v}`;
 
     modalDetails.innerHTML = `
@@ -503,36 +503,36 @@ class LeagueTable {
             sheetRow.c[this.statsSheetColMPlayed]?.v || "0"
           })</td>
           <td>${sheetRow.c[this.statsSheetColMWon]?.v || "0"}-${
-      sheetRow.c[this.statsSheetColMPlayed]?.v -
-      sheetRow.c[this.statsSheetColMWon]?.v
-    } / ${sheetRow.c[this.statsSheetColMHealth]?.v || "0"}</td>
+            sheetRow.c[this.statsSheetColMPlayed]?.v -
+            sheetRow.c[this.statsSheetColMWon]?.v
+          } / ${sheetRow.c[this.statsSheetColMHealth]?.v || "0"}</td>
         </tr>
         <tr>
           <td class="label">NM-Duels (${
             sheetRow.c[this.statsSheetColNMPlayed]?.v || "0"
           })</td>
           <td>${sheetRow.c[this.statsSheetColNMWon]?.v || "0"}-${
-      sheetRow.c[this.statsSheetColNMPlayed]?.v -
-      sheetRow.c[this.statsSheetColNMWon]?.v
-    } / ${sheetRow.c[this.statsSheetColNMHealth]?.v || "0"}</td>
+            sheetRow.c[this.statsSheetColNMPlayed]?.v -
+            sheetRow.c[this.statsSheetColNMWon]?.v
+          } / ${sheetRow.c[this.statsSheetColNMHealth]?.v || "0"}</td>
         </tr>
         <tr>
           <td class="label">NMPZ-Duels (${
             sheetRow.c[this.statsSheetColNMPZPlayed]?.v || "0"
           })</td>
           <td>${sheetRow.c[this.statsSheetColNMPZWon]?.v || "0"}-${
-      sheetRow.c[this.statsSheetColNMPZPlayed]?.v -
-      sheetRow.c[this.statsSheetColNMPZWon]?.v
-    } / ${sheetRow.c[this.statsSheetColNMPZHealth]?.v || "0"}</td>
+            sheetRow.c[this.statsSheetColNMPZPlayed]?.v -
+            sheetRow.c[this.statsSheetColNMPZWon]?.v
+          } / ${sheetRow.c[this.statsSheetColNMPZHealth]?.v || "0"}</td>
         </tr>
         <tr>
           <td class="label">DACH-Duels (${
             sheetRow.c[this.statsSheetColDACHPlayed]?.v || "0"
           })</td>
           <td>${sheetRow.c[this.statsSheetColDACHWon]?.v || "0"}-${
-      sheetRow.c[this.statsSheetColDACHPlayed]?.v -
-      sheetRow.c[this.statsSheetColDACHWon]?.v
-    } / ${sheetRow.c[this.statsSheetColDACHHealth]?.v || "0"}</td>
+            sheetRow.c[this.statsSheetColDACHPlayed]?.v -
+            sheetRow.c[this.statsSheetColDACHWon]?.v
+          } / ${sheetRow.c[this.statsSheetColDACHHealth]?.v || "0"}</td>
         </tr>
         <tr>
           <td class="label">Lieblingsmodus</td>
@@ -550,7 +550,7 @@ class LeagueTable {
   loadMatchData() {
     if (this.isCacheValid(this.cacheKeyMatches)) {
       let cachedData = JSON.parse(
-        localStorage.getItem(this.cacheKeyMatches)
+        localStorage.getItem(this.cacheKeyMatches),
       ).data;
       console.log(cachedData);
       this.renderMatchTable(cachedData);
@@ -561,7 +561,7 @@ class LeagueTable {
       this.fetchAndRenderData(
         this.getURL(this.matchRange),
         this.cacheKeyMatches,
-        this.renderMatchTable.bind(this)
+        this.renderMatchTable.bind(this),
       );
     }
   }
@@ -569,7 +569,7 @@ class LeagueTable {
   loadRescheduleData() {
     if (this.isCacheValid(this.cacheKeyRescheduled)) {
       let cachedData = JSON.parse(
-        localStorage.getItem(this.cacheKeyRescheduled)
+        localStorage.getItem(this.cacheKeyRescheduled),
       ).data;
       this.renderRescheduleTable(cachedData);
     } else {
@@ -577,7 +577,7 @@ class LeagueTable {
       this.fetchAndRenderData(
         this.getURL(this.rescheduleRanges),
         this.cacheKeyRescheduled,
-        this.renderRescheduleTable.bind(this)
+        this.renderRescheduleTable.bind(this),
       );
     }
   }
@@ -689,26 +689,26 @@ class LeagueTable {
       "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw",
       this.spielplanName,
       dataRange1,
-      "pinpointTable"
+      "pinpointTable",
     );
     fetchAndRenderTable(
       "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw",
       this.spielplanName,
       dataRange2,
-      "yellowCards"
+      "yellowCards",
     );
     fetchAndRenderTable(
       "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw",
       this.spielplanName,
       dataRange3,
-      "extensions"
+      "extensions",
     );
 
     // Liga Spieltage rendern
     fetchAndRenderMatchdayTables(
       "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw",
       this.spielplanName,
-      this.leagueSize
+      this.leagueSize,
     );
   }
 }
@@ -737,7 +737,7 @@ function getSpielwoche() {
   //return spielwochen.find((sw) => today >= sw.start && today <= sw.end) || null;
 
   const aktuelleWoche = spielwochen.find(
-    (sw) => today >= sw.start && today <= sw.end
+    (sw) => today >= sw.start && today <= sw.end,
   );
 
   // Nach der letzten Spielwoche, wird der letzte Spieltag zurückgegeben
@@ -812,7 +812,7 @@ function fetchAndRenderTable(
   sheetName,
   dataRange,
   tableID,
-  onRowClick
+  onRowClick,
 ) {
   const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&range=${dataRange}`;
 
@@ -1081,10 +1081,10 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
                 matchtype == "move"
                   ? "Moving"
                   : matchtype == "bmd"
-                  ? "Better Moving Duel"
-                  : matchtype == "no move"
-                  ? "NM"
-                  : "NMPZ"
+                    ? "Better Moving Duel"
+                    : matchtype == "no move"
+                      ? "NM"
+                      : "NMPZ"
               }</div>
             `;
 
@@ -1114,7 +1114,7 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
     if (!headerRow) return;
     const headers = headerRow.querySelectorAll("th");
 
-    sortableCols.forEach(colIndex => {
+    sortableCols.forEach((colIndex) => {
       let asc = false;
       const header = headers[colIndex];
       if (!header) return;
@@ -1124,14 +1124,15 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
         event.stopPropagation();
 
         const tbody = table.querySelector("tbody");
-        const rowsArray = Array.from(tbody.querySelectorAll("tr"))
-          .filter(tr => tr.querySelectorAll("td").length > 1);
+        const rowsArray = Array.from(tbody.querySelectorAll("tr")).filter(
+          (tr) => tr.querySelectorAll("td").length > 1,
+        );
 
         rowsArray.sort((a, b) => {
           const aText = (a.children[colIndex]?.textContent || "").trim();
           const bText = (b.children[colIndex]?.textContent || "").trim();
 
-          const parseNum = txt => {
+          const parseNum = (txt) => {
             if (!txt) return 0;
             const cleaned = txt.replace(/[^\d\-,.]/g, "").replace(",", ".");
             const n = parseFloat(cleaned);
@@ -1141,7 +1142,7 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
           const aVal = parseNum(aText);
           const bVal = parseNum(bText);
 
-          return asc ? aVal - bVal : bVal - aVal; 
+          return asc ? aVal - bVal : bVal - aVal;
         });
 
         rowsArray.forEach((row, i) => {
@@ -1151,7 +1152,7 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
 
         asc = !asc;
 
-        headers.forEach(h => h.classList.remove("sort-asc", "sort-desc"));
+        headers.forEach((h) => h.classList.remove("sort-asc", "sort-desc"));
         header.classList.add(asc ? "sort-asc" : "sort-desc");
       });
     });
@@ -1161,5 +1162,4 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
     makeSortable("yellowCards", [2, 3]);
     makeSortable("pinpointTable", [2, 3]);
   });
-  
 }

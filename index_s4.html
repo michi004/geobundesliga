@@ -251,10 +251,27 @@
     
           <!-- Ergebnisse -->
           <div class="card p-3"
-            style="background-color: #dcd6e0cc; text-align: left; min-width: 300px; max-width: 600px; flex: 1; max-height: 381px; overflow-y: auto; overflow-x: auto;">
-            <h5 class="card-title">Ergebnisse der letzten 24h:</h5>
-            <ul id="newest-games-list" style="margin-bottom: 0; white-space: nowrap;"></ul>
+          style="background-color: #dcd6e0cc; text-align: left; min-width: 300px; max-width: 600px; flex: 1; max-height: 381px; overflow-y: auto; overflow-x: auto;">
+          <div id="results-slider" style="position: relative; overflow: hidden;">
+            <div id="results-slides" style="white-space: nowrap; transition: transform 0.5s ease;">
+
+              <!-- Slide 1 -->
+              <div style="display: inline-block; width: 100%; white-space: normal; vertical-align: top;">
+                <h5 class="card-title">Ergebnisse der letzten 24h:</h5>
+                <ul id="newest-games-list" style="margin-bottom: 0; white-space: nowrap;"></ul>
+              </div>
+
+              <!-- Slide 2 -->
+              <div style="display: inline-block; width: 100%; white-space: normal;">
+                <h5 class="card-title">Anstehende Matches:</h5>
+                <ul id="weekly-games-list" style="margin-bottom: 0;"></ul>
+              </div>
+            </div>
+
+            <button class="yt-arrow left" onclick="prevResultsSlide()">&#10094;</button>
+            <button class="yt-arrow right" onclick="nextResultsSlide()">&#10095;</button>
           </div>
+        </div>
     
           <div class="card p-3"
             style="background-color: #dcd6e0cc; text-align: left; min-width: 300px; max-width: 600px; flex: 1; max-height: 381px;">
@@ -274,7 +291,7 @@
   </div>
   <!-- Footer (sticky) -->
   <footer>
-    <!--© GeoBundesliga · <a href="#">Kontakt</a> · <a href="#">Impressum</a>-->
+    <!-- © GeoBundesliga · <a href="#">Kontakt</a> · <a href="#">Impressum</a> -->
   </footer>
 
   <script src="newestGames.js"></script>
@@ -283,7 +300,7 @@
     const configs = [
       {
         key: "NewestGames",
-        sheetID: "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo",
+        sheetID: "1Ign2YJZ0edrj6ZH1Kd3d3qJ4dr4XWSiAAofW94hIobE",
         sheetName: "Newest_games",
         dataRange: "B2:U100",
         target: "#newest-games-list",
@@ -291,7 +308,7 @@
       },
       {
         key: "UpcomingGames",
-        sheetID: "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo",
+        sheetID: "1Ign2YJZ0edrj6ZH1Kd3d3qJ4dr4XWSiAAofW94hIobE",
         sheetName: "Upcoming_games",
         dataRange: "B2:U100",
         target: "#weekly-games-list",

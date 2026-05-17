@@ -81,11 +81,15 @@ body{
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: rgb(240, 240, 240);
+    background-color:#1a012b7e;
     table-layout: fixed;
     height: 100%;
 }
 
+table td,
+table th {
+    color: white;
+}
 /* Scrollbar-Styling */
 .match-table::-webkit-scrollbar { width: 4px; }
 .match-table::-webkit-scrollbar-track { background: transparent; }
@@ -94,10 +98,10 @@ table {
 /* Hintergrundfarben für Tabellenzeilen */
 tbody tr { background-color: transparent; }
 .green-row { background-color: green !important; }
-.last-three td { background-color: hsl(0, 100%, 65%); }
-.first-three td { background-color: rgb(0, 202, 0); }
-.relegation td { background-color: rgb(161, 246, 161); }
-.relegation-bottom td { background-color: rgb(246, 162, 161); }
+.last-three td { background-color: #c94c2da8; }
+.first-three td { background-color: #5bae34d2; }
+.relegation td { background-color: #5bae3493; }
+.relegation-bottom td { background-color: #c94c2d70; }
 .final-four td { background-color: rgb(101, 145, 255); }
 
 /*  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  */
@@ -212,7 +216,7 @@ tbody tr { background-color: transparent; }
 }
 
 .matchday-table tbody tr:has(td):hover {
-    background-color: #d4d4d4;
+    background-color: #74215cc7;
     font-weight: bold;
 }
 
@@ -238,7 +242,7 @@ tbody tr { background-color: transparent; }
 
 .match-table .match-row:hover {
     font-weight: bold;
-    background-color: #d4d4d4;
+    background-color: #74215cc7;
 }
 
 .prevDay, .nextDay {

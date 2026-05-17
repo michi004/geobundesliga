@@ -84,6 +84,8 @@ table {
     background-color:#1a012b7e;
     table-layout: fixed;
     height: 100%;
+    border-radius: 12px;
+    overflow: hidden;
 }
 
 table td,
@@ -417,6 +419,7 @@ tr:hover {
     border: none;
     text-align: left;
     font-style: normal;
+    color: black;
   }
 
   .player-info .label {

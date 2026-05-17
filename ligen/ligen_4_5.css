@@ -2,6 +2,10 @@
 
 body{
     overflow-y: scroll;
+    background-image: url("../hintergrund.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment:fixed
 }
 
 .container {

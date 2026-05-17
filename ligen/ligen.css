@@ -84,6 +84,8 @@ table {
     background-color:#1a012b7e;
     table-layout: fixed;
     height: 100%;
+    border-radius: 12px;
+    overflow: hidden;
 }
 
 table td,
@@ -102,7 +104,7 @@ tbody tr { background-color: transparent; }
 .first-three td { background-color: #5bae34d2; }
 .relegation td { background-color: #5bae3493; }
 .relegation-bottom td { background-color: #c94c2d70; }
-.final-four td { background-color: rgb(101, 145, 255); }
+.final-four td { background-color: #5bae34d2}/*rgb(101, 145, 255); }*/
 
 /*  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  */
 /*   ~ ~ ~ ~ ~ ~ ~ ~ ~   */
@@ -299,7 +301,7 @@ tbody tr { background-color: transparent; }
     font-size: 2.5vh;
     font-weight: bold;
     border: none;
-    background: var(--primary-color);
+    background: #330351;
     color: white;
     border-radius: var(--border-radius);
     cursor: pointer;
@@ -307,7 +309,7 @@ tbody tr { background-color: transparent; }
 }
 
 .matchday-btn:hover {
-    background: white;
+    background: grey;
     color: var(--primary-color);
     transform: scale(1.1);
 }
@@ -417,6 +419,7 @@ tr:hover {
     border: none;
     text-align: left;
     font-style: normal;
+    color: black;
   }
 
   .player-info .label {

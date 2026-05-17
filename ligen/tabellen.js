@@ -144,10 +144,7 @@ class LeagueTable {
     }
 
     if (
-      this.name == "liga1" ||
-      this.name == "liga3a" ||
-      this.name == "liga3b"
-    ) {
+      this.name == "liga1") {
       let lastThreeRows = [...allRows].slice(-3);
       lastThreeRows.forEach((row) => row.classList.add("last-three"));
 
@@ -174,7 +171,26 @@ class LeagueTable {
       }
     }
 
-    if (this.name == "liga4" || this.name == "liga5") {
+    if (this.name == "liga3") {
+      let firstTwoRows = [...allRows].slice(0, 3);
+      firstTwoRows.forEach((row) => row.classList.add("first-three"));
+
+      if (allRows[3]) {
+        allRows[3].classList.add("relegation");
+      }
+    }
+
+    if (
+      this.name == "liga3") {
+      let lastThreeRows = [...allRows].slice(-6);
+      lastThreeRows.forEach((row) => row.classList.add("last-three"));
+
+      if (allRows[allRows.length - 7]) {
+        allRows[allRows.length - 7].classList.add("relegation-bottom");
+      }
+    }
+
+    if (this.name == "liga4") {
       let firstThreeRows = [...allRows].slice(0, 6);
       firstThreeRows.forEach((row) => row.classList.add("first-three"));
 
@@ -192,14 +208,15 @@ class LeagueTable {
       }
     }
 
-    if (this.name == "liga3a" || this.name == "liga3b") {
-      let firstTwoRows = [...allRows].slice(0, 2);
-      firstTwoRows.forEach((row) => row.classList.add("first-three"));
+    if (this.name == "liga5") {
+      let firstThreeRows = [...allRows].slice(0, 7);
+      firstThreeRows.forEach((row) => row.classList.add("first-three"));
 
-      if (allRows[2]) {
-        allRows[2].classList.add("relegation");
+      if (allRows[7]) {
+        allRows[7].classList.add("relegation");
       }
     }
+
   }
 
   openModal(matchData) {
@@ -419,23 +436,24 @@ class LeagueTable {
 
   renderRescheduleTable(jsonData) {
     let offset;
-    if (this.name === "liga1") {
+    if (this.name === "liga1" ||
+        this.name === "liga2"
+    ) {
       offset =
-        this.getAmountOfGamesPerWeekAndOffsets().liga1Offsets[
+        this.getAmountOfGamesPerWeekAndOffsets().liga12Offsets[
           getSpielwoche().week - 1
         ] - 3;
     } else if (
-      this.name === "liga2" ||
-      this.name === "liga3a" ||
-      this.name === "liga3b"
+      this.name === "liga3" ||
+      this.name === "liga4"
     ) {
       offset =
-        this.getAmountOfGamesPerWeekAndOffsets().liga23Offsets[
+        this.getAmountOfGamesPerWeekAndOffsets().liga34Offsets[
           getSpielwoche().week - 1
         ] - 3;
-    } else if (this.name === "liga4" || this.name === "liga5") {
+    } else if (this.name === "liga5") {
       offset =
-        this.getAmountOfGamesPerWeekAndOffsets().liga4Offsets[
+        this.getAmountOfGamesPerWeekAndOffsets().liga5Offsets[
           getSpielwoche().week - 1
         ] - 3;
     }
@@ -484,7 +502,7 @@ class LeagueTable {
     } else {
       return this.fetchAndReturnStatsData(
         this.getURLStats(
-          "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo",
+          "1Ign2YJZ0edrj6ZH1Kd3d3qJ4dr4XWSiAAofW94hIobE",
           "Player_stats",
           "A3:AA200"
         ),
@@ -657,21 +675,21 @@ class LeagueTable {
   // define amounts of games per spielwoche and offsets for each spielwoche
   getAmountOfGamesPerWeekAndOffsets() {
     let gpwAndOffsets = {
-      liga1Games: [2, 2, 2, 2, 2, 1],
-      liga23Games: [3, 3, 3, 2, 2, 2],
-      liga4Games: [2, 2, 2, 2, 2, 2],
+      liga12Games: [3, 3, 3, 2, 2, 2], //von liga1Games
+      liga34Games: [2, 2, 2, 2, 2, 2], //von liga23Games
+      liga5Games: [2, 2, 2, 2, 2, 2], //von liga4Games
     };
-    gpwAndOffsets.liga1Offsets = this.calculateOffsets(
-      gpwAndOffsets.liga1Games,
-      6
-    );
-    gpwAndOffsets.liga23Offsets = this.calculateOffsets(
-      gpwAndOffsets.liga23Games,
+    gpwAndOffsets.liga12Offsets = this.calculateOffsets(
+      gpwAndOffsets.liga12Games,
       8
     );
-    gpwAndOffsets.liga4Offsets = this.calculateOffsets(
-      gpwAndOffsets.liga4Games,
-      23
+    gpwAndOffsets.liga34Offsets = this.calculateOffsets(
+      gpwAndOffsets.liga34Games,
+      18
+    );
+    gpwAndOffsets.liga5Offsets = this.calculateOffsets(
+      gpwAndOffsets.liga5Games,
+      17
     );
     return gpwAndOffsets;
   }
@@ -698,32 +716,33 @@ class LeagueTable {
     let startRow = 0;
     let endRow = 0;
     // Dynamische Match-Range basierend auf der Liga
-    if (this.name == "liga1") {
+    if (this.name == "liga1" ||
+        this.name == "liga2"
+    ) {
       startRow =
-        this.getAmountOfGamesPerWeekAndOffsets().liga1Offsets[wocheNummer - 1]; // Offset für die aktuelle Woche
+        this.getAmountOfGamesPerWeekAndOffsets().liga12Offsets[wocheNummer - 1]; // Offset für die aktuelle Woche
       endRow =
-        this.getAmountOfGamesPerWeekAndOffsets().liga1Games[wocheNummer - 1] *
-          6 +
+        this.getAmountOfGamesPerWeekAndOffsets().liga12Games[wocheNummer - 1] *
+          8 +
         startRow -
         1;
     } else if (
-      this.name == "liga2" ||
-      this.name == "liga3a" ||
-      this.name == "liga3b"
+      this.name == "liga3" ||
+      this.name == "liga4"
     ) {
       startRow =
-        this.getAmountOfGamesPerWeekAndOffsets().liga23Offsets[wocheNummer - 1]; // Offset für die aktuelle Woche
+        this.getAmountOfGamesPerWeekAndOffsets().liga34Offsets[wocheNummer - 1]; // Offset für die aktuelle Woche
       endRow =
-        this.getAmountOfGamesPerWeekAndOffsets().liga23Games[wocheNummer - 1] *
-          8 +
+        this.getAmountOfGamesPerWeekAndOffsets().liga34Games[wocheNummer - 1] *
+          18 +
         startRow -
         1;
     } else {
       startRow =
-        this.getAmountOfGamesPerWeekAndOffsets().liga4Offsets[wocheNummer - 1]; // Offset für die aktuelle Woche
+        this.getAmountOfGamesPerWeekAndOffsets().liga5Offsets[wocheNummer - 1]; // Offset für die aktuelle Woche
       endRow =
-        this.getAmountOfGamesPerWeekAndOffsets().liga4Games[wocheNummer - 1] *
-          23 +
+        this.getAmountOfGamesPerWeekAndOffsets().liga5Games[wocheNummer - 1] *
+          17 +
         startRow -
         1;
     }
@@ -785,19 +804,19 @@ class LeagueTable {
 
     // horizontale slideshow mit extra daten
     fetchAndRenderTable(
-      "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo",
+      "1Ign2YJZ0edrj6ZH1Kd3d3qJ4dr4XWSiAAofW94hIobE",
       this.spielplanName,
       dataRange1,
       "pinpointTable"
     );
     fetchAndRenderTable(
-      "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo",
+      "1Ign2YJZ0edrj6ZH1Kd3d3qJ4dr4XWSiAAofW94hIobE",
       this.spielplanName,
       dataRange2,
       "yellowCards"
     );
     fetchAndRenderTable(
-      "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo",
+      "1Ign2YJZ0edrj6ZH1Kd3d3qJ4dr4XWSiAAofW94hIobE",
       this.spielplanName,
       dataRange3,
       "extensions"
@@ -805,7 +824,7 @@ class LeagueTable {
 
     // Liga Spieltage rendern
     fetchAndRenderMatchdayTables(
-      "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo",
+      "1Ign2YJZ0edrj6ZH1Kd3d3qJ4dr4XWSiAAofW94hIobE",
       this.spielplanName,
       this.leagueSize
     );
@@ -817,12 +836,12 @@ function getSpielwoche() {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Setzt die Zeit auf Mitternacht
   const spielwochen = [
-    { start: new Date("2025-10-12"), end: new Date("2025-10-26"), week: 1 },
-    { start: new Date("2025-10-27"), end: new Date("2025-11-09"), week: 2 },
-    { start: new Date("2025-11-10"), end: new Date("2025-11-23"), week: 3 },
-    { start: new Date("2025-11-24"), end: new Date("2025-12-07"), week: 4 },
-    { start: new Date("2025-12-08"), end: new Date("2025-12-28"), week: 5 },
-    { start: new Date("2025-12-29"), end: new Date("2026-02-18"), week: 6 },
+    { start: new Date("2026-05-17"), end: new Date("2026-05-31"), week: 1 },
+    { start: new Date("2026-06-01"), end: new Date("2026-06-14"), week: 2 },
+    { start: new Date("2026-06-15"), end: new Date("2026-06-28"), week: 3 },
+    { start: new Date("2026-06-29"), end: new Date("2026-07-12"), week: 4 },
+    { start: new Date("2026-07-13"), end: new Date("2026-07-26"), week: 5 },
+    { start: new Date("2026-07-27"), end: new Date("2026-08-09"), week: 6 },
     /*{ start: new Date("2025-06-30"), end: new Date("2025-07-13"), week: 7 },*/
   ];
 

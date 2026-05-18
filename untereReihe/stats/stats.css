@@ -6,13 +6,15 @@
 
 body {
     font-family: Verdana, sans-serif;
-    background: linear-gradient(to bottom right, #1c1e4a, #74215d);
-    background-attachment: fixed;
     min-height: 100vh; /* Stellt sicher, dass es mindestens den Viewport abdeckt */
     overflow-y: auto; /* Verhindert horizontales Scrollen */
     margin: 20px;
     padding: 0;
     max-height: 300px;
+    background-image: url("../../hintergrund.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment:fixed
 }
 
 header {
@@ -24,7 +26,7 @@ header {
 }
 
 header h1 {
-    background-color: #2a2c6b;
+    background-color: rgb(51, 3, 81);
     padding: 10px;
     margin-bottom: 40px; /* Abstand nach unten zur Überschrift */
     border-radius: 8px;
@@ -61,17 +63,26 @@ table {
     border: 1px solid #ddd;
     background-color: rgb(212, 212, 212); /* Setzt den Hintergrund der Tabelle auf hellgrau */
     table-layout: fixed;
-}
-
-th, td {
-    border: 1px solid black;
-    padding: 6px; /* Weniger Padding für schmalere Zellen */
-    text-align: center;
+    background-color:#1a012b7e; /* Das macht probleme */
+    border-radius: 12px;
     overflow: hidden;
 }
 
+th, td {
+    border: 1px solid #3d3838; /* Zwischenräume der Tabelle */
+    padding: 6px; /* Weniger Padding für schmalere Zellen */
+    text-align: center;
+    overflow: hidden;
+    color: white;
+}
+
+table td,
+table th {
+    color: white;
+}
+
 th {
-    background-color: #2f2f7f;
+    background-color: rgb(51, 3, 81);
     color: white;
 }
 
@@ -99,7 +110,7 @@ th {
 
 /* Modal-Inhalt */
 .modal-content {
-    background-color: rgb(212, 212, 212); /* Setzt den Hintergrund des Modals auf hellgrau */
+    background-color: #d4d4d4; /* Setzt den Hintergrund des Modals auf hellgrau */
     padding: 20px;
     border-radius: 10px;
     width: 50%;
@@ -109,6 +120,15 @@ th {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
     line-height: 1.6;
+}
+
+.modal td,
+.modal th {
+    color: black;
+}
+
+.modal table {
+    background-color: #d4d4d4;
 }
 
 /* Schließen-Knopf (X) */

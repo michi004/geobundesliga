@@ -608,7 +608,7 @@ thead th.sort-desc::after { content: " ▼"; font-size: 0.8em; }
     position: sticky;
     top: 0;
     z-index: 1;                /* keep it above rows */
-    background-color: #2a2c6b; /* match your header color */
+    background-color: #330351; /* match your header color */
   }
 
   .league-table,
@@ -707,7 +707,7 @@ thead th.sort-desc::after { content: " ▼"; font-size: 0.8em; }
       position: sticky;
       top: 0;
       z-index: 1;
-      background: #2a2c6b;
+      background: #330351;
       color: #fff;
     }
 

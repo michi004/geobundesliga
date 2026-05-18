@@ -887,13 +887,54 @@
                 extraPool = defaultExtras;
             }
 
-            const randomExtra =
+            /*const randomExtra =
                 extraPool[
                     Math.floor(Math.random() * extraPool.length)
+                ];*/
+
+            const movingAllowedMaps = [
+                "An Extra-Informed World",
+                "A Community World",
+                "An Official World",
+                "A Tweaked World",
+                "IntersectionGuessr"
+            ];
+
+            // Kopie erstellen
+            let allowedExtras = [...extraPool];
+
+            // NUR bei Worldall prüfen
+            if (selectedCategory === "Worldall") {
+
+                // Wenn Moving NICHT erlaubt ist → entfernen
+                if (!movingAllowedMaps.includes(randomMap.text)) {
+
+                    allowedExtras =
+                        allowedExtras.filter(
+                            extra => extra !== "Moving"
+                        );
+                }
+            }
+
+            // Falls leer (Sicherheit)
+            if (allowedExtras.length === 0) {
+                allowedExtras = ['NM'];
+            }
+
+            const randomExtra =
+                allowedExtras[
+                    Math.floor(Math.random() * allowedExtras.length)
                 ];
 
             resultText += `
                 Map ${i + 1}: <a href="${randomMap.url}" target="_blank">${randomMap.text}</a> (${randomExtra})`;
+
+            /*resultText += `
+            Map ${i + 1}:[${selectedCategory}]<a href="${randomMap.url}" target="_blank">
+                ${randomMap.text}
+            </a>
+            (${randomExtra})
+            <br>`;*/
         }
 
         document.getElementById("match-result").innerHTML =

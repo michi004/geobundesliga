@@ -39,39 +39,98 @@ class GameInfos {
     return Date.now() < cached.expiry;
   }
 
+  createMatchItem(metaItems, leftPlayer, centerText, rightPlayer) {
+    let li = document.createElement("li");
+    li.className = "match-item";
+
+    let meta = document.createElement("div");
+    meta.className = "match-meta";
+    metaItems.forEach((item) => {
+      let pill = document.createElement("span");
+      pill.className = "match-pill";
+      pill.textContent = item;
+      meta.appendChild(pill);
+    });
+
+    let line = document.createElement("div");
+    line.className = "match-line";
+
+    let left = document.createElement("span");
+    left.className = "match-player";
+    left.textContent = leftPlayer;
+    left.title = leftPlayer;
+
+    let center = document.createElement("span");
+    center.className = "match-score";
+    center.textContent = centerText;
+
+    let right = document.createElement("span");
+    right.className = "match-player";
+    right.textContent = rightPlayer;
+    right.title = rightPlayer;
+
+    line.append(left, center, right);
+    li.append(meta, line);
+    return li;
+  }
+
   renderStatsTable(jsonData) {
     let rows = jsonData.table.rows;
     this.targetElement.innerHTML = "";
+    this.targetElement.classList.add("match-list");
 
-    rows.forEach((row) => {
-      if (row.c[0]) {
-        let li = document.createElement("li");
-        li.innerHTML = `${
-          row.c[18].v == 0
-            ? "vor " + row.c[19].v + "min"
-            : "vor " + row.c[18].v + "h"
-        } - ${row.c[17].v} - ${row.c[0].v}
-          <span style="font-style: italic;">${row.c[3].v}</span> ${row.c[1].v}`;
-        this.targetElement.appendChild(li);
-      }
+    let visibleRows = rows.filter((row) => row.c[0]);
+    if (visibleRows.length === 0) {
+      let empty = document.createElement("li");
+      empty.className = "match-empty";
+      empty.textContent = "Keine Ergebnisse in den letzten 24h.";
+      this.targetElement.appendChild(empty);
+      return;
+    }
+
+    visibleRows.forEach((row) => {
+      let timeText =
+        row.c[18].v == 0
+          ? "vor " + row.c[19].v + "min"
+          : "vor " + row.c[18].v + "h";
+
+      let li = this.createMatchItem(
+        [timeText, row.c[17].v],
+        row.c[0].v,
+        row.c[3].v,
+        row.c[1].v
+      );
+      this.targetElement.appendChild(li);
     });
   }
 
   renderUpcomingTable(jsonData) {
     let rows = jsonData.table.rows;
     this.targetElement.innerHTML = "";
+    this.targetElement.classList.add("match-list");
 
-    rows.forEach((row) => {
-      if (row.c[0]) {
-        let li = document.createElement("li");
-        li.innerHTML = `${
-          row.c[19].v == 0
-            ? "in " + row.c[20].v + "min"
-            : "in " + row.c[19].v + "h"
-        } (${row.c[17].f} Uhr) - ${row.c[18].v} - ${row.c[0].v}
-          <span style="font-style: italic;">vs.</span> ${row.c[1].v}`;
-        this.targetElement.insertBefore(li, this.targetElement.firstChild);
-      }
+    let visibleRows = rows.filter((row) => row.c[0]);
+    if (visibleRows.length === 0) {
+      let empty = document.createElement("li");
+      empty.className = "match-empty";
+      empty.textContent = "Keine anstehenden Matches.";
+      this.targetElement.appendChild(empty);
+      return;
+    }
+
+    visibleRows.forEach((row) => {
+      let timeText =
+        row.c[19].v == 0
+          ? "in " + row.c[20].v + "min"
+          : "in " + row.c[19].v + "h";
+
+      let li = this.createMatchItem(
+        [timeText, row.c[17].f + " Uhr", row.c[18].v],
+        row.c[0].v,
+        "vs.",
+        row.c[1].v
+      );
+      this.targetElement.insertBefore(li, this.targetElement.firstChild);
     });
   }
 

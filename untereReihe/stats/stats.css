@@ -205,3 +205,172 @@ th {
         font-size: 1em; /* Slightly smaller headings */
     }
 }
+
+.modal {
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.64);
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    background-color: #2b2a2c;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.42);
+    color: white;
+    max-height: 86vh;
+    max-width: 760px;
+    overflow: auto;
+    padding: 1.2rem;
+    width: min(760px, calc(100% - 32px));
+}
+
+.modal-content h2 {
+    color: white;
+    font-size: clamp(1.35rem, 1rem + 1vw, 1.75rem);
+    line-height: 1.2;
+    margin: 0 2.5rem 1rem;
+}
+
+.close {
+    align-items: center;
+    background-color: #330351;
+    border-radius: 8px;
+    color: white;
+    display: inline-flex;
+    height: 36px;
+    justify-content: center;
+    line-height: 1;
+    right: 1rem;
+    top: 1rem;
+    width: 36px;
+}
+
+.close:hover,
+.close:focus {
+    background-color: #2a2c6b;
+    color: #dcd6e0;
+}
+
+.stats-profile {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    text-align: left;
+}
+
+.stats-eyebrow,
+.stats-stat-label,
+.stats-stat-sub {
+    color: #dcd6e0;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.stats-eyebrow,
+.stats-stat-label {
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.stats-player-name {
+    color: white;
+    font-size: 1.35rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-top: 0.2rem;
+}
+
+.stats-player-meta {
+    color: #dcd6e0;
+    margin-top: 0.25rem;
+}
+
+.stats-profile-link {
+    background-color: #330351;
+    border-radius: 8px;
+    color: white;
+    flex-shrink: 0;
+    font-weight: 800;
+    padding: 0.7rem 0.9rem;
+    text-decoration: none;
+}
+
+.stats-profile-link:hover,
+.stats-profile-link:visited {
+    color: white;
+}
+
+.stats-profile-link:hover {
+    background-color: #2a2c6b;
+}
+
+.stats-section {
+    margin-top: 1rem;
+    text-align: left;
+}
+
+.stats-section h3 {
+    color: white;
+    font-size: 1rem;
+    margin: 0 0 0.55rem;
+}
+
+.stats-grid,
+.stats-duel-grid {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.stats-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.stats-grid.compact,
+.stats-duel-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.stats-stat,
+.stats-duel-card {
+    background: rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.75rem;
+}
+
+.stats-stat-value {
+    color: white;
+    font-size: 1.28rem;
+    line-height: 1.1;
+}
+
+@media (max-width: 767.98px) {
+    .modal-content {
+        width: min(92vw, 600px);
+    }
+
+    .stats-profile {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .stats-profile-link {
+        text-align: center;
+    }
+
+    .stats-grid,
+    .stats-grid.compact,
+    .stats-duel-grid {
+        grid-template-columns: 1fr;
+    }
+}

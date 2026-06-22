@@ -170,109 +170,76 @@ class StatsTable {
     const modal = document.getElementById("statsModal");
     const modalTitle = document.getElementById("modalTitle");
     const modalDetails = document.getElementById("modalDetails");
+    const getValue = (column, fallback = "-") => sheetRow.c[column]?.v ?? fallback;
+    const getNumber = (column) => Number(sheetRow.c[column]?.v) || 0;
+    const playerName = getValue(this.statsSheetColGGName);
+    const region = getValue(this.statsSheetColSubdivision, "base");
+    const profileLink = getValue(this.statsSheetColGGLink, "#");
+    const points = getNumber(this.statsSheetColPoints);
+    const statCard = (label, value) => `
+      <div class="stats-stat">
+        <span class="stats-stat-label">${label}</span>
+        <strong class="stats-stat-value">${value}</strong>
+      </div>
+    `;
+    const duelCard = (label, playedColumn, wonColumn, healthColumn) => {
+      const played = getNumber(playedColumn);
+      const won = getNumber(wonColumn);
+      const lost = Math.max(played - won, 0);
+      const health = getValue(healthColumn, "0");
 
-    modalTitle.innerHTML = `Statistiken für ${getPlayerSubdivisionIcon(
-      sheetRow.c[this.statsSheetColSubdivision]?.v || "base",
-    )} ${sheetRow.c[this.statsSheetColGGName].v}`;
+      return `
+        <div class="stats-duel-card">
+          <span class="stats-stat-label">${label}</span>
+          <strong class="stats-stat-value">${won}-${lost}</strong>
+          <span class="stats-stat-sub">${played} Spiele &middot; ${health} Health</span>
+        </div>
+      `;
+    };
 
+    modalTitle.innerHTML = `${getPlayerSubdivisionIcon(region)} ${playerName}`;
     modalDetails.innerHTML = `
-      <table class="player-info">
-        <tr>
-          <td class="label">Discord</td>
-          <td>${sheetRow.c[this.statsSheetColDiscordName].v}</td>
-        </tr>
-        <tr>
-          <td class="label">Profillink</td>
-          <td><a href="${sheetRow.c[this.statsSheetColGGLink].v}">Link</a></td>
-        </tr>
-        <tr>
-          <td class="label">Region</td>
-          <td>${sheetRow.c[this.statsSheetColSubdivision]?.v || "-"}</td>
-        </tr>
-        <tr>
-          <td class="label">Saisonteilnahmen</td>
-          <td>${
-            sheetRow.c[this.statsSheetColLeagueParticipations]?.v || "-"
-          }</td>
-        </tr>
-        <tr>
-          <td class="label">Beste Platzierung <br> reguläre Seasons</td>
-          <td>${sheetRow.c[this.statsSheetColPB]?.v || "-"}</td>
-        </tr>
-        <tr><td></td><td></td></tr>
-        <tr><td></td><td></td></tr>
-        <tr><td></td><td></td></tr>
-        <tr><td></td><td></td></tr>
-        <tr><td></td><td></td></tr>
-        <tr><td></td><td></td></tr>
-        <tr><td></td><td></td></tr>
-        <tr>
-          <td class="label">Platzierung in Liga</td>
-          <td>${sheetRow.c[this.statsSheetColPlacement]?.v || "-"}</td>
-        </tr>
-        <tr>
-          <td class="label">Punkte</td>
-          <td>${
-            Math.round(sheetRow.c[this.statsSheetColPoints]?.v * 100) / 100
-          }</td>
-        </tr>
-        <tr>
-          <td class="label">Anzahl 5k</td>
-          <td>${sheetRow.c[this.statsSheetCol5ks]?.v || "0"}</td>
-        </tr>
-        <tr>
-          <td class="label">Anzahl 4800+</td>
-          <td>${sheetRow.c[this.statsSheetCol4800]?.v || "0"}</td>
-        </tr>
-        <tr>
-          <td class="label">Extensions</td>
-          <td>${sheetRow.c[this.statsSheetColExt]?.v || "0"}</td>
-        </tr>
-        <tr>
-          <td class="label">Gelbe Karten</td>
-          <td>${sheetRow.c[this.statsSheetColYellowCards]?.v || "0"}</td>
-        </tr>
-        <tr>
-          <td class="label">Moving-Duels (${
-            sheetRow.c[this.statsSheetColMPlayed]?.v || "0"
-          })</td>
-          <td>${sheetRow.c[this.statsSheetColMWon]?.v || "0"}-${
-            sheetRow.c[this.statsSheetColMPlayed]?.v -
-            sheetRow.c[this.statsSheetColMWon]?.v
-          } / ${sheetRow.c[this.statsSheetColMHealth]?.v || "0"}</td>
-        </tr>
-        <tr>
-          <td class="label">NM-Duels (${
-            sheetRow.c[this.statsSheetColNMPlayed]?.v || "0"
-          })</td>
-          <td>${sheetRow.c[this.statsSheetColNMWon]?.v || "0"}-${
-            sheetRow.c[this.statsSheetColNMPlayed]?.v -
-            sheetRow.c[this.statsSheetColNMWon]?.v
-          } / ${sheetRow.c[this.statsSheetColNMHealth]?.v || "0"}</td>
-        </tr>
-        <tr>
-          <td class="label">NMPZ-Duels (${
-            sheetRow.c[this.statsSheetColNMPZPlayed]?.v || "0"
-          })</td>
-          <td>${sheetRow.c[this.statsSheetColNMPZWon]?.v || "0"}-${
-            sheetRow.c[this.statsSheetColNMPZPlayed]?.v -
-            sheetRow.c[this.statsSheetColNMPZWon]?.v
-          } / ${sheetRow.c[this.statsSheetColNMPZHealth]?.v || "0"}</td>
-        </tr>
-        <tr>
-          <td class="label">DACH-Duels (${
-            sheetRow.c[this.statsSheetColDACHPlayed]?.v || "0"
-          })</td>
-          <td>${sheetRow.c[this.statsSheetColDACHWon]?.v || "0"}-${
-            sheetRow.c[this.statsSheetColDACHPlayed]?.v -
-            sheetRow.c[this.statsSheetColDACHWon]?.v
-          } / ${sheetRow.c[this.statsSheetColDACHHealth]?.v || "0"}</td>
-        </tr>
-        <tr>
-          <td class="label">Lieblingsmodus</td>
-          <td>${sheetRow.c[this.statsSheetColFavMode]?.v || "-"}</td>
-        </tr>
-      </table>
+      <div class="stats-profile">
+        <div>
+          <span class="stats-eyebrow">Spielerprofil</span>
+          <div class="stats-player-name">${playerName}</div>
+          <div class="stats-player-meta">Discord: ${getValue(
+            this.statsSheetColDiscordName,
+          )} &middot ${region === "base" ? "-" : region}</div>
+        </div>
+        <a class="stats-profile-link" href="${profileLink}" target="_blank" rel="noopener">GeoGuessr Profil</a>
+      </div>
+
+      <section class="stats-section">
+        <h3>Saison</h3>
+        <div class="stats-grid">
+          ${statCard("Platzierung", getValue(this.statsSheetColPlacement))}
+          ${statCard("Punkte", Math.round(points * 100) / 100)}
+          ${statCard("5ks", getValue(this.statsSheetCol5ks, "0"))}
+          ${statCard("4800+", getValue(this.statsSheetCol4800, "0"))}
+          ${statCard("Extensions", getValue(this.statsSheetColExt, "0"))}
+          ${statCard("Gelbe Karten", getValue(this.statsSheetColYellowCards, "0"))}
+        </div>
+      </section>
+
+      <section class="stats-section">
+        <h3>Historie</h3>
+        <div class="stats-grid compact">
+          ${statCard("Saisonteilnahmen", getValue(this.statsSheetColLeagueParticipations))}
+          ${statCard("Beste Platzierung", getValue(this.statsSheetColPB))}
+          ${statCard("Lieblingsmodus", getValue(this.statsSheetColFavMode))}
+        </div>
+      </section>
+
+      <section class="stats-section">
+        <h3>Duelle</h3>
+        <div class="stats-duel-grid">
+          ${duelCard("Moving", this.statsSheetColMPlayed, this.statsSheetColMWon, this.statsSheetColMHealth)}
+          ${duelCard("NM", this.statsSheetColNMPlayed, this.statsSheetColNMWon, this.statsSheetColNMHealth)}
+          ${duelCard("NMPZ", this.statsSheetColNMPZPlayed, this.statsSheetColNMPZWon, this.statsSheetColNMPZHealth)}
+          ${duelCard("DACH", this.statsSheetColDACHPlayed, this.statsSheetColDACHWon, this.statsSheetColDACHHealth)}
+        </div>
+      </section>
     `;
     modal.style.display = "flex";
   }

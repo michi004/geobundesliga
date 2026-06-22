@@ -1,3 +1,167 @@
+function formatMatchType(matchtype) {
+  if (matchtype == "move") return "Moving";
+  if (matchtype == "ppd") return "Pinpointing Duel";
+  if (matchtype == "no move") return "NM";
+  return "NMPZ";
+}
+
+function getPlayedMatchStats(matchData) {
+  const isOpenValue = (value) =>
+    value === undefined || value === null || value === "" || value === "N/A" || value === "-";
+  const punkteBlauValue = Number(matchData.punkteBlau);
+  const punkteRotValue = Number(matchData.punkteRot);
+  const healthBlauValue = Number(matchData.healthBlau);
+  const healthRotValue = Number(matchData.healthRot);
+  const hasPoints =
+    Number.isFinite(punkteBlauValue) &&
+    Number.isFinite(punkteRotValue) &&
+    !(punkteBlauValue === 0 && punkteRotValue === 0);
+  const hasHealth = Number.isFinite(healthBlauValue) && Number.isFinite(healthRotValue);
+  const played = !isOpenValue(matchData.ergebnis);
+  let punkteText = "Offen";
+  let lebenText = "Offen";
+
+  if (hasPoints) {
+    let punkteBlau = punkteBlauValue;
+    let punkteRot = punkteRotValue;
+
+    if (punkteBlau > punkteRot) {
+      punkteBlau += 1;
+    } else if (punkteRot > punkteBlau) {
+      punkteRot += 1;
+    }
+
+    punkteText = `${punkteBlau.toFixed(2)} : ${punkteRot.toFixed(2)}`;
+  }
+
+  if (hasHealth) {
+    lebenText = `${healthBlauValue} : ${healthRotValue}`;
+  }
+
+  return {
+    played,
+    ergebnisText: played ? matchData.ergebnis : "Noch offen",
+    punkteText,
+    lebenText,
+  };
+}
+
+function renderMatchMaps(maps) {
+  if (!maps || maps.length === 0) {
+    return `
+      <div id="maps-container" class="maps-container empty">
+        <div class="game-empty-state">Noch keine Mapdetails verfügbar.</div>
+      </div>
+    `;
+  }
+
+
+
+  /*return `
+    <div id="maps-container" class="maps-container">
+      ${maps
+        .map(([mapName, winner, matchtype, health, link], index) => {
+          const winnerClass =
+            winner === "blue" ? "blue-win" : winner === "red" ? "red-win" : "";
+          const mapCardContent = `
+            <span class="map-number">Map ${index + 1}</span>
+            <strong>${mapName}</strong>
+            <span class="map-meta">${formatMatchType(matchtype)}</span>
+          `;
+
+          return link
+            ? `<a class="map-card ${winnerClass}" href="${link}" target="_blank" rel="noopener">${mapCardContent}</a>`
+            : `<div class="map-card ${winnerClass}">${mapCardContent}</div>`;
+        })
+        .join("")}
+    </div>
+  `;
+}*/
+const rows = [maps.slice(0, 2), maps.slice(2, 5), maps.slice(5)];
+  const renderMapCard = ([mapName, winner, matchtype, health, link], index) => {
+    const winnerClass =
+      winner === "blue" ? "blue-win" : winner === "red" ? "red-win" : "";
+    const mapCardContent = `
+      <span class="map-number">Map ${index + 1}</span>
+      <strong>${mapName}</strong>
+      <span class="map-meta">${formatMatchType(matchtype)}${
+      health ? ` · ${health} Health` : ""
+    }</span>
+    `;
+
+    return link
+      ? `<a class="map-card ${winnerClass}" href="${link}" target="_blank" rel="noopener">${mapCardContent}</a>`
+      : `<div class="map-card ${winnerClass}">${mapCardContent}</div>`;
+  };
+
+  return `
+    <div id="maps-container" class="maps-container">
+      ${rows
+        .map((row, rowIndex) => {
+          const previousMaps = rows
+            .slice(0, rowIndex)
+            .reduce((total, previousRow) => total + previousRow.length, 0);
+
+          return row.length
+            ? `<div class="maps-row maps-row-${row.length}">${row
+                .map((mapInfo, mapIndex) =>
+                  renderMapCard(mapInfo, previousMaps + mapIndex)
+                )
+                .join("")}</div>`
+            : "";
+        })
+        .join("")}
+    </div>
+  `;
+}
+
+function renderGameModal(matchData) {
+  const modal = document.getElementById("gameModal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalDetails = document.getElementById("modalDetails");
+  const stats = getPlayedMatchStats(matchData);
+  const statusClass = stats.played ? "played" : "open";
+
+ 
+  modalDetails.innerHTML = `
+    <div class="game-profile ${statusClass}">
+      <div>
+        <span class="stats-eyebrow">${stats.played ? "Gespielt" : "Ausstehend"}</span>
+        <div class="game-player-line">
+          <span class="blue-player">${matchData.blau}</span>
+          <span>vs</span>
+          <span class="red-player">${matchData.rot}</span>
+        </div>
+      </div>
+      <span class="game-status">${stats.ergebnisText}</span>
+    </div>
+
+    <section class="stats-section">
+      <h3>Match</h3>
+      <div class="game-stat-grid ${stats.played ? "" : "open-match"}">
+        <div class="stats-stat">
+          <span class="stats-stat-label">Match ID</span>
+          <strong class="stats-stat-value">${matchData.id || "N/A"}</strong>
+        </div>
+        <div class="stats-stat">
+          <span class="stats-stat-label">Punkte</span>
+          <strong class="stats-stat-value">${stats.punkteText}</strong>
+        </div>
+        <div class="stats-stat">
+          <span class="stats-stat-label">Leben</span>
+          <strong class="stats-stat-value">${stats.lebenText}</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-section">
+      <h3>Maps</h3>
+      ${renderMatchMaps(matchData.maps)}
+    </section>
+  `;
+  modal.style.display = "flex";
+}
+
 class LeagueTable {
   constructor(
     sheetID,
@@ -220,125 +384,7 @@ class LeagueTable {
   }
 
   openModal(matchData) {
-    const modal = document.getElementById("gameModal");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalDetails = document.getElementById("modalDetails");
-
-    modalTitle.innerHTML = `${
-      matchData.ergebnis != "N/A" ? '<span style="color:blue;">|</span>' : ""
-    } ${matchData.blau} vs ${matchData.rot} ${
-      matchData.ergebnis != "N/A" ? '<span style="color:red;">|</span>' : ""
-    }`;
-
-    let punkteText;
-    if (
-      typeof matchData.punkteBlau === "number" &&
-      typeof matchData.punkteRot === "number" &&
-      !(matchData.punkteBlau === 0 && matchData.punkteRot === 0)
-    ) {
-      if (matchData.punkteBlau > matchData.punkteRot) {
-        matchData.punkteBlau += 1;
-      } else if (matchData.punkteRot > matchData.punkteBlau) {
-        matchData.punkteRot += 1;
-      }
-
-      const punkteBlau = matchData.punkteBlau.toFixed(2);
-      const punkteRot = matchData.punkteRot.toFixed(2);
-      punkteText = `${punkteBlau} : ${punkteRot}`;
-    } else {
-      punkteText = "N/A";
-    }
-
-    let lebenText;
-    if (
-      typeof matchData.healthBlau === "number" &&
-      typeof matchData.healthRot === "number"
-    ) {
-      lebenText = `${matchData.healthBlau} : ${matchData.healthRot}`;
-    } else {
-      lebenText = "N/A";
-    }
-
-    modalDetails.innerHTML = `
-      <strong>Match ID:</strong> ${matchData.id}<br>
-      <strong>Ergebnis:</strong> ${
-        matchData.ergebnis || "Noch nicht verfügbar"
-      }<br>
-      <strong>Punkte:</strong> ${punkteText}<br>
-      <strong>Leben:</strong> ${lebenText}<br>
-    `;
-
-    const mapsContainer = document.createElement("div");
-    mapsContainer.id = "maps-container";
-    mapsContainer.style.marginTop = "20px";
-
-    if (matchData.maps && matchData.maps.length > 0) {
-      const maps = matchData.maps;
-      const rows = [[], [], []];
-
-      for (let i = 0; i < maps.length; i++) {
-        if (i < 2) rows[0].push(maps[i]);
-        else if (i < 5) rows[1].push(maps[i]);
-        else rows[2].push(maps[i]);
-      }
-
-      rows.forEach((row) => {
-        if (row.length > 0) {
-          const rowDiv = document.createElement("div");
-          rowDiv.className = "maps-row";
-          rowDiv.style.display = "flex";
-          rowDiv.style.justifyContent = "space-around";
-          rowDiv.style.marginBottom = "10px";
-
-          row.forEach((mapInfo) => {
-            const [mapName, winner, matchtype, health, link] = mapInfo;
-
-            const mapBox = document.createElement("a");
-            mapBox.href = link;
-            mapBox.target = "_blank";
-            mapBox.style.padding = "10px";
-            mapBox.style.borderRadius = "5px";
-            mapBox.style.display = "inline-block";
-            mapBox.style.minWidth = "120px";
-            mapBox.style.color = "#333";
-            mapBox.style.textDecoration = "none";
-            mapBox.style.border = "1px solid #ccc";
-            mapBox.style.backgroundColor = "#f9f9f9";
-            mapBox.style.textAlign = "left";
-
-            // Gewinnerfarbe setzen
-            if (winner === "blue") {
-              mapBox.style.borderLeft = "5px solid blue";
-            } else if (winner === "red") {
-              mapBox.style.borderRight = "5px solid red";
-            }
-
-            // Inhalt mit Mapname & Matchtyp
-            mapBox.innerHTML = `
-              <div>${mapName}</div>
-              <div style="font-size: 0.8em; color: #777;">${
-                matchtype == "move"
-                  ? "Moving"
-                  : matchtype == "ppd"
-                  ? "Pinpointing Duel"
-                  : matchtype == "no move"
-                  ? "NM"
-                  : "NMPZ"
-              }</div>
-            `;
-
-            rowDiv.appendChild(mapBox);
-          });
-
-          mapsContainer.appendChild(rowDiv);
-        }
-      });
-    } else {
-      mapsContainer.innerHTML = "<em>Keine Maps verfügbar</em>";
-    }
-
-    modalDetails.appendChild(mapsContainer);
-    modal.style.display = "flex";
+    renderGameModal(matchData);
   }
 
   renderMatchTable(jsonData) {
@@ -526,6 +572,79 @@ class LeagueTable {
     const modal = document.getElementById("statsModal");
     const modalTitle = document.getElementById("statsModalTitle");
     const modalDetails = document.getElementById("statsModalDetails");
+    const getValue = (column, fallback = "-") => sheetRow.c[column]?.v ?? fallback;
+    const getNumber = (column) => Number(sheetRow.c[column]?.v) || 0;
+    const playerName = getValue(this.statsSheetColGGName);
+    const region = getValue(this.statsSheetColSubdivision, "base");
+    const profileLink = getValue(this.statsSheetColGGLink, "#");
+    const points = getNumber(this.statsSheetColPoints);
+    const statCard = (label, value) => `
+      <div class="stats-stat">
+        <span class="stats-stat-label">${label}</span>
+        <strong class="stats-stat-value">${value}</strong>
+      </div>
+    `;
+    const duelCard = (label, playedColumn, wonColumn, healthColumn) => {
+      const played = getNumber(playedColumn);
+      const won = getNumber(wonColumn);
+      const lost = Math.max(played - won, 0);
+      const health = getValue(healthColumn, "0");
+
+      return `
+        <div class="stats-duel-card">
+          <span class="stats-stat-label">${label}</span>
+          <strong class="stats-stat-value">${won}-${lost}</strong>
+          <span class="stats-stat-sub">${played} Spiele · ${health} Health</span>
+        </div>
+      `;
+    };
+
+    modalTitle.innerHTML = `${this.getPlayerSubdivisionIcon(region)} ${playerName}`;
+    modalDetails.innerHTML = `
+      <div class="stats-profile">
+        <div>
+          <span class="stats-eyebrow">Spielerprofil</span>
+          <div class="stats-player-name">${playerName}</div>
+          <div class="stats-player-meta">Discord: ${getValue(
+            this.statsSheetColDiscordName
+          )}  &middot ${region === "base" ? "-" : region}</div>
+        </div>
+        <a class="stats-profile-link" href="${profileLink}" target="_blank" rel="noopener">GeoGuessr Profil</a>
+      </div>
+
+      <section class="stats-section">
+        <h3>Saison</h3>
+        <div class="stats-grid">
+          ${statCard("Platzierung", getValue(this.statsSheetColPlacement))}
+          ${statCard("Punkte", Math.round(points * 100) / 100)}
+          ${statCard("5ks", getValue(this.statsSheetCol5ks, "0"))}
+          ${statCard("4800+", getValue(this.statsSheetCol4800, "0"))}
+          ${statCard("Extensions", getValue(this.statsSheetColExt, "0"))}
+          ${statCard("Gelbe Karten", getValue(this.statsSheetColYellowCards, "0"))}
+        </div>
+      </section>
+
+      <section class="stats-section">
+        <h3>Historie</h3>
+        <div class="stats-grid compact">
+          ${statCard("Saisonteilnahmen", getValue(this.statsSheetColLeagueParticipations))}
+          ${statCard("Beste Platzierung", getValue(this.statsSheetColPB))}
+          ${statCard("Lieblingsmodus", getValue(this.statsSheetColFavMode))}
+        </div>
+      </section>
+
+      <section class="stats-section">
+        <h3>Duelle</h3>
+        <div class="stats-duel-grid">
+          ${duelCard("Moving", this.statsSheetColMPlayed, this.statsSheetColMWon, this.statsSheetColMHealth)}
+          ${duelCard("NM", this.statsSheetColNMPlayed, this.statsSheetColNMWon, this.statsSheetColNMHealth)}
+          ${duelCard("NMPZ", this.statsSheetColNMPZPlayed, this.statsSheetColNMPZWon, this.statsSheetColNMPZHealth)}
+          ${duelCard("DACH", this.statsSheetColDACHPlayed, this.statsSheetColDACHWon, this.statsSheetColDACHHealth)}
+        </div>
+      </section>
+    `;
+    modal.style.display = "flex";
+    return;
 
     modalTitle.innerHTML = `Statistiken für ${this.getPlayerSubdivisionIcon(
       sheetRow.c[this.statsSheetColSubdivision]?.v || "base"
@@ -873,29 +992,10 @@ function formatDate(date) {
   return `${day}.${month}.${year}`;
 }
 
-// scrollanimation für weitere informationen
-window.addEventListener("scroll", () => {
-  const secondSection = document.querySelector(".second-section");
-  const scrollPosition = window.scrollY;
-  const windowHeight = window.innerHeight;
-
-  const scrollAmount = Math.min(scrollPosition / windowHeight, 1) * 100;
-
-  secondSection.style.transform = `translateY(${100 - scrollAmount}%)`;
-});
-
-//
-//
-//
-//
-//
-//
-//
 //tabellen 2te seite
 
 //extra info tabellen slideshow
 let slideIndex = 1;
-showSlides(slideIndex);
 
 function plusSlides(n) {
   showSlides((slideIndex += n));
@@ -909,6 +1009,10 @@ function showSlides(n) {
   let i;
   let slides = document.getElementsByClassName("slide");
   let dots = document.getElementsByClassName("dot");
+  let tabs = document.getElementsByClassName("table-tab");
+
+  if (!slides.length) return;
+
   if (n > slides.length) {
     slideIndex = 1;
   }
@@ -921,9 +1025,52 @@ function showSlides(n) {
   for (i = 0; i < dots.length; i++) {
     dots[i].className = dots[i].className.replace(" active", "");
   }
-  slides[slideIndex - 1].style.display = "flex";
-  dots[slideIndex - 1].className += " active";
+  for (i = 0; i < tabs.length; i++) {
+    tabs[i].classList.toggle("active", i === slideIndex - 1);
+  }
+  slides[slideIndex - 1].style.display = "block";
+
+  if (dots[slideIndex - 1]) {
+    dots[slideIndex - 1].className += " active";
+  }
 }
+
+function initExtraInfoTabs() {
+  const slideshow = document.querySelector(".table-slideshow");
+  const slides = Array.from(document.getElementsByClassName("slide"));
+
+  if (!slideshow || !slides.length || slideshow.querySelector(".table-tabs")) {
+    showSlides(slideIndex);
+    return;
+  }
+
+  const tabs = document.createElement("div");
+  tabs.className = "table-tabs";
+
+  slides.forEach((slide, index) => {
+    const tableTitle =
+      slide.querySelector("thead tr:first-child th")?.textContent.trim() ||
+      `Tabelle ${index + 1}`;
+    const button = document.createElement("button");
+
+    button.className = "table-tab";
+    button.type = "button";
+    button.textContent = tableTitle;
+    button.addEventListener("click", () => currentSlide(index + 1));
+    tabs.appendChild(button);
+  });
+
+  slideshow.prepend(tabs);
+  slideshow.querySelectorAll(":scope > .prev, :scope > .next").forEach((el) => {
+    el.remove();
+  });
+  slideshow.querySelectorAll(".dot").forEach((el) => {
+    el.parentElement?.remove();
+  });
+  showSlides(slideIndex);
+}
+
+initExtraInfoTabs();
 
 function fetchAndRenderTable(
   sheetID,
@@ -1108,124 +1255,7 @@ function fetchAndRenderMatchdayTables(sheetID, sheetName, leagueSize) {
   }
 
   function openModal(matchData) {
-    const modal = document.getElementById("gameModal");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalDetails = document.getElementById("modalDetails");
-
-    modalTitle.innerHTML = `${
-      matchData.ergebnis != "N/A" ? '<span style="color:blue;">|</span>' : ""
-    } ${matchData.blau} vs ${matchData.rot} ${
-      matchData.ergebnis != "N/A" ? '<span style="color:red;">|</span>' : ""
-    }`;
-
-    let punkteText;
-    if (
-      typeof matchData.punkteBlau === "number" &&
-      typeof matchData.punkteRot === "number" &&
-      !(matchData.punkteBlau === 0 && matchData.punkteRot === 0)
-    ) {
-      if (matchData.punkteBlau > matchData.punkteRot) {
-        matchData.punkteBlau += 1;
-      } else if (matchData.punkteRot > matchData.punkteBlau) {
-        matchData.punkteRot += 1;
-      }
-      const punkteBlau = matchData.punkteBlau.toFixed(2);
-      const punkteRot = matchData.punkteRot.toFixed(2);
-      punkteText = `${punkteBlau} : ${punkteRot}`;
-    } else {
-      punkteText = "N/A";
-    }
-
-    let lebenText;
-    if (
-      typeof matchData.healthBlau === "number" &&
-      typeof matchData.healthRot === "number"
-    ) {
-      lebenText = `${matchData.healthBlau} : ${matchData.healthRot}`;
-    } else {
-      lebenText = "N/A";
-    }
-
-    modalDetails.innerHTML = `
-      <strong>Match ID:</strong> ${matchData.id}<br>
-      <strong>Ergebnis:</strong> ${
-        matchData.ergebnis || "Noch nicht verfügbar"
-      }<br>
-      <strong>Punkte:</strong> ${punkteText}<br>
-      <strong>Leben:</strong> ${lebenText}<br>
-    `;
-
-    const mapsContainer = document.createElement("div");
-    mapsContainer.id = "maps-container";
-    mapsContainer.style.marginTop = "20px";
-
-    if (matchData.maps && matchData.maps.length > 0) {
-      const maps = matchData.maps;
-      const rows = [[], [], []];
-
-      for (let i = 0; i < maps.length; i++) {
-        if (i < 2) rows[0].push(maps[i]);
-        else if (i < 5) rows[1].push(maps[i]);
-        else rows[2].push(maps[i]);
-      }
-
-      rows.forEach((row) => {
-        if (row.length > 0) {
-          const rowDiv = document.createElement("div");
-          rowDiv.className = "maps-row";
-          rowDiv.style.display = "flex";
-          rowDiv.style.justifyContent = "space-around";
-          rowDiv.style.marginBottom = "10px";
-
-          row.forEach((mapInfo) => {
-            const [mapName, winner, matchtype, health, link] = mapInfo;
-
-            const mapBox = document.createElement("a");
-            mapBox.href = link;
-            mapBox.target = "_blank";
-            mapBox.style.padding = "10px";
-            mapBox.style.borderRadius = "5px";
-            mapBox.style.display = "inline-block";
-            mapBox.style.minWidth = "120px";
-            mapBox.style.color = "#333";
-            mapBox.style.textDecoration = "none";
-            mapBox.style.border = "1px solid #ccc";
-            mapBox.style.backgroundColor = "#f9f9f9";
-            mapBox.style.textAlign = "left";
-
-            // Gewinnerfarbe setzen
-            if (winner === "blue") {
-              mapBox.style.borderLeft = "5px solid blue";
-            } else if (winner === "red") {
-              mapBox.style.borderRight = "5px solid red";
-            }
-
-            // Inhalt mit Mapname & Matchtyp
-            mapBox.innerHTML = `
-              <div>${mapName}</div>
-              <div style="font-size: 0.8em; color: #777;">${
-                matchtype == "move"
-                  ? "Moving"
-                  : matchtype == "ppd"
-                  ? "Pinpointing Duel"
-                  : matchtype == "no move"
-                  ? "NM"
-                  : "NMPZ"
-              }</div>
-            `;
-
-            rowDiv.appendChild(mapBox);
-          });
-
-          mapsContainer.appendChild(rowDiv);
-        }
-      });
-    } else {
-      mapsContainer.innerHTML = "<em>Keine Maps verfügbar</em>";
-    }
-
-    modalDetails.appendChild(mapsContainer);
-    modal.style.display = "flex";
+    renderGameModal(matchData);
   }
 
   generateMatchdayList();

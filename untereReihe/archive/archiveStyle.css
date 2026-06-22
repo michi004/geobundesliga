@@ -1,17 +1,5 @@
-
-html, body {
-  overflow-y: auto;             /* enable vertical scroll */
-  -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
-}
-
-/* 2) Add safe breathing room at the bottom (esp. on phones with gesture bar) */
-:root { --safe-bottom: max(env(safe-area-inset-bottom), 16px); }
-
-/* Größerer und zentrierter Button für Saison-Archiv */
 .button-container {
-  display: flex;
-  gap: 20px; /* Abstand zwischen Spalten */
-  justify-content: center; /* Zentriert horizontal */
+  align-items: stretch;
 }
 
 .column {
@@ -20,32 +8,34 @@ html, body {
   gap: 10px;
 }
 
-.button-container .button {
-  display: inline-block;
-  padding: 10px 15px;
-  text-decoration: none;
-  border-radius: 5px;
+.column h2 {
+  color: #ffcc00;
+  font-size: 1rem;
+  font-weight: 800;
+  margin: 0 0 0.25rem;
   text-align: center;
 }
 
-/*css für season 1?*/
+.archive-card {
+  padding: 1rem;
+}
+
 .image-container {
-    display: flex;
-    flex-wrap: wrap; /* Ermöglicht das Umbrechen der Bilder auf mehrere Zeilen */
-    justify-content: center; /* Zentriert die Bilder horizontal */
-    gap: 20px; /* Abstand zwischen den Bildern */
-    padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
 }
 
 .image-container img {
-    width: calc(50% - 20px); /* Setzt die Breite auf 50% minus den Abstand */
-    height: auto; /* Bewahrt das Seitenverhältnis */
-    border-radius: 10px; /* Abgerundete Ecken für die Bilder */
+  width: calc(50% - 20px);
+  height: auto;
+  border-radius: 10px;
 }
 
 @media (max-width: 600px) {
-  .button-container .button {
-    width: 80%;
+  .button-container .page-button {
     font-size: clamp(1rem, 4vw, 1.3rem);
     padding: 0.8em 1.2em;
   }

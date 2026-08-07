@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GeoBundesliga Relegation Season 4</title>
+  <title>GeoBundesliga Relegation Season 5</title>
   <link rel="icon" href="icon.png" />
+  <link rel="stylesheet" href="../untereReihe/shared-page.css" />
   <style>
     :root {
       --primary-color: #2a2c6b;
@@ -41,11 +42,15 @@
     }*/
 
     body {
-      background: linear-gradient(to bottom right, #1a0033, #660066);
+      /*background: linear-gradient(to bottom right, #1a0033, #660066);*/
       font-family: Verdana, sans-serif;
       color: white;
       overflow-x: hidden;
       overflow-y: auto;
+      background-image: url("hintergrund.png");
+      background-size: cover;
+      background-position: center;
+      background-attachment:fixed
     }
 
 
@@ -179,68 +184,221 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5); /* Halbtransparentes Schwarz */
+      padding: 1rem;
+      background-color: rgba(0, 0, 0, 0.64);
+      backdrop-filter: blur(3px);
       justify-content: center;
       align-items: center;
     }
 
     /* Modal-Inhalt */
     .modal-content {
-      background-color: #d4d4d4;
-      color: black;
-      padding: 20px;
+      background-color: #2b2a2c;
+      border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: 10px;
-      width: 50%;
-      max-width: 600px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.42);
+      color: white;
+      max-height: 86vh;
+      overflow: auto;
+      padding: 1.2rem;
+      width: min(760px, calc(100% - 32px));
       margin: auto;
-      text-align: center;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: left;
       position: relative;
     }
 
-    #modalDetails { margin-top: 5px; }
-
-    #maps-container {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
+    .modal-content h2 {
+      color: white;
+      font-size: clamp(1.35rem, 1rem + 1vw, 1.75rem);
+      line-height: 1.2;
+      margin: 0 2.5rem 1rem;
+      text-align: center;
     }
 
-    .maps-row {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
+    .modal-content p {
+      color: #f0f3f7;
     }
 
-    .map-box {
-      padding: 10px;
-      border: 2px solid;
-      border-Radius: 5px;
-      background-Color: #f9f9f9;
-      text-Decoration: none;
-      color:#333;
-      display: inline-block;
-      min-Width: 120px;
-      text-Align: center;
-    }
-
-    .map-box.blue {
-      border-color: blue;
-    }
-
-    .map-box.red {
-      border-color: red;
+    #modalDetails strong {
+      color: #ffcc00;
     }
 
     .close {
       position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 30px;
+      align-items: center;
+      background-color: #330351;
+      border-radius: 8px;
+      color: white;
+      display: inline-flex;
+      height: 36px;
+      justify-content: center;
+      line-height: 1;
+      right: 1rem;
+      top: 1rem;
+      width: 36px;
+      font-size: 22px;
       cursor: pointer;
-      color: #000;
+    }
+
+    .close:hover,
+    .close:focus {
+      background-color: #2a2c6b;
+      color: #dcd6e0;
+    }
+
+    .game-profile {
+      align-items: center;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      text-align: left;
+    }
+
+    .game-player-line {
+      align-items: center;
+      color: #dcd6e0;
+      display: flex;
+      flex-wrap: wrap;
+      font-size: 1.25rem;
+      font-weight: 900;
+      gap: 0.5rem;
+      margin-top: 0.2rem;
+    }
+
+    .blue-player { color: #76a9ff; }
+    .red-player { color: #ff8d8d; }
+
+    .game-status {
+      background-color: #330351;
+      border-radius: 8px;
+      color: white;
+      flex-shrink: 0;
+      font-weight: 900;
+      padding: 0.7rem 0.9rem;
+    }
+
+    .game-profile.open .game-status {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #dcd6e0;
+    }
+
+    .stats-section {
+      margin-top: 1rem;
+      text-align: left;
+    }
+
+    .stats-section h3 {
+      color: white;
+      font-size: 1rem;
+      margin: 0 0 0.55rem;
+    }
+
+    .stats-eyebrow,
+    .stats-stat-label {
+      color: #dcd6e0;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .game-stat-grid {
+      display: grid;
+      gap: 0.65rem;
+      grid-template-columns: 1.5fr 0.85fr 0.85fr;
+    }
+
+    .stats-stat {
+      background: rgba(0, 0, 0, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 0.75rem;
+      min-width: 0;
+    }
+
+    .stats-stat-label {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .stats-stat-value {
+      color: white;
+      font-size: 1.28rem;
+      line-height: 1.1;
+    }
+
+    #maps-container,
+    .maps-container {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-top: 0 !important;
+    }
+
+    .maps-row {
+      display: grid;
+      gap: 0.65rem;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .maps-row-1 { grid-template-columns: minmax(150px, min(240px, 100%)); }
+    .maps-row-2 { grid-template-columns: repeat(2, minmax(150px, 220px)); }
+    .maps-row-3 { grid-template-columns: repeat(3, minmax(150px, 1fr)); max-width: 720px; }
+
+    .map-card {
+      background-color: rgba(0, 0, 0, 0.18) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      border-left: 5px solid rgba(255, 255, 255, 0.16) !important;
+      border-radius: 8px !important;
+      color: white !important;
+      display: flex !important;
+      flex-direction: column;
+      gap: 0.25rem;
+      min-width: 0 !important;
+      padding: 0.75rem !important;
+      text-align: left !important;
+      text-decoration: none !important;
+      height: 100%;
+    }
+
+    .map-card.blue-win { border-left-color: #477dff !important; }
+    .map-card.red-win { border-left-color: #ff5e5e !important; }
+    .map-card:hover { background-color: #2a2c6b !important; }
+
+    .map-number,
+    .map-meta {
+      color: #dcd6e0 !important;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .map-number { text-transform: uppercase; }
+
+    .game-empty-state {
+      background: rgba(0, 0, 0, 0.18);
+      border: 1px dashed rgba(255, 255, 255, 0.22);
+      border-radius: 8px;
+      color: #dcd6e0;
+      grid-column: 1 / -1;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    @media (max-width: 767.98px) {
+      .modal-content { width: min(92vw, 600px); }
+      .game-stat-grid { grid-template-columns: 1fr; }
+      .game-profile { align-items: stretch; flex-direction: column; }
     }
 
     .player-pill {
@@ -287,7 +445,7 @@
     }
 
     .button {
-      background-color: var(--primary-color);
+      background-color: var(--primary-color);/*#330351;*/
       color: var(--text-color);
       padding: 1vh 2vw;
       font-size: 1.5vw;
@@ -310,8 +468,8 @@
 
     .button-container {
       display: flex;
-      justify-content: center;   
-      margin-top: 20px;          
+      justify-content: center;  
+      margin-top: 20px;      
     }
   </style>
 </head>
@@ -334,7 +492,7 @@
     <nav class="d-flex align-items-center">
       <a href="untereReihe/archive/archive.html">Archiv</a>
       <a
-        href="https://docs.google.com/document/d/1InAqAS-TSFhilSsoxQJZFee-SdjD0VU_6mBI3aWo5GQ/edit?usp=sharing">Regelwerk</a>
+        href="https://docs.google.com/document/d/11WWWQ7A1m6n9R86trTNLUGLqALgalhZpOkxdVoMzFAg/edit?usp=sharing">Regelwerk</a>
       <a href="untereReihe/mapbot/mapbot.html">Map Bot</a>
       <a href="untereReihe/stats/stats.html">Statistiken</a>
       <a href="https://discord.gg/3YkaPPTp" class="btn-discord">DACH Discord</a>
@@ -346,11 +504,11 @@
   </section>
 
   <div class="button-container">
-    <a href="https://forms.gle/9PdqkQnRJ4VPEX4e8" class="button" target="_blank">
-      <span>Spieldatum einreichen</span>
+    <a href="https://forms.gle/S7MWo9DwqfcuoE7n8" class="button" target="_blank">
+      <span>Spiel einreichen</span>
     </a>
   </div>
-  
+
   <div class="bracket-wrapper">
     <div class="bracket" id="bracket">
       <div class="round">
@@ -359,13 +517,11 @@
       </div>
       <div class="round">
         <div class="round-title">Liga 2-3</div>
-        <div class="match" id="rele-2_3_1"></div>
-        <div class="match" id="rele-2_3_2"></div>
+        <div class="match" id="rele-2_3"></div>
       </div>
       <div class="round">
         <div class="round-title">Liga 3-4</div>
-        <div class="match" id="rele-3_4_1"></div>
-        <div class="match" id="rele-3_4_2"></div>
+        <div class="match" id="rele-3_4"></div>
       </div>
       <div class="round">
         <div class="round-title">Liga 4-5</div>
@@ -398,118 +554,121 @@
   </div>  -->
 
   <script>
-    const sheetID = "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo";
+    const sheetID = "1Ign2YJZ0edrj6ZH1Kd3d3qJ4dr4XWSiAAofW94hIobE";
     const spreadsheetName = "Playoffs_Relegation";
-    const range = "A15:H100";
+    const range = "A10:H13";
     const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${spreadsheetName}&range=${range}`;
 
     const matchMap = {
       "Relegation Liga 1-2": "rele-1_2",
-      "Relegation Liga 2-3 Spiel 1": "rele-2_3_1",
-      "Relegation Liga 2-3 Spiel 2": "rele-2_3_2",
-      "Relegation Liga 3-4 Spiel 1": "rele-3_4_1",
-      "Relegation Liga 3-4 Spiel 2": "rele-3_4_2",
+      "Relegation Liga 2-3": "rele-2_3",
+      "Relegation Liga 3-4": "rele-3_4",
       "Relegation Liga 4-5": "rele-4_5",
     };
 
+    function formatMatchType(matchtype) {
+      if (matchtype == "move") return "Moving";
+      if (matchtype == "ppd") return "Pinpointing Duel";
+      if (matchtype == "no move") return "NM";
+      return "NMPZ";
+    }
+
+    function renderMatchMaps(maps) {
+      if (!maps || maps.length === 0) {
+        return `
+          <div id="maps-container" class="maps-container empty">
+            <div class="game-empty-state">Noch keine Mapdetails verfügbar.</div>
+          </div>
+        `;
+      }
+
+      const rows = [maps.slice(0, 2), maps.slice(2, 5), maps.slice(5)];
+
+      const renderMapCard = (mapInfo, index) => {
+        // Unterstützt sowohl [name, winner, matchtype, link] (4 Werte)
+        // als auch [name, winner, matchtype, health, link] (5 Werte)
+        const [mapName, winner, matchtype, fourth, fifth] = mapInfo;
+        const health = mapInfo.length >= 5 ? fourth : null;
+        const link = mapInfo.length >= 5 ? fifth : fourth;
+        const winnerClass =
+          winner === "blue" ? "blue-win" : winner === "red" ? "red-win" : "";
+        const mapCardContent = `
+          <span class="map-number">Map ${index + 1}</span>
+          <strong>${mapName}</strong>
+          <span class="map-meta">${formatMatchType(matchtype)}${
+          health ? ` · ${health} Health` : ""
+        }</span>
+        `;
+
+        return link
+          ? `<a class="map-card ${winnerClass}" href="${link}" target="_blank" rel="noopener">${mapCardContent}</a>`
+          : `<div class="map-card ${winnerClass}">${mapCardContent}</div>`;
+      };
+
+      return `
+        <div id="maps-container" class="maps-container">
+          ${rows
+            .map((row, rowIndex) => {
+              const previousMaps = rows
+                .slice(0, rowIndex)
+                .reduce((total, previousRow) => total + previousRow.length, 0);
+
+              return row.length
+                ? `<div class="maps-row maps-row-${row.length}">${row
+                    .map((mapInfo, mapIndex) =>
+                      renderMapCard(mapInfo, previousMaps + mapIndex)
+                    )
+                    .join("")}</div>`
+                : "";
+            })
+            .join("")}
+        </div>
+      `;
+    }
+
     function openModal(matchData) {
       const modal = document.getElementById('gameModal');
-      const modalTitle = document.getElementById('modalTitle');
       const modalDetails = document.getElementById('modalDetails');
-
-      modalTitle.innerHTML = `${
-        matchData.score != "N/A" ? '<span style="color:blue;">|</span>' : ""
-      } ${matchData.blau} vs ${matchData.rot} ${
-        matchData.score != "N/A" ? '<span style="color:red;">|</span>' : ""
-      }`;
+      const played = matchData.score && matchData.score !== "N/A";
+      const statusClass = played ? "played" : "open";
 
       modalDetails.innerHTML = `
-        <strong>Runde:</strong> ${matchData.round}<br>
-        <strong>Match ID:</strong> ${matchData.matchid}<br>
-        <strong>Ergebnis:</strong> ${
-          matchData.score || "N/A"
-        }`;
+        <div class="game-profile ${statusClass}">
+          <div>
+            <span class="stats-eyebrow">${played ? "Gespielt" : "Ausstehend"}</span>
+            <div class="game-player-line">
+              <span class="blue-player">${matchData.blau}</span>
+              <span>vs</span>
+              <span class="red-player">${matchData.rot}</span>
+            </div>
+          </div>
+          <span class="game-status">${played ? matchData.score : "Noch offen"}</span>
+        </div>
 
+        <section class="stats-section">
+          <h3>Match</h3>
+          <div class="game-stat-grid">
+            <div class="stats-stat">
+              <span class="stats-stat-label">Runde</span>
+              <strong class="stats-stat-value">${matchData.round || "N/A"}</strong>
+            </div>
+            <div class="stats-stat">
+              <span class="stats-stat-label">Match ID</span>
+              <strong class="stats-stat-value">${matchData.matchid || "N/A"}</strong>
+            </div>
+            <div class="stats-stat">
+              <span class="stats-stat-label">Ergebnis</span>
+              <strong class="stats-stat-value">${played ? matchData.score : "Offen"}</strong>
+            </div>
+          </div>
+        </section>
 
+        <section class="stats-section">
+          <h3>Maps</h3>
+          ${renderMatchMaps(matchData.maps)}
+        </section>
+      `;
 
-      //const mapsContainer = document.getElementById('div');
-      //mapsContainer.id = "maps-container";
-      const mapsContainer = document.getElementById('maps-container');
-      mapsContainer.innerHTML = '';
-      mapsContainer.style.marginTop = '20px';
-
-      if (matchData.maps && matchData.maps.length > 0) {
-        const maps = matchData.maps;
-        const rows = [[], [], []];
-
-        for (let i = 0; i < maps.length; i++) {
-          if (i < 2) rows[0].push(maps[i]);
-          else if (i < 5) rows[1].push(maps[i]);
-          else rows[2].push(maps[i]);
-        }
-
-        rows.forEach(row => {
-          if (row.length > 0) {
-            const rowDiv = document.createElement('div');
-            rowDiv.className = 'maps-row';
-            rowDiv.style.display = "flex";
-            rowDiv.style.justifyContent = "space-around";
-            rowDiv.style.marginBottom = "10px";
-
-            row.forEach((mapInfo) => {
-              const [mapName, winner, matchtype, link] = mapInfo;
-
-              const mapBox = document.createElement('a');
-              if (link) {
-                mapBox.href = link;
-                mapBox.target = "_blank";
-              } else {
-                mapBox.style.pointerevents = "none";
-              }
-              //mapBox.textContent = game.title;
-              //mapBox.classList.add('map-box');
-
-              mapBox.style.padding = "10px";
-              mapBox.style.borderRadius = "5px";
-              mapBox.style.display = "inline-block";
-              mapBox.style.minWidth = "120px";
-              mapBox.style.color = "#333";
-              mapBox.style.textDecoration = "none";
-              mapBox.style.border = "1px solid #ccc";
-              mapBox.style.backgroundColor = "#f9f9f9";
-              mapBox.style.textAlign = "left";
-
-              if (winner === "blue") {
-                mapBox.style.borderLeft = "5px solid blue";
-              } else if (winner === "red") {
-                mapBox.style.borderRight = "5px solid red";
-              }
-
-              // Inhalt mit Mapname & Matchtyp
-              mapBox.innerHTML = `
-                <div>${mapName}</div>
-                <div style="font-size: 0.8em; color: #777;">${
-                  matchtype == "move"
-                    ? "Moving"
-                    : matchtype == "ppd"
-                    ? "Pinpointing Duel"
-                    : matchtype == "no move"
-                    ? "NM"
-                    : "NMPZ"
-                }</div>
-              `;
-
-              rowDiv.appendChild(mapBox);
-            });
-
-            mapsContainer.appendChild(rowDiv);
-          }
-        });
-      } else {
-        mapsContainer.innerHTML = '<em>Keine Maps verfügbar</em>';
-      }
-      
-      //modalDetails.appendChild(mapsContainer);
       modal.style.display = 'flex';
     }
 
@@ -546,16 +705,6 @@
             const [score1, score2] = match.score.split(":");
             const isWinner1 = match.blau === match.winner;
             const isWinner2 = match.rot === match.winner;
-            /*matchBox.innerHTML = `
-              <div class="team">${match.blau} <span>${score1 || 0}</span></div>
-              <div class="vs">VS</div>
-              <div class="team">${match.rot} <span>${score2 || 0}</span></div>
-            `;*/
-            /*matchBox.innerHTML = `
-              <div class="team"><span class="player-pill">${match.blau} <strong>${score1 || 0}</strong></span></div>
-              <div class="vs">VS</div>
-              <div class="team"><span class="player-pill">${match.rot} <strong>${score2 || 0}</strong></span></div>
-            `;*/
             matchBox.innerHTML = `
               <div class="team">
                 <div class="player-pill ${isWinner1 ? 'winner' : ''}">
@@ -597,31 +746,14 @@
       const tRect = to.getBoundingClientRect();
       const bRect = bracket.getBoundingClientRect();
 
-      const xFrom = fRect.left + fRect.width / 2 - bRect.left;
-      const xTo = tRect.left + tRect.width / 2 - bRect.left;
-
-      const yFromMiddle = fRect.top + fRect.height / 2 - bRect.top;
-      const yToMiddle = tRect.top + tRect.height / 2 - bRect.top;
-
-      const yFromBottom = fRect.bottom - bRect.top;
-      const yToTop = tRect.top - bRect.top;
+      const x1 = fRect.right - bRect.left;
+      const y1 = fRect.top + fRect.height / 2 - bRect.top;
+      const x2 = tRect.left - bRect.left;
+      const y2 = tRect.top + tRect.height / 2 - bRect.top;
 
       const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-
-      const isVertical = Math.abs(xFrom - xTo) < 10;
-
-      if (isVertical) {
-        path.setAttribute("d", `M ${xFrom} ${yFromBottom} V ${yToTop}`);
-      } else {
-        const x1 = fRect.right - bRect.left;
-        const y1 = yFromMiddle;
-        const x2 = tRect.left - bRect.left;
-        const y2 = yToMiddle;
-        const midX = (x1 + x2) / 2;
-        path.setAttribute("d", `M ${x1} ${y1} H ${midX} V ${y2} H ${x2}`);
-      }
-
-      path.setAttribute("stroke", "#5ce1e6");
+      path.setAttribute("d", curvedPath(x1, y1, x2, y2));
+      path.setAttribute("stroke", "#55d4ff");//2e90ff //55d4ff
       path.setAttribute("stroke-width", "2");
       path.setAttribute("fill", "none");
 
@@ -637,8 +769,6 @@
       svg.setAttribute("width", bracket.scrollWidth);
       svg.setAttribute("height", bracket.scrollHeight);
 
-      connect("rele-2_3_1", "rele-2_3_2");
-      connect("rele-3_4_1", "rele-3_4_2");
     }
 
     window.onload = () => {

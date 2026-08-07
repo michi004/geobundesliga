@@ -960,7 +960,7 @@ function getSpielwoche() {
     { start: new Date("2026-06-15"), end: new Date("2026-06-28"), week: 3 },
     { start: new Date("2026-06-29"), end: new Date("2026-07-12"), week: 4 },
     { start: new Date("2026-07-13"), end: new Date("2026-07-26"), week: 5 },
-    { start: new Date("2026-07-27"), end: new Date("2026-08-09"), week: 6 },
+    { start: new Date("2026-07-27"), end: new Date("2026-08-16"), week: 6 },
     /*{ start: new Date("2025-06-30"), end: new Date("2025-07-13"), week: 7 },*/
   ];
 

@@ -29,7 +29,7 @@ class GameInfos {
         renderFunction(jsonData);
       })
       .catch((error) =>
-        console.error("Fehler beim Abrufen der Daten: ", error)
+        console.error("Fehler beim Abrufen der Daten: ", error),
       );
   }
 
@@ -98,7 +98,7 @@ class GameInfos {
         [timeText, row.c[17].v],
         row.c[0].v,
         row.c[3].v,
-        row.c[1].v
+        row.c[1].v,
       );
       this.targetElement.appendChild(li);
     });
@@ -121,14 +121,16 @@ class GameInfos {
     visibleRows.forEach((row) => {
       let timeText =
         row.c[19].v == 0
-          ? "in " + row.c[20].v + "min"
-          : "in " + row.c[19].v + "h";
+          ? row.c[20].v == 0
+            ? "in " + row.c[21].v + "min"
+            : "in " + row.c[20].v + "h"
+          : "in " + row.c[19].v + "d";
 
       let li = this.createMatchItem(
         [timeText, row.c[17].f + " Uhr", row.c[18].v],
         row.c[0].v,
         "vs.",
-        row.c[1].v
+        row.c[1].v,
       );
       this.targetElement.insertBefore(li, this.targetElement.firstChild);
     });
@@ -137,14 +139,14 @@ class GameInfos {
   initialize() {
     if (this.isCacheValid(this.cacheKeyTable)) {
       let cachedData = JSON.parse(
-        localStorage.getItem(this.cacheKeyTable)
+        localStorage.getItem(this.cacheKeyTable),
       ).data;
       this.render(cachedData);
     } else {
       this.fetchAndRenderData(
         this.getURL("B2:U100"),
         this.cacheKeyTable,
-        this.render.bind(this)
+        this.render.bind(this),
       );
     }
   }

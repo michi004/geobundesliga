@@ -144,7 +144,7 @@ class GameInfos {
       this.render(cachedData);
     } else {
       this.fetchAndRenderData(
-        this.getURL("B2:U100"),
+        this.getURL("B2:W100"),
         this.cacheKeyTable,
         this.render.bind(this),
       );

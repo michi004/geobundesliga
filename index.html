@@ -670,19 +670,19 @@
         <!-- Ergebnisse -->
         <div class="card games-card p-3">
           <div class="results-tabs" role="tablist" aria-label="Matchansicht">
-            <button class="result-tab active" type="button" data-slide="0" onclick="showResultsSlide(0)">Ergebnisse</button>
-            <button class="result-tab" type="button" data-slide="1" onclick="showResultsSlide(1)">Anstehend</button>
+            <button class="result-tab active" type="button" data-slide="0" onclick="showResultsSlide(0)">Anstehend</button>
+            <button class="result-tab" type="button" data-slide="1" onclick="showResultsSlide(1)">Ergebnisse</button>
           </div>
           <div id="results-slider" class="results-slider">
             <div id="results-slides">
               <div class="result-panel active">
-                <h5 class="visually-hidden">Ergebnisse der letzten 24h:</h5>
-                <ul id="newest-games-list" style="margin-bottom: 0;"></ul>
+                <h5 class="visually-hidden">Anstehende Matches:</h5>
+                <ul id="weekly-games-list" style="margin-bottom: 0;"></ul>
               </div>
 
               <div class="result-panel">
-                <h5 class="visually-hidden">Anstehende Matches:</h5>
-                <ul id="weekly-games-list" style="margin-bottom: 0;"></ul>
+                <h5 class="visually-hidden">Ergebnisse der letzten 24h:</h5>
+                <ul id="newest-games-list" style="margin-bottom: 0;"></ul>
               </div>
             </div>
           </div>
